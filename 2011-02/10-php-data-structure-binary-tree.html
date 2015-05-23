@@ -1,0 +1,1041 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+  <meta name="google-site-verification" content="google93ba54ee93760f07" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+    <meta name="description" content="&nbsp;&nbsp;&nbsp;&nbsp;PHPBoy是一个PHP相关技术博客网站，在业余时间研究PHP内核与PHP扩展开发，关注WEB后端技术架构，LINUX服务器运维，系统安全，高性能与高可用大型网站技术架构。" />
+
+
+
+  <meta name="keywords" content="二叉树,数据结构,树," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2d4c4b9cd9f303a04c4d9c24d32f6571";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  <title> 数据结构系列_8_树与二叉树基本概念 // PHPBoy-专注PHP架构N年 </title>
+</head>
+
+<body>
+<!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">PHPBoy-专注PHP架构N年</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-categories">
+        <a href="/categories">
+          <i class="menu-item-icon icon-categories"></i> <br />
+          分类
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-旧版">
+        <a href="http://www.tuicool.com/sites/qUVJJf">
+          <i class="menu-item-icon icon-旧版"></i> <br />
+          menu.旧版
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              数据结构系列_8_树与二叉树基本概念
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2011-02-14
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Data-Structure/">Data Structure</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2011-02/10-php-data-structure-binary-tree.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2011-02/10-php-data-structure-binary-tree.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <h3 id="树的基本概念">树的基本概念</h3><h4 id="树的定义">树的定义</h4><p>树(Tree)是n(n≧0)个结点的有限集合T，若n=0时称为空树，否则：</p>
+<ol>
+<li><p>有且只有一个特殊的结点称为树的根(Root)结点；</p>
+</li>
+<li><p>若n&gt;1时，其余的结点被分为m(m&gt;0)个互不相交的子集T1, T2, T3…Tm，其中每个子集本身又是一棵树，称其为根的子树(Subtree)。</p>
+</li>
+</ol>
+<p>这是树的递归定义，即用树来定义树，而只有一个结点的树必定仅由根组成</p>
+<a id="more"></a>
+<h4 id="树的基本术语">树的基本术语</h4><h5 id="结点(node)">结点(node)</h5><p>一个数据元素及其若干指向其子树的分支。</p>
+<h5 id="结点的度(degree)_与树的度">结点的度(degree) 与树的度</h5><p>结点所拥有的子树的棵数称为结点的度。树中结点度的最大值称为树的度。</p>
+<h5 id="叶子(left)结点与非叶子结点">叶子(left)结点与非叶子结点</h5><p>树中度为0的结点称为叶子结点(或终端结点)。相对应地，度不为0的结点称为非叶子结点(或非终端结点或分支结点)。除根结点外，分支结点又称为内部结点。</p>
+<h5 id="孩子结点、双亲结点、兄弟结点">孩子结点、双亲结点、兄弟结点</h5><p>一个结点的子树的根称为该结点的孩子结点(child)或子结点；相应地，该结点是其孩子结点的双亲结点(parent)或父结点。</p>
+<h5 id="层次、堂兄弟结点">层次、堂兄弟结点</h5><p>规定树中根结点的层次为1，其余结点的层次等于其双亲结点的层次加1。</p>
+<p>若某结点在第l(l≧1)层，则其子结点在第l+1层。</p>
+<p>双亲结点在同一层上的所有结点互称为堂兄弟结点。</p>
+<h5 id="结点的层次路径、祖先、子孙">结点的层次路径、祖先、子孙</h5><p>从根结点开始，到达某结点p所经过的所有结点成为结点p的层次路径(有且只有一条)。</p>
+<p>结点p的层次路径上的所有结点（p除外）称为p的祖先(ancester) 。</p>
+<p>以某一结点为根的子树中的任意结点称为该结点的子孙结点(descent)。</p>
+<h5 id="树的深度(depth)">树的深度(depth)</h5><p>树中结点的最大层次值，又称为树的高度</p>
+<h5 id="有序树和无序树">有序树和无序树</h5><p>对于一棵树，若其中每一个结点的子树（若有）具有一定的次序，则该树称为有序树，否则称为无序树。</p>
+<h5 id="森林(forest)">森林(forest)</h5><p>是m(m≧0)棵互不相交的树的集合。显然，若将一棵树的根结点删除，剩余的子树就构成了森林。</p>
+<h3 id="二叉树">二叉树</h3><h4 id="定义">定义</h4><p>二叉树(Binary tree)是n(n≥0)个结点的有限集合。若n=0时称为空树，否则：</p>
+<ol>
+<li><p>有且只有一个特殊的结点称为树的根(Root)结点；</p>
+</li>
+<li><p>若n&gt;1时，其余的结点被分成为二个互不相交的子集T1,T2，分别称之为左、右子树，并且左、右子树又都是二叉树。</p>
+</li>
+</ol>
+<p>由此可知，二叉树的定义是递归的。</p>
+<p>二叉树在树结构中起着非常重要的作用。因为二叉树结构简单，存储效率高，树的操作算法相对简单，且任何树都很容易转化成二叉树结构。上</p>
+<p>述中引入的有关树的术语也都适用于二叉树。</p>
+<h3 id="性质">性质</h3><ol>
+<li><p>在非空二叉树中，第i层上至多有2的i-1次方个结点(i≧1)。</p>
+</li>
+<li><p>深度为k的二叉树至多有2的k次方减1个结点（k≧1) 。</p>
+</li>
+<li><p>对任何一棵二叉树，若其叶子结点数为n0，度为2的结点数为n2，则n0=n2+1。</p>
+</li>
+</ol>
+<h3 id="满二叉树">满二叉树</h3><p>一棵深度为k且有2的k次方减1个结点的二叉树称为满二叉树(Full Binary Tree)。</p>
+<h4 id="满二叉树的特点">满二叉树的特点</h4><p>基本特点是每一层上的结点数总是最大结点数。</p>
+<p>满二叉树的所有的支结点都有左、右子树。</p>
+<h3 id="完全二叉树">完全二叉树</h3><p>如果深度为k，由n个结点的二叉树，当且仅当其每一个结点都与深度为k的满二叉树中编号从1到n的结点一一对应，该二叉树称为完全二叉树。</p>
+<h4 id="性质-1">性质</h4><ol>
+<li>n个结点的完全二叉树深度为：└㏒2n┘+1。</li>
+</ol>
+<p>其中符号： └x┘表示不大于x的最大整数。</p>
+<ol>
+<li>若对一棵有n个结点的完全二叉树(深度为└㏒2n┘+1)的结点按层（从第1层到第└㏒2n┘+1层)序自左至右进行编号,则对于编号为i（1≦i≦n)的结点：</li>
+</ol>
+<p>2.1 若i=1：则结点i是二叉树的根，无双亲结点；否则，若i&gt;1，则其双亲结点编号是└i/2┘。</p>
+<p>2.2 如果2i&gt;n：则结点i为叶子结点，无左孩子；否则，其左孩子结点编号是2i。</p>
+<p>2.3 如果2i+1&gt;n：则结点i无右孩子；否则，其右孩子结点编号是2i+1。</p>
+<h3 id="遍历二叉树(Traversing_Binary_Tree)">遍历二叉树(Traversing Binary Tree)</h3><p>是指按指定的规律对二叉树中的每个结点访问一次且仅访问一次。</p>
+<p>所谓访问是指对结点做某种处理。如：输出信息、修改结点的值等。</p>
+<p>二叉树是一种非线性结构，每个结点都可能有左、右两棵子树，因此，需要寻找一种规律，使二叉树上的结点能排列在一个线性队列上，从而便于遍历。</p>
+<p>二叉树的基本组成：根结点、左子树、右子树。若能依次遍历这三部分，就是遍历了二叉树。</p>
+<p>若以L、D、R分别表示遍历左子树、遍历根结点和遍历右子树，则有六种遍历方案：DLR、LDR、LRD、DRL、RDL、RLD。若规定先左后右，则只有前三种情况，分别是：</p>
+<ol>
+<li><p>DLR——先(根)序遍历。</p>
+</li>
+<li><p>LDR——中(根)序遍历。</p>
+</li>
+<li><p>LRD——后(根)序遍历。</p>
+</li>
+</ol>
+<h3 id="先序遍历">先序遍历</h3><p>递归算法</p>
+<p>算法的递归定义是：</p>
+<p>若二叉树为空，则遍历结束；否则</p>
+<ol>
+<li><p>访问根结点；</p>
+</li>
+<li><p>先序遍历左子树(递归调用本算法)；</p>
+</li>
+<li><p>先序遍历右子树(递归调用本算法)。</p>
+</li>
+</ol>
+<p>非递归算法</p>
+<p>设T是指向二叉树根结点的指针变量，非递归算法是：</p>
+<p>若二叉树为空，则返回；否则，令p=T；</p>
+<ol>
+<li><p>访问p所指向的结点；</p>
+</li>
+<li><p>q=p-&gt;Rchild ，若q不为空，则q进栈；</p>
+</li>
+<li><p>p=p-&gt;Lchild ，若p不为空，转(1)，否则转(4)；</p>
+</li>
+<li><p>退栈到p ，转(1)，直到栈空为止。</p>
+</li>
+</ol>
+<h3 id="中序遍历">中序遍历</h3><p>递归算法</p>
+<p>算法的递归定义是：</p>
+<p>若二叉树为空，则遍历结束；否则</p>
+<ol>
+<li><p>中序遍历左子树(递归调用本算法)；</p>
+</li>
+<li><p>访问根结点；</p>
+</li>
+<li><p>中序遍历右子树(递归调用本算法)。</p>
+</li>
+</ol>
+<p>非递归算法</p>
+<p>设T是指向二叉树根结点的指针变量，非递归算法是：</p>
+<p>若二叉树为空，则返回；否则，令p=T</p>
+<ol>
+<li><p>若p不为空，p进栈， p=p-&gt;Lchild ；</p>
+</li>
+<li><p>否则(即p为空)，退栈到p，访问p所指向的结点；</p>
+</li>
+<li><p>p=p-&gt;Rchild ，转(1)；</p>
+</li>
+</ol>
+<p>直到栈空为止。</p>
+<h3 id="后序遍历">后序遍历</h3><p>递归算法</p>
+<p>算法的递归定义是：</p>
+<p>若二叉树为空，则遍历结束；否则</p>
+<ol>
+<li><p>后序遍历左子树(递归调用本算法)；</p>
+</li>
+<li><p>后序遍历右子树(递归调用本算法) ；</p>
+</li>
+<li><p>访问根结点 。</p>
+</li>
+</ol>
+<p>非递归算法</p>
+<p>在后序遍历中，根结点是最后被访问的。因此，在遍历过程中，当搜索指针指向某一根结点时，不能立即访问，而要先遍历其左子树，此时根结点进栈。当其左子树遍历完后再搜索到该根结点时，还是不能访问，还需遍历其右子树。所以，此根结点还需再次进栈，当其右子树遍历完后再退栈到到该根结点时，才能被访问。<br>因此，设立一个状态标志变量tag，tag=1，暂时不访问结点的值，tag=2,访问结点的值</p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/二叉树/"> #二叉树 </a>
+          
+            <a href="/tags/数据结构/"> #数据结构 </a>
+          
+            <a href="/tags/树/"> #树 </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011-02/11-php-data-structure-binary-tree-apply.html">数据结构系列_9_二叉树的PHP储存及基本操作</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011-02/9-php-data-structure-queue.html">数据结构系列_7_队列的链式存储和队列的基本操作</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2011-02/10-php-data-structure-binary-tree.html"
+               data-title="数据结构系列_8_树与二叉树基本概念" data-url="http://dev.phpboy.net/2011-02/10-php-data-structure-binary-tree.html">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="徐典阳" />
+          <p class="site-author-name">徐典阳</p>
+        </div>
+        <p class="site-description motion-element">&nbsp;&nbsp;&nbsp;&nbsp;PHPBoy是一个PHP相关技术博客网站，在业余时间研究PHP内核与PHP扩展开发，关注WEB后端技术架构，LINUX服务器运维，系统安全，高性能与高可用大型网站技术架构。</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/xudianyang" target="_blank">GitHub</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://weibo.com/1586005914" target="_blank">Weibo</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.jinritemai.com/" target="_blank">目前工作</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#树的基本概念"><span class="nav-number">1.</span> <span class="nav-text">树的基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#树的定义"><span class="nav-number">1.1.</span> <span class="nav-text">树的定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#树的基本术语"><span class="nav-number">1.2.</span> <span class="nav-text">树的基本术语</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#结点(node)"><span class="nav-number">1.2.1.</span> <span class="nav-text">结点(node)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#结点的度(degree)_与树的度"><span class="nav-number">1.2.2.</span> <span class="nav-text">结点的度(degree) 与树的度</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#叶子(left)结点与非叶子结点"><span class="nav-number">1.2.3.</span> <span class="nav-text">叶子(left)结点与非叶子结点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#孩子结点、双亲结点、兄弟结点"><span class="nav-number">1.2.4.</span> <span class="nav-text">孩子结点、双亲结点、兄弟结点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#层次、堂兄弟结点"><span class="nav-number">1.2.5.</span> <span class="nav-text">层次、堂兄弟结点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#结点的层次路径、祖先、子孙"><span class="nav-number">1.2.6.</span> <span class="nav-text">结点的层次路径、祖先、子孙</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#树的深度(depth)"><span class="nav-number">1.2.7.</span> <span class="nav-text">树的深度(depth)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#有序树和无序树"><span class="nav-number">1.2.8.</span> <span class="nav-text">有序树和无序树</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#森林(forest)"><span class="nav-number">1.2.9.</span> <span class="nav-text">森林(forest)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树"><span class="nav-number">2.</span> <span class="nav-text">二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性质"><span class="nav-number">3.</span> <span class="nav-text">性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#满二叉树"><span class="nav-number">4.</span> <span class="nav-text">满二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#满二叉树的特点"><span class="nav-number">4.1.</span> <span class="nav-text">满二叉树的特点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完全二叉树"><span class="nav-number">5.</span> <span class="nav-text">完全二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#性质-1"><span class="nav-number">5.1.</span> <span class="nav-text">性质</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遍历二叉树(Traversing_Binary_Tree)"><span class="nav-number">6.</span> <span class="nav-text">遍历二叉树(Traversing Binary Tree)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#先序遍历"><span class="nav-number">7.</span> <span class="nav-text">先序遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中序遍历"><span class="nav-number">8.</span> <span class="nav-text">中序遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后序遍历"><span class="nav-number">9.</span> <span class="nav-text">后序遍历</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp;  2009 - 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">徐典阳</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.content img').each(function () {
+        var $image = $(this);
+        var $imageWrapLink = $image.parent('a');
+
+        if ($imageWrapLink.size() < 1) {
+          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
+        }
+        $imageWrapLink.addClass('fancybox');
+      });
+    });
+    $('.fancybox').fancybox({
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    LogoAndMenuMotion();
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+    function LogoAndMenuMotion() {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        
+        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
+        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
+        
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    }
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
+      $('.post').velocity('transition.slideDownIn', postMotionOptions);
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"phpboy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+</body>
+</html>
