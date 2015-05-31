@@ -24,7 +24,7 @@
 
 
 
-  <meta name="keywords" content="二叉树,数据结构,树," />
+  <meta name="keywords" content="htmltoimage,htmltopdf," />
 
 
 
@@ -45,7 +45,7 @@
   </script>
 
 
-  <title> 数据结构系列_8_树与二叉树基本概念 // PHPBoy-专注PHP架构N年 </title>
+  <title> PHP将HTML转换成各种格式图片或PDF // PHPBoy-专注PHP架构N年 </title>
 </head>
 
 <body>
@@ -133,7 +133,7 @@
           
           
             
-              数据结构系列_8_树与二叉树基本概念
+              PHP将HTML转换成各种格式图片或PDF
             
           
         </h1>
@@ -141,14 +141,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2011-02-14
+          发表于 2013-01-06
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/Data-Structure/">Data Structure</a>
+              <a href="/categories/PHP/">PHP</a>
 
               
               
@@ -161,8 +161,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2011-02/10-php-data-structure-binary-tree.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2011-02/10-php-data-structure-binary-tree.html"></span>
+            <a href="/2013-01/15-html-to-pdo.image.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-01/15-html-to-pdo.image.html"></span>
             </a>
           </span>
           
@@ -176,133 +176,59 @@
       
 
       
-        <h3 id="树的基本概念">树的基本概念</h3><h4 id="树的定义">树的定义</h4><p>树(Tree)是n(n≧0)个结点的有限集合T，若n=0时称为空树，否则：</p>
-<ol>
-<li><p>有且只有一个特殊的结点称为树的根(Root)结点；</p>
-</li>
-<li><p>若n&gt;1时，其余的结点被分为m(m&gt;0)个互不相交的子集T1, T2, T3…Tm，其中每个子集本身又是一棵树，称其为根的子树(Subtree)。</p>
-</li>
+        <h3 id="需求">需求</h3><p>用WordPress建立博客站点，选择了一套可以显示文章缩略图的模板，几经折腾将原有模板改得面目全非，最后还是直接上线吧，不想折腾了。站点上线没几天，在公司做项目时，对图片做了一个放大的JS，自己博客也加上点击缩略图查看原图的功能，然后迅速的加了。过了几天，突发奇想，想做文章预览图，即点击缩略图查看文章预览图，也就是你们现在首页和文章列表页看到的那个功能。</p>
+<p>Linux下PHP自动生成文章预览图，最初大致的思路很简单，就是我能不能通过某种方式调用浏览器内核来渲染网页即HTML，然后将HTML保存为图片。然后开始一头扎进Google、Baidu，搜索了很长时间，得出结论，资料太少，想自己写一个C扩展，调用webkit内核。就在快要放弃的时候，在论坛里面看到wkhtmltox，然后所有的问题都在于wkhtmltox了，很庆幸的是在google code里面又看到了phpwkhtmltox，然后我笑了。</p>
+<h3 id="安装软件清单">安装软件清单</h3><ol>
+<li>libwkhtmltox linux下的webkit内核</li>
+<li>phpwkhtmltox php扩展，可调用webkit内核将网页转换成各种格式图片或者pdf</li>
+<li>font-chinese 中文字体</li>
+<li>msyh,Consolas 字体</li>
 </ol>
-<p>这是树的递归定义，即用树来定义树，而只有一个结点的树必定仅由根组成</p>
 <a id="more"></a>
-<h4 id="树的基本术语">树的基本术语</h4><h5 id="结点(node)">结点(node)</h5><p>一个数据元素及其若干指向其子树的分支。</p>
-<h5 id="结点的度(degree)_与树的度">结点的度(degree) 与树的度</h5><p>结点所拥有的子树的棵数称为结点的度。树中结点度的最大值称为树的度。</p>
-<h5 id="叶子(left)结点与非叶子结点">叶子(left)结点与非叶子结点</h5><p>树中度为0的结点称为叶子结点(或终端结点)。相对应地，度不为0的结点称为非叶子结点(或非终端结点或分支结点)。除根结点外，分支结点又称为内部结点。</p>
-<h5 id="孩子结点、双亲结点、兄弟结点">孩子结点、双亲结点、兄弟结点</h5><p>一个结点的子树的根称为该结点的孩子结点(child)或子结点；相应地，该结点是其孩子结点的双亲结点(parent)或父结点。</p>
-<h5 id="层次、堂兄弟结点">层次、堂兄弟结点</h5><p>规定树中根结点的层次为1，其余结点的层次等于其双亲结点的层次加1。</p>
-<p>若某结点在第l(l≧1)层，则其子结点在第l+1层。</p>
-<p>双亲结点在同一层上的所有结点互称为堂兄弟结点。</p>
-<h5 id="结点的层次路径、祖先、子孙">结点的层次路径、祖先、子孙</h5><p>从根结点开始，到达某结点p所经过的所有结点成为结点p的层次路径(有且只有一条)。</p>
-<p>结点p的层次路径上的所有结点（p除外）称为p的祖先(ancester) 。</p>
-<p>以某一结点为根的子树中的任意结点称为该结点的子孙结点(descent)。</p>
-<h5 id="树的深度(depth)">树的深度(depth)</h5><p>树中结点的最大层次值，又称为树的高度</p>
-<h5 id="有序树和无序树">有序树和无序树</h5><p>对于一棵树，若其中每一个结点的子树（若有）具有一定的次序，则该树称为有序树，否则称为无序树。</p>
-<h5 id="森林(forest)">森林(forest)</h5><p>是m(m≧0)棵互不相交的树的集合。显然，若将一棵树的根结点删除，剩余的子树就构成了森林。</p>
-<h3 id="二叉树">二叉树</h3><h4 id="定义">定义</h4><p>二叉树(Binary tree)是n(n≥0)个结点的有限集合。若n=0时称为空树，否则：</p>
+<h3 id="系统环境">系统环境</h3><p>Linux CentOS 6.2 64位</p>
+<h3 id="安装步骤">安装步骤</h3><h4 id="安装libwkhtmltox">安装libwkhtmltox</h4><p>libwkhtmltox是提取出来的可以直接复制到linux相应的目录的webkit内核，可能有人想着，要渲染网页是需要图形浏览器，但是我们的VPS一般都是没有图形界面的，其实我们只需要安装libwkhtmltox到linux即可，并不需要图形界面。</p>
+<p>下载地址：<a href="http://wkhtmltopdf.org/downloads.html" target="_blank" rel="external">http://wkhtmltopdf.org/downloads.html</a></p>
+<p>根据环境选择下载</p>
+<p>安装libwkhtmltox</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$&gt;</span>rpm -ivh wkhtmltox-<span class="number">0</span>.<span class="number">12.2</span>.<span class="number">1_</span>linux-centos6-amd64.rpm</span><br></pre></td></tr></table></figure>
+<h4 id="安装phpwkhtmltox">安装phpwkhtmltox</h4><p>下载地址：wget <a href="https://github.com/mreiferson/php-wkhtmltox/archive/master.zip" target="_blank" rel="external">https://github.com/mreiferson/php-wkhtmltox/archive/master.zip</a></p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$&gt;</span>unzip master</span><br><span class="line"><span class="variable">$&gt;</span>cd php-wkhtmltox-master</span><br><span class="line"><span class="variable">$&gt;</span>phpize</span><br><span class="line"><span class="variable">$&gt;</span>./configure</span><br><span class="line"><span class="variable">$&gt;</span>make install</span><br></pre></td></tr></table></figure>
+<p>修改PHP配置文件</p>
+<figure class="highlight fix"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">extension</span>=<span class="string">phpwkhtmltox.so</span></span><br></pre></td></tr></table></figure>
+<h4 id="检查PHP是否已经支持phpwkhtmltox">检查PHP是否已经支持phpwkhtmltox</h4><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$&gt;</span>php -m</span><br></pre></td></tr></table></figure>
+<p>如果输出的内容包括phpwkhtmltox说明扩展成功。</p>
+<h3 id="小试“牛刀”，将谷歌首页保存为图片">小试“牛刀”，将谷歌首页保存为图片</h3><h4 id="编辑测试的php脚本test_html_to_image-php">编辑测试的php脚本test_html_to_image.php</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line">wkhtmltox_convert(</span><br><span class="line">    <span class="string">'image'</span>,</span><br><span class="line">    <span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'out'</span> =&gt; <span class="string">'/tmp/test.jpg'</span>,</span><br><span class="line">        <span class="string">'in'</span>  =&gt; <span class="string">'http://www.google.com.hk/'</span></span><br><span class="line">    )</span><br><span class="line">);</span><br><span class="line"><span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="wkhtmltox_convert说明">wkhtmltox_convert说明</h3><p>wkhtmltox_convert($type, $globalsetting, $objectsetting)说明</p>
+<h4 id="html转换为pdf示例">html转换为pdf示例</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line">wkhtmltox_convert(<span class="string">'pdf'</span>,</span><br><span class="line">    <span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'out'</span> =&gt; <span class="string">'/tmp/test.pdf'</span>,</span><br><span class="line">        <span class="string">'imageQuality'</span> =&gt; <span class="string">'95'</span></span><br><span class="line">    ), <span class="comment">// global settings</span></span><br><span class="line">    <span class="keyword">array</span>(</span><br><span class="line">        <span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'page'</span> =&gt; <span class="string">'http://www.phpboy.net/'</span></span><br><span class="line">        ),</span><br><span class="line">        <span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'page'</span> =&gt; <span class="string">'http://www.baidu.com/'</span></span><br><span class="line">        )</span><br><span class="line">    )<span class="comment">// object settings</span></span><br><span class="line">);</span><br><span class="line"><span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>具体其他参数请参考：<a href="http://www.cs.au.dk/~jakobt/libwkhtmltox_0.10.0_doc/pagesettings.html#pagePdfGlobal" target="_blank" rel="external">http://www.cs.au.dk/~jakobt/libwkhtmltox_0.10.0_doc/pagesettings.html#pagePdfGlobal</a></p>
+<h4 id="运行PHP">运行PHP</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&gt;php <span class="built_in">test</span>_html_to_image.php</span><br></pre></td></tr></table></figure>
+<p>到tmp目录下就可以看到我们已经将google的首页保存为test.jpg图片，是不是很有成就感，把图片下载到本地，查看图片，你可能会发现中文显示为乱码，不用担心，请看下文。</p>
+<h3 id="让CentOS支持中文及字体">让CentOS支持中文及字体</h3><h4 id="支持中文">支持中文</h4><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$&gt;</span>yum groupinstall chinese-support</span><br></pre></td></tr></table></figure>
+<p>安装完毕之后，再次运行php test_html_to_image.php,中文就不会出现乱码了，但是你可能会觉得中文显示得不好看，不用担心，请看下文。</p>
+<h4 id="让linux_CentOS支持微软雅黑字体">让linux CentOS支持微软雅黑字体</h4><ol>
+<li><p>下载或者从本地windows拷贝微软雅黑(注意从windows系统里面拷贝出来应该是有2个文件)，并上传到linux服务器</p>
+</li>
+<li><p>把字体文件拷贝到/usr/share/fonts/xxx,其中xxx为新增字体文件夹，如msyh</p>
+</li>
+</ol>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$&gt;<span class="built_in">cd</span> /usr/share/fonts/</span><br><span class="line">$&gt;<span class="built_in">mkdir</span> msyh</span><br><span class="line">$&gt;<span class="built_in">cd</span> msyh</span><br></pre></td></tr></table></figure>
+<h4 id="建立字体缓存">建立字体缓存</h4><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$&gt;</span>mkfontscale</span><br><span class="line"><span class="variable">$&gt;</span>mkfontdir</span><br><span class="line"><span class="variable">$&gt;</span>fc-cache -fv</span><br></pre></td></tr></table></figure>
+<h4 id="让Linux_CentOS支持Consolas字体">让Linux CentOS支持Consolas字体</h4><p>技术类博客可能会发布一个示例代码，大部分wordpress技术博客都会安装SyntaxHighlighter插件，而该插件代码显示字体首选的是Consolas字体，所以为了html转换成图片时示例代码显示得好看，我们也需要让linux支持Consolas字体</p>
 <ol>
-<li><p>有且只有一个特殊的结点称为树的根(Root)结点；</p>
+<li><p>下载或者从本地windows拷贝Consolas(注意从windows系统里面拷贝出来应该是有4个文件)，并上传到linux服务器</p>
 </li>
-<li><p>若n&gt;1时，其余的结点被分成为二个互不相交的子集T1,T2，分别称之为左、右子树，并且左、右子树又都是二叉树。</p>
-</li>
-</ol>
-<p>由此可知，二叉树的定义是递归的。</p>
-<p>二叉树在树结构中起着非常重要的作用。因为二叉树结构简单，存储效率高，树的操作算法相对简单，且任何树都很容易转化成二叉树结构。上</p>
-<p>述中引入的有关树的术语也都适用于二叉树。</p>
-<h3 id="性质">性质</h3><ol>
-<li><p>在非空二叉树中，第i层上至多有2的i-1次方个结点(i≧1)。</p>
-</li>
-<li><p>深度为k的二叉树至多有2的k次方减1个结点（k≧1) 。</p>
-</li>
-<li><p>对任何一棵二叉树，若其叶子结点数为n0，度为2的结点数为n2，则n0=n2+1。</p>
+<li><p>把字体文件拷贝到/usr/share/fonts/xxx,其中xxx为新增字体文件夹，如Consolas</p>
 </li>
 </ol>
-<h3 id="满二叉树">满二叉树</h3><p>一棵深度为k且有2的k次方减1个结点的二叉树称为满二叉树(Full Binary Tree)。</p>
-<h4 id="满二叉树的特点">满二叉树的特点</h4><p>基本特点是每一层上的结点数总是最大结点数。</p>
-<p>满二叉树的所有的支结点都有左、右子树。</p>
-<h3 id="完全二叉树">完全二叉树</h3><p>如果深度为k，由n个结点的二叉树，当且仅当其每一个结点都与深度为k的满二叉树中编号从1到n的结点一一对应，该二叉树称为完全二叉树。</p>
-<h4 id="性质-1">性质</h4><ol>
-<li>n个结点的完全二叉树深度为：└㏒2n┘+1。</li>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$&gt;<span class="built_in">cd</span> /usr/share/fonts/</span><br><span class="line">$&gt;<span class="built_in">mkdir</span> Consolas</span><br><span class="line">$&gt;<span class="built_in">cd</span> Consolas</span><br></pre></td></tr></table></figure>
+<h4 id="建立字体缓存-1">建立字体缓存</h4><p>同上</p>
+<p>安装完毕之后，你可以再次运行php test_html_to_image.php,如果你填写的网址对应的网页采用微软雅黑字体，该网页转换成图片的显示效果就比较美观了。</p>
+<p>最后，写了一个wordpress的插件，实现在保存文章时自动生成文章缩略图，有需要的同仁可以留言留下联系方式。</p>
+<h3 id="参考文档：">参考文档：</h3><ol>
+<li>libwkhtmltox支持的参数说明 <a href="http://www.cs.au.dk/~jakobt/libwkhtmltox_0.10.0_doc/pagesettings.html#pagePdfGlobal" title="libwkhtmltox支持的参数" target="_blank">http://www.cs.au.dk/~jakobt/libwkhtmltox_0.10.0_doc/pagesettings.html#pagePdfGlobal</a></li>
+<li>自动生成网页截图（Screenshot)方法 <a href="http://www.phpip.com/design/skill/A62009909P/23444.html" title="自动生成网页截图（Screenshot)方法" target="_blank">http://www.phpip.com/design/skill/A62009909P/23444.html</a></li>
+<li>CentOS 安装中文语言包以及输入法 <a href="CentOS 安装中文语言包以及输入法" title="http://blog.chinaunix.net/uid-24352482-id-3203655.html" target="_blank">http://blog.chinaunix.net/uid-24352482-id-3203655.html</a></li>
 </ol>
-<p>其中符号： └x┘表示不大于x的最大整数。</p>
-<ol>
-<li>若对一棵有n个结点的完全二叉树(深度为└㏒2n┘+1)的结点按层（从第1层到第└㏒2n┘+1层)序自左至右进行编号,则对于编号为i（1≦i≦n)的结点：</li>
-</ol>
-<p>2.1 若i=1：则结点i是二叉树的根，无双亲结点；否则，若i&gt;1，则其双亲结点编号是└i/2┘。</p>
-<p>2.2 如果2i&gt;n：则结点i为叶子结点，无左孩子；否则，其左孩子结点编号是2i。</p>
-<p>2.3 如果2i+1&gt;n：则结点i无右孩子；否则，其右孩子结点编号是2i+1。</p>
-<h3 id="遍历二叉树(Traversing_Binary_Tree)">遍历二叉树(Traversing Binary Tree)</h3><p>是指按指定的规律对二叉树中的每个结点访问一次且仅访问一次。</p>
-<p>所谓访问是指对结点做某种处理。如：输出信息、修改结点的值等。</p>
-<p>二叉树是一种非线性结构，每个结点都可能有左、右两棵子树，因此，需要寻找一种规律，使二叉树上的结点能排列在一个线性队列上，从而便于遍历。</p>
-<p>二叉树的基本组成：根结点、左子树、右子树。若能依次遍历这三部分，就是遍历了二叉树。</p>
-<p>若以L、D、R分别表示遍历左子树、遍历根结点和遍历右子树，则有六种遍历方案：DLR、LDR、LRD、DRL、RDL、RLD。若规定先左后右，则只有前三种情况，分别是：</p>
-<ol>
-<li><p>DLR——先(根)序遍历。</p>
-</li>
-<li><p>LDR——中(根)序遍历。</p>
-</li>
-<li><p>LRD——后(根)序遍历。</p>
-</li>
-</ol>
-<h3 id="先序遍历">先序遍历</h3><p>递归算法</p>
-<p>算法的递归定义是：</p>
-<p>若二叉树为空，则遍历结束；否则</p>
-<ol>
-<li><p>访问根结点；</p>
-</li>
-<li><p>先序遍历左子树(递归调用本算法)；</p>
-</li>
-<li><p>先序遍历右子树(递归调用本算法)。</p>
-</li>
-</ol>
-<p>非递归算法</p>
-<p>设T是指向二叉树根结点的指针变量，非递归算法是：</p>
-<p>若二叉树为空，则返回；否则，令p=T；</p>
-<ol>
-<li><p>访问p所指向的结点；</p>
-</li>
-<li><p>q=p-&gt;Rchild ，若q不为空，则q进栈；</p>
-</li>
-<li><p>p=p-&gt;Lchild ，若p不为空，转(1)，否则转(4)；</p>
-</li>
-<li><p>退栈到p ，转(1)，直到栈空为止。</p>
-</li>
-</ol>
-<h3 id="中序遍历">中序遍历</h3><p>递归算法</p>
-<p>算法的递归定义是：</p>
-<p>若二叉树为空，则遍历结束；否则</p>
-<ol>
-<li><p>中序遍历左子树(递归调用本算法)；</p>
-</li>
-<li><p>访问根结点；</p>
-</li>
-<li><p>中序遍历右子树(递归调用本算法)。</p>
-</li>
-</ol>
-<p>非递归算法</p>
-<p>设T是指向二叉树根结点的指针变量，非递归算法是：</p>
-<p>若二叉树为空，则返回；否则，令p=T</p>
-<ol>
-<li><p>若p不为空，p进栈， p=p-&gt;Lchild ；</p>
-</li>
-<li><p>否则(即p为空)，退栈到p，访问p所指向的结点；</p>
-</li>
-<li><p>p=p-&gt;Rchild ，转(1)；</p>
-</li>
-</ol>
-<p>直到栈空为止。</p>
-<h3 id="后序遍历">后序遍历</h3><p>递归算法</p>
-<p>算法的递归定义是：</p>
-<p>若二叉树为空，则遍历结束；否则</p>
-<ol>
-<li><p>后序遍历左子树(递归调用本算法)；</p>
-</li>
-<li><p>后序遍历右子树(递归调用本算法) ；</p>
-</li>
-<li><p>访问根结点 。</p>
-</li>
-</ol>
-<p>非递归算法</p>
-<p>在后序遍历中，根结点是最后被访问的。因此，在遍历过程中，当搜索指针指向某一根结点时，不能立即访问，而要先遍历其左子树，此时根结点进栈。当其左子树遍历完后再搜索到该根结点时，还是不能访问，还需遍历其右子树。所以，此根结点还需再次进栈，当其右子树遍历完后再退栈到到该根结点时，才能被访问。<br>因此，设立一个状态标志变量tag，tag=1，暂时不访问结点的值，tag=2,访问结点的值</p>
 
       
     </div>
@@ -311,11 +237,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/二叉树/"> #二叉树 </a>
+            <a href="/tags/htmltoimage/"> #htmltoimage </a>
           
-            <a href="/tags/数据结构/"> #数据结构 </a>
-          
-            <a href="/tags/树/"> #树 </a>
+            <a href="/tags/htmltopdf/"> #htmltopdf </a>
           
         </div>
       
@@ -324,13 +248,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2011-02/11-php-data-structure-binary-tree-apply.html">数据结构系列_9_二叉树的PHP储存及基本操作</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2011-02/9-php-data-structure-queue.html">数据结构系列_7_队列的链式存储和队列的基本操作</a>
+              <a href="/2012-12/14-apache-work-mode.html">Apache工作模式及配置参数优化详解</a>
             
           </div>
         </div>
@@ -346,8 +268,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2011-02/10-php-data-structure-binary-tree.html"
-               data-title="数据结构系列_8_树与二叉树基本概念" data-url="http://dev.phpboy.net/2011-02/10-php-data-structure-binary-tree.html">
+          <div class="ds-thread" data-thread-key="2013-01/15-html-to-pdo.image.html"
+               data-title="PHP将HTML转换成各种格式图片或PDF" data-url="http://dev.phpboy.net/2013-01/15-html-to-pdo.image.html">
           </div>
         
       </div>
@@ -452,7 +374,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#树的基本概念"><span class="nav-number">1.</span> <span class="nav-text">树的基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#树的定义"><span class="nav-number">1.1.</span> <span class="nav-text">树的定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#树的基本术语"><span class="nav-number">1.2.</span> <span class="nav-text">树的基本术语</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#结点(node)"><span class="nav-number">1.2.1.</span> <span class="nav-text">结点(node)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#结点的度(degree)_与树的度"><span class="nav-number">1.2.2.</span> <span class="nav-text">结点的度(degree) 与树的度</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#叶子(left)结点与非叶子结点"><span class="nav-number">1.2.3.</span> <span class="nav-text">叶子(left)结点与非叶子结点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#孩子结点、双亲结点、兄弟结点"><span class="nav-number">1.2.4.</span> <span class="nav-text">孩子结点、双亲结点、兄弟结点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#层次、堂兄弟结点"><span class="nav-number">1.2.5.</span> <span class="nav-text">层次、堂兄弟结点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#结点的层次路径、祖先、子孙"><span class="nav-number">1.2.6.</span> <span class="nav-text">结点的层次路径、祖先、子孙</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#树的深度(depth)"><span class="nav-number">1.2.7.</span> <span class="nav-text">树的深度(depth)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#有序树和无序树"><span class="nav-number">1.2.8.</span> <span class="nav-text">有序树和无序树</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#森林(forest)"><span class="nav-number">1.2.9.</span> <span class="nav-text">森林(forest)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树"><span class="nav-number">2.</span> <span class="nav-text">二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性质"><span class="nav-number">3.</span> <span class="nav-text">性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#满二叉树"><span class="nav-number">4.</span> <span class="nav-text">满二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#满二叉树的特点"><span class="nav-number">4.1.</span> <span class="nav-text">满二叉树的特点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完全二叉树"><span class="nav-number">5.</span> <span class="nav-text">完全二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#性质-1"><span class="nav-number">5.1.</span> <span class="nav-text">性质</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遍历二叉树(Traversing_Binary_Tree)"><span class="nav-number">6.</span> <span class="nav-text">遍历二叉树(Traversing Binary Tree)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#先序遍历"><span class="nav-number">7.</span> <span class="nav-text">先序遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中序遍历"><span class="nav-number">8.</span> <span class="nav-text">中序遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后序遍历"><span class="nav-number">9.</span> <span class="nav-text">后序遍历</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#需求"><span class="nav-number">1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装软件清单"><span class="nav-number">2.</span> <span class="nav-text">安装软件清单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统环境"><span class="nav-number">3.</span> <span class="nav-text">系统环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装步骤"><span class="nav-number">4.</span> <span class="nav-text">安装步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装libwkhtmltox"><span class="nav-number">4.1.</span> <span class="nav-text">安装libwkhtmltox</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装phpwkhtmltox"><span class="nav-number">4.2.</span> <span class="nav-text">安装phpwkhtmltox</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#检查PHP是否已经支持phpwkhtmltox"><span class="nav-number">4.3.</span> <span class="nav-text">检查PHP是否已经支持phpwkhtmltox</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小试“牛刀”，将谷歌首页保存为图片"><span class="nav-number">5.</span> <span class="nav-text">小试“牛刀”，将谷歌首页保存为图片</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编辑测试的php脚本test_html_to_image-php"><span class="nav-number">5.1.</span> <span class="nav-text">编辑测试的php脚本test_html_to_image.php</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wkhtmltox_convert说明"><span class="nav-number">6.</span> <span class="nav-text">wkhtmltox_convert说明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#html转换为pdf示例"><span class="nav-number">6.1.</span> <span class="nav-text">html转换为pdf示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#运行PHP"><span class="nav-number">6.2.</span> <span class="nav-text">运行PHP</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#让CentOS支持中文及字体"><span class="nav-number">7.</span> <span class="nav-text">让CentOS支持中文及字体</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#支持中文"><span class="nav-number">7.1.</span> <span class="nav-text">支持中文</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#让linux_CentOS支持微软雅黑字体"><span class="nav-number">7.2.</span> <span class="nav-text">让linux CentOS支持微软雅黑字体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立字体缓存"><span class="nav-number">7.3.</span> <span class="nav-text">建立字体缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#让Linux_CentOS支持Consolas字体"><span class="nav-number">7.4.</span> <span class="nav-text">让Linux CentOS支持Consolas字体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立字体缓存-1"><span class="nav-number">7.5.</span> <span class="nav-text">建立字体缓存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文档："><span class="nav-number">8.</span> <span class="nav-text">参考文档：</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
