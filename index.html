@@ -135,6 +135,363 @@
           
           
             
+              <a class="post-title-link" href="/2013-05/19-linux-lvs-keepalived.html">
+                Linux LVS Keepalived安装与配置实现Httpd服务器80端口的负载均衡
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-05-08
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Linux/">Linux</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-05/19-linux-lvs-keepalived.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/19-linux-lvs-keepalived.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="LVS">LVS</h3><p>LVS是Linux Virtual Server的简写，意即Linux虚拟服务器，是一个虚拟的服务器集群系统。本项目在1998年5月由章文嵩博士成立，是中国国内最早出现的自由软件项目之一。目前有三种IP负载均衡技术（VS/NAT、VS/TUN和VS/DR）本文是按照VS/DR的方式配置,十种调度算法（rrr|wrr|lc|wlc|lblc|lblcr|dh|sh|sed|nq）。</p>
+<h3 id="Keepalvied">Keepalvied</h3><p>Keepalived在这里主要用作RealServer的健康状态检查以及LoadBalance主机和BackUP主机之间failover的实现</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013-05/19-linux-lvs-keepalived.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/keepalived/"> #keepalived </a>
+          
+            <a href="/tags/lvs/"> #lvs </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2013-05/18-linux-rsyslog.html">
+                Linux CentOS-6.2系统日志rsyslog替换默认的日志服务syslog
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-05-07
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Linux/">Linux</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-05/18-linux-rsyslog.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/18-linux-rsyslog.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="/etc/syslog-conf不见了">/etc/syslog.conf不见了</h3><p>最近遇到配置centos 6.2的sshd及sftp日志，发现/etc/syslog.conf文件不存在，</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$&gt;rpm -<span class="keyword">qa</span> | <span class="keyword">grep</span> syslog</span><br><span class="line">rsyslog-<span class="number">5.8</span>.<span class="number">10</span>-<span class="number">6</span>.el6.x86_64</span><br><span class="line">$&gt;<span class="keyword">cat</span> /etc/rsyslog.<span class="keyword">conf</span></span><br></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013-05/18-linux-rsyslog.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/rsyslog/"> #rsyslog </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2013-05/17-linux-ssh-slow.html">
+                Linux CentOS SSH内网登录慢及vsftpd登录慢
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-05-06
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Linux/">Linux</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-05/17-linux-ssh-slow.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/17-linux-ssh-slow.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="引述">引述</h3><p>最近做的一个网站项目，实施服务器集群部署(LVS+KEEPALIVED,RHCS,HA)，n台机器的ssh远程登录都通过一个外网IP先登录集群中一台服务器，然后再通过ssh命令登录到其他机器，问题在于集群内网中直接通过内网IP ssh到另外一台机器时输入密码之后，会等待10-20秒才能登录成功。我一直没有在意这个问题，我认为是内网网络的问题，因为网络的不属于我管，但是我实在忍不了了。最后Google,百度一下，整理如下的解决办法（问题竟是出在sshd的配置）</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013-05/17-linux-ssh-slow.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CentOS/"> #CentOS </a>
+          
+            <a href="/tags/SSH/"> #SSH </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2013-05/16-mysqlhotcopy.html">
+                mysqlhotcopy的使用介绍及简单的备份脚本示例
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-05-03
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-05/16-mysqlhotcopy.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/16-mysqlhotcopy.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="mysqldump">mysqldump</h3><p>是采用SQL级别的备份机制，它将数据表导成 SQL 脚本文件，数据库大时，占用系统资源较多，支持常用的MyISAM，innodb</p>
+<h3 id="mysqlhotcopy">mysqlhotcopy</h3><p>只是简单的缓存写入和文件复制的过程，占用资源和备份速度比mysqldump快很多很多。特别适合大的数据库，但需要注意的是：mysqlhotcopy只支持MyISAM 引擎</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013-05/16-mysqlhotcopy.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysqldump/"> #mysqldump </a>
+          
+            <a href="/tags/mysqlhotcopy/"> #mysqlhotcopy </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2013-01/15-html-to-pdo.image.html">
                 PHP将HTML转换成各种格式图片或PDF
               </a>
@@ -689,374 +1046,6 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2011-02/9-php-data-structure-queue.html">
-                数据结构系列_7_队列的链式存储和队列的基本操作
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2011-02-12
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Data-Structure/">Data Structure</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2011-02/9-php-data-structure-queue.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2011-02/9-php-data-structure-queue.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="队列(Queue)">队列(Queue)</h3><h4 id="定义">定义</h4><p>也是运算受限的线性表。是一种先进先出(First In First Out ，简称FIFO)的线性表。只允许在表的一端进行插入，而在另一端进行删除。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2011-02/9-php-data-structure-queue.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/数据结构/"> #数据结构 </a>
-          
-            <a href="/tags/队列/"> #队列 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2011-02/8-php-data-structure-stack-apply.html">
-                数据结构系列_6_栈的应用_数制转换和括号匹配算法
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2011-02-11
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Data-Structure/">Data Structure</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2011-02/8-php-data-structure-stack-apply.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2011-02/8-php-data-structure-stack-apply.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="栈的应用举例">栈的应用举例</h3><h4 id="数制转换">数制转换</h4><p>十进制数n和其他d进制数的相互转换，简单算法基于这样的原理：</p>
-<p>n = (n div d) * d + n mod d</p>
-<p>我们计算过程是从低位到高位顺序产生，而打印输出要从高位到低位进行，和计算过程相反。所以在计算进程中各位顺序进栈，然后按出栈序列打印输出即为最后转换之后的d进制数。代码中用到了前面的示例程序：<a href="http://dev.phpboy.net/2011-02/7-php-data-structure-stack.html">数据结构系列<em>5</em>栈的PHP的实现和栈的基本操作</a></p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2011-02/8-php-data-structure-stack-apply.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/括号匹配/"> #括号匹配 </a>
-          
-            <a href="/tags/数据结构/"> #数据结构 </a>
-          
-            <a href="/tags/数据转换/"> #数据转换 </a>
-          
-            <a href="/tags/栈/"> #栈 </a>
-          
-            <a href="/tags/栈的应用/"> #栈的应用 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2011-02/7-php-data-structure-stack.html">
-                数据结构系列_5_栈的PHP的实现和栈的基本操作
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2011-02-09
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Data-Structure/">Data Structure</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2011-02/7-php-data-structure-stack.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2011-02/7-php-data-structure-stack.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="栈和队列">栈和队列</h3><p>两种应用非常广泛的数据结构，它们都来自线性表数据结构，都是“操作受限”的线性表。</p>
-<h3 id="栈">栈</h3><h4 id="栈的实现方式">栈的实现方式</h4><p>硬堆栈：利用CPU中的某些寄存器组或类似的硬件或使用内存的特殊区域来实现。这类堆栈容量有限，但速度很快；</p>
-<p>软堆栈：这类堆栈主要在内存中实现。堆栈容量可以达到很大。在实现方式上，又有动态方式和静态方式两种</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2011-02/7-php-data-structure-stack.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/数据结构/"> #数据结构 </a>
-          
-            <a href="/tags/栈/"> #栈 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2011-02/6-php-data-structure-one-variable-polynomial.html">
-                数据结构系列_4_一元多项式的相加PHP单链实现
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2011-02-07
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Data-Structure/">Data Structure</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2011-02/6-php-data-structure-one-variable-polynomial.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2011-02/6-php-data-structure-one-variable-polynomial.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="单链表的应用">单链表的应用</h3><p>在学习了基本的数据结构知识之后，可能感觉好像没有多大用，找不到应用场景，其实数据结构大有用武之地，下面我们就用简单的单链表实现数学里面的一元多项式相加。代码中用到了前面的示例程序：<a href="http://dev.phpboy.net/2011-02/3-php-data-structure-single-linked-list.html">数据结构系列<em>3</em>线性表中的单链表的PHP实现</a></p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2011-02/6-php-data-structure-one-variable-polynomial.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/单链表/"> #单链表 </a>
-          
-            <a href="/tags/数据结构/"> #数据结构 </a>
-          
-            <a href="/tags/线性表/"> #线性表 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -1095,21 +1084,21 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-count">31</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

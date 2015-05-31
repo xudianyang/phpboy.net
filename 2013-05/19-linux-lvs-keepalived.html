@@ -1,0 +1,952 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+  <meta name="google-site-verification" content="google93ba54ee93760f07" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+    <meta name="description" content="&nbsp;&nbsp;&nbsp;&nbsp;PHPBoy是一个PHP相关技术博客网站，在业余时间研究PHP内核与PHP扩展开发，关注WEB后端技术架构，LINUX服务器运维，系统安全，高性能与高可用大型网站技术架构。" />
+
+
+
+  <meta name="keywords" content="keepalived,lvs," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2d4c4b9cd9f303a04c4d9c24d32f6571";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  <title> Linux LVS Keepalived安装与配置实现Httpd服务器80端口的负载均衡 // PHPBoy-专注PHP架构N年 </title>
+</head>
+
+<body>
+<!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">PHPBoy-专注PHP架构N年</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-categories">
+        <a href="/categories">
+          <i class="menu-item-icon icon-categories"></i> <br />
+          分类
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-旧版">
+        <a href="http://www.tuicool.com/sites/qUVJJf">
+          <i class="menu-item-icon icon-旧版"></i> <br />
+          menu.旧版
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              Linux LVS Keepalived安装与配置实现Httpd服务器80端口的负载均衡
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-05-08
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Linux/">Linux</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-05/19-linux-lvs-keepalived.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/19-linux-lvs-keepalived.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <h3 id="LVS">LVS</h3><p>LVS是Linux Virtual Server的简写，意即Linux虚拟服务器，是一个虚拟的服务器集群系统。本项目在1998年5月由章文嵩博士成立，是中国国内最早出现的自由软件项目之一。目前有三种IP负载均衡技术（VS/NAT、VS/TUN和VS/DR）本文是按照VS/DR的方式配置,十种调度算法（rrr|wrr|lc|wlc|lblc|lblcr|dh|sh|sed|nq）。</p>
+<h3 id="Keepalvied">Keepalvied</h3><p>Keepalived在这里主要用作RealServer的健康状态检查以及LoadBalance主机和BackUP主机之间failover的实现</p>
+<a id="more"></a>
+<h3 id="部署环境">部署环境</h3><p>系统：Linux CentOS 5.8</p>
+<p>浮动IP：192.168.1.150</p>
+<p>主LVS IP：192.168.1.86</p>
+<p>备LVS IP：192.168.1.87</p>
+<p>真实服务器WEB1 IP：192.168.1.88</p>
+<p>真实服务器WEB2 IP：192.168.1.250</p>
+<h3 id="配置步骤">配置步骤</h3><h4 id="主备LVS下载软件包">主备LVS下载软件包</h4><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$&gt;</span>wget <span class="symbol">http:</span>/<span class="regexp">/www.linuxvirtualserver.org/software</span><span class="regexp">/kernel-2.6/ipvsadm</span>-<span class="number">1.24</span>.tar.gz</span><br><span class="line"><span class="variable">$&gt;</span>wget <span class="symbol">http:</span>/<span class="regexp">/www.keepalived.org/software</span><span class="regexp">/keepalived-1.1.15.tar.gz</span></span><br></pre></td></tr></table></figure>
+<h4 id="主备LVS安装LVS和Keepalived">主备LVS安装LVS和Keepalived</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$&gt;lsmod |grep ip_vs</span><br><span class="line">$&gt;uname -r</span><br><span class="line"><span class="number">2.6</span>.18-<span class="number">53.</span>el5PAE</span><br><span class="line">$&gt;ln -s <span class="regexp">/usr/</span>src<span class="regexp">/kernels/</span><span class="number">2.6</span>.18-<span class="number">53.</span>el5PAE-i686<span class="regexp">/ /</span>usr<span class="regexp">/src/</span>linux</span><br><span class="line">$&gt;tar zxvf ipvsadm-<span class="number">1.24</span>.tar.gz</span><br><span class="line">$&gt;cd ipvsadm-<span class="number">1.24</span></span><br><span class="line">$&gt;make &amp;&amp; make install</span><br><span class="line">$&gt;find / -name ipvsadm # 查看ipvsadm的位置</span><br><span class="line">$&gt;tar zxvf keepalived-<span class="number">1.1</span>.15.tar.gz</span><br><span class="line">$&gt;cd keepalived-<span class="number">1.1</span>.15</span><br><span class="line">$&gt;./configure &amp;&amp; make &amp;&amp; make install</span><br><span class="line">$&gt;find / -name keepalived # 查看keepalived位置</span><br><span class="line">$&gt;cp <span class="regexp">/usr/</span>local<span class="regexp">/etc/</span>rc.d<span class="regexp">/init.d/</span>keepalived <span class="regexp">/etc/</span>rc.d<span class="regexp">/init.d/</span></span><br><span class="line">$&gt;cp <span class="regexp">/usr/</span>local<span class="regexp">/etc/</span>sysconfig<span class="regexp">/keepalived /</span>etc<span class="regexp">/sysconfig/</span></span><br><span class="line">$&gt;mkdir <span class="regexp">/etc/</span>keepalived</span><br><span class="line">$&gt;cp <span class="regexp">/usr/</span>local<span class="regexp">/etc/</span>keepalived<span class="regexp">/keepalived.conf /</span>etc<span class="regexp">/keepalived/</span></span><br><span class="line">$&gt;cp <span class="regexp">/usr/</span>local<span class="regexp">/sbin/</span>keepalived <span class="regexp">/usr/</span>sbin/</span><br><span class="line">$&gt;service keepalived start|stop</span><br></pre></td></tr></table></figure>
+<p>执行ln -s 出错请看最后的常见问题处理</p>
+<h4 id="主备LVS配置Keepalived">主备LVS配置Keepalived</h4><p>修改配置文件/etc/keepalived/keepalived.conf为如下内容（注意真实环境下将#注释说明的内容去掉）</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">     notification_email &#123;</span><br><span class="line">          admin@gmail.com</span><br><span class="line">     &#125;</span><br><span class="line">     notification_email_from sns-lvs@gmail.com</span><br><span class="line">     smtp_server <span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line">     router_id LVS_DEVEL</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">     <span class="keyword">state</span> MASTER   <span class="comment">#备份服务器上将MASTER改为BACKUP     </span></span><br><span class="line">     interface eth0</span><br><span class="line">     virtual_router_id <span class="number">88</span></span><br><span class="line">     priority <span class="number">100</span>  <span class="comment"># 备份服务上将100改为99</span></span><br><span class="line">     advert_int <span class="number">1</span></span><br><span class="line">     authentication &#123;</span><br><span class="line">          auth_type PASS</span><br><span class="line">          auth_pass <span class="number">123123</span></span><br><span class="line">     &#125;</span><br><span class="line">     virtual_ipaddress &#123;</span><br><span class="line">          <span class="number">192.168</span>.<span class="number">1.150</span></span><br><span class="line">          <span class="comment">#(如果有多个VIP，继续换行填写.)</span></span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">virtual_server <span class="number">192.168</span>.<span class="number">1.150</span> <span class="number">80</span> &#123;</span><br><span class="line">     delay_loop <span class="number">3</span> <span class="comment">#(每隔3秒查询realserver状态)</span></span><br><span class="line">     lb_algo wrr <span class="comment">#(lvs 算法)</span></span><br><span class="line">     lb_kind DR <span class="comment">#(Direct Route)</span></span><br><span class="line">     persistence_timeout <span class="number">3</span> <span class="comment">#(同一IP的连接3秒内被分配到同一台realserver)</span></span><br><span class="line">     protocol TCP <span class="comment">#(用TCP协议检查realserver状态)</span></span><br><span class="line"></span><br><span class="line">     real_server <span class="number">192.168</span>.<span class="number">1.88</span> <span class="number">80</span> &#123;</span><br><span class="line">          weight <span class="number">3</span>  <span class="comment">#(权重)</span></span><br><span class="line">          TCP_CHECK &#123;</span><br><span class="line">               connect_timeout <span class="number">10</span> <span class="comment">#(10秒无响应超时)</span></span><br><span class="line">               nb_get_retry <span class="number">3</span></span><br><span class="line">               delay_before_retry <span class="number">3</span></span><br><span class="line">               connect_port <span class="number">80</span></span><br><span class="line">          &#125;</span><br><span class="line">     &#125;</span><br><span class="line">   </span><br><span class="line">     real_server <span class="number">192.168</span>.<span class="number">1.250</span> <span class="number">80</span> &#123;</span><br><span class="line">          weight <span class="number">3</span></span><br><span class="line">          TCP_CHECK &#123;</span><br><span class="line">               connect_timeout <span class="number">10</span></span><br><span class="line">               nb_get_retry <span class="number">3</span></span><br><span class="line">               delay_before_retry <span class="number">3</span></span><br><span class="line">               connect_port <span class="number">80</span></span><br><span class="line">          &#125;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="配置提供真实服务的主机">配置提供真实服务的主机</h4><p>添加配置文件/etc/realserver/realserver.sh为以下内容</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="type">SNS_VIP</span>=<span class="number">192</span>.<span class="number">168</span>.<span class="number">1</span>.<span class="number">150</span></span><br><span class="line"></span><br><span class="line">/etc/rc.d/init.d/functions</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> <span class="string">"$1"</span> <span class="keyword">in</span></span><br><span class="line">start)</span><br><span class="line">     /sbin/ifconfig lo:<span class="number">0</span> $<span class="type">SNS_VIP</span> netmask <span class="number">255</span>.<span class="number">255</span>.<span class="number">255</span>.<span class="number">255</span> broadcast $<span class="type">SNS_VIP</span> up</span><br><span class="line">     /sbin/route add -host $<span class="type">SNS_VIP</span> dev lo:<span class="number">0</span></span><br><span class="line">     echo <span class="string">"1"</span> &gt;/<span class="keyword">proc</span>/sys/net/ipv4/conf/lo/arp_ignore</span><br><span class="line">     echo <span class="string">"2"</span> &gt;/<span class="keyword">proc</span>/sys/net/ipv4/conf/lo/arp_announce</span><br><span class="line">     echo <span class="string">"1"</span> &gt;/<span class="keyword">proc</span>/sys/net/ipv4/conf/all/arp_ignore</span><br><span class="line">     echo <span class="string">"2"</span> &gt;/<span class="keyword">proc</span>/sys/net/ipv4/conf/all/arp_announce</span><br><span class="line">     sysctl -p &gt;/dev/null <span class="number">2</span>&gt;&amp;<span class="number">1</span></span><br><span class="line">     echo <span class="string">"RealServer Start OK"</span></span><br><span class="line">;;</span><br><span class="line"></span><br><span class="line">stop)</span><br><span class="line">     /sbin/ifconfig lo:<span class="number">0</span> down</span><br><span class="line">     /sbin/route del $<span class="type">SNS_VIP</span> &gt;/dev/null <span class="number">2</span>&gt;&amp;<span class="number">1</span></span><br><span class="line">     echo <span class="string">"0"</span> &gt;/<span class="keyword">proc</span>/sys/net/ipv4/conf/lo/arp_ignore</span><br><span class="line">     echo <span class="string">"0"</span> &gt;/<span class="keyword">proc</span>/sys/net/ipv4/conf/lo/arp_announce</span><br><span class="line">     echo <span class="string">"0"</span> &gt;/<span class="keyword">proc</span>/sys/net/ipv4/conf/all/arp_ignore</span><br><span class="line">     echo <span class="string">"0"</span> &gt;/<span class="keyword">proc</span>/sys/net/ipv4/conf/all/arp_announce</span><br><span class="line">     echo <span class="string">"RealServer Stoped"</span></span><br><span class="line">;;</span><br><span class="line"></span><br><span class="line">*)</span><br><span class="line">echo <span class="string">"Usage: $0 &#123;start|stop&#125;"</span></span><br><span class="line">exit <span class="number">1</span></span><br><span class="line">esac</span><br><span class="line"></span><br><span class="line">exit <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<h4 id="提供真实服务的主机修改/etc/rc-d/rc-loal">提供真实服务的主机修改/etc/rc.d/rc.loal</h4><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&gt;vi /etc/rc.<span class="keyword">d</span>/rc.<span class="keyword">local</span></span><br></pre></td></tr></table></figure>
+<p>添加<br>/etc/realserver/realserver.sh</p>
+<h4 id="主备LVS执行">主备LVS执行</h4><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&gt;chkconfig <span class="comment">--level  keepalived 35 on</span></span><br></pre></td></tr></table></figure>
+<h4 id="主备LVS启动keepalived服务">主备LVS启动keepalived服务</h4><figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&gt;/etc/init.d/keepalived <span class="built_in">start</span></span><br></pre></td></tr></table></figure>
+<h3 id="提供真实服务的主机运行/etc/realserver/realserver-sh">提供真实服务的主机运行/etc/realserver/realserver.sh</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$&gt;</span>chmod +x /etc/realserver/realserver.sh</span><br><span class="line"><span class="variable">$&gt;</span>/etc/realserver/realserver.sh</span><br></pre></td></tr></table></figure>
+<p>9.查看当前LVS的状态</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$&gt;</span>ipvsadm -ln</span><br></pre></td></tr></table></figure>
+<h3 id="常见问题处理：">常见问题处理：</h3><ol>
+<li>安装时发现没有目录：/usr/src/kernels，安装kernel-devel包可以解决</li>
+</ol>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&gt;yum <span class="keyword">install</span> kernel-devel</span><br></pre></td></tr></table></figure>
+<ol>
+<li>安装编译keeepalived时需要支持LVS时才可以做LVS调度：<br>例如出现下面情况，将不支持lvs</li>
+</ol>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="header">Keepalived configuration</span><br><span class="line">------------------------</span></span><br><span class="line">Keepalived version       : 1.1.15</span><br><span class="line">Compiler                 : gcc</span><br><span class="line">Compiler flags           : -g -O2</span><br><span class="line">Extra Lib                : -lpopt -lssl -lcrypto</span><br><span class="line">Use IPVS Framework       : No</span><br><span class="line">IPVS sync daemon support : No</span><br><span class="line">Use VRRP Framework       : Yes</span><br><span class="line">Use LinkWatch            : No</span><br><span class="line">Use Debug flags          : No</span><br></pre></td></tr></table></figure>
+<p>解决办法，指定kernel目录：</p>
+<p>/configure —with-kernel-dir=/usr/src/kernels/2.6.9-55.EL-i686 （rhel4.5_32平台）<br>./configure —with-kernel-dir=/usr/src/kernels/2.6.18-164.el5-i686/（rhel5.4_32平台）</p>
+<p>正确情况：</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="header">Keepalived configuration</span><br><span class="line">------------------------</span></span><br><span class="line">Keepalived version       : 1.1.15</span><br><span class="line">Compiler                 : gcc</span><br><span class="line">Compiler flags           : -g -O2</span><br><span class="line">Extra Lib                : -lpopt -lssl -lcrypto</span><br><span class="line">Use IPVS Framework       : Yes</span><br><span class="line">IPVS sync daemon support : Yes</span><br><span class="line">Use VRRP Framework       : Yes</span><br><span class="line">Use LinkWatch            : No</span><br><span class="line">Use Debug flags          : No</span><br></pre></td></tr></table></figure>
+<p>然后在make，make install</p>
+<ol>
+<li>安装编译keeepalived时</li>
+</ol>
+<figure class="highlight erlang-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function_or_atom">configure</span>: <span class="function_or_atom">error</span>:</span><br><span class="line">  <span class="exclamation_mark">!</span><span class="exclamation_mark">!</span><span class="exclamation_mark">!</span> <span class="variable">OpenSSL</span> <span class="function_or_atom">is</span> <span class="function_or_atom">not</span> <span class="function_or_atom">properly</span> <span class="function_or_atom">installed</span> <span class="function_or_atom">on</span> <span class="function_or_atom">your</span> <span class="function_or_atom">system</span>. <span class="exclamation_mark">!</span><span class="exclamation_mark">!</span><span class="exclamation_mark">!</span></span><br><span class="line">  <span class="exclamation_mark">!</span><span class="exclamation_mark">!</span><span class="exclamation_mark">!</span> <span class="variable">Can</span> <span class="function_or_atom">not</span> <span class="function_or_atom">include</span> <span class="variable">OpenSSL</span> <span class="function_or_atom">headers</span> <span class="function_or_atom">files</span>.            <span class="exclamation_mark">!</span><span class="exclamation_mark">!</span><span class="exclamation_mark">!</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&gt;yum <span class="keyword">install</span> e2fsprogs-devel keyutils-libs-devel libsepol-devel  libselinux-devel krb5-devel zlib-devel openssl-devel</span><br></pre></td></tr></table></figure>
+<h3 id="参考资料：">参考资料：</h3><p><a href="http://i-david.iteye.com/blog/1684342" target="_blank">http://i-david.iteye.com/blog/1684342</a><br>官方文档：<br><a href="http://www.keepalived.org/documentation.html" target="_blank">http://www.keepalived.org/documentation.html</a></p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/keepalived/"> #keepalived </a>
+          
+            <a href="/tags/lvs/"> #lvs </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013-05/18-linux-rsyslog.html">Linux CentOS-6.2系统日志rsyslog替换默认的日志服务syslog</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2013-05/19-linux-lvs-keepalived.html"
+               data-title="Linux LVS Keepalived安装与配置实现Httpd服务器80端口的负载均衡" data-url="http://dev.phpboy.net/2013-05/19-linux-lvs-keepalived.html">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="徐典阳" />
+          <p class="site-author-name">徐典阳</p>
+        </div>
+        <p class="site-description motion-element">&nbsp;&nbsp;&nbsp;&nbsp;PHPBoy是一个PHP相关技术博客网站，在业余时间研究PHP内核与PHP扩展开发，关注WEB后端技术架构，LINUX服务器运维，系统安全，高性能与高可用大型网站技术架构。</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">31</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/xudianyang" target="_blank">GitHub</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://weibo.com/1586005914" target="_blank">Weibo</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.jinritemai.com/" target="_blank">目前工作</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#LVS"><span class="nav-number">1.</span> <span class="nav-text">LVS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Keepalvied"><span class="nav-number">2.</span> <span class="nav-text">Keepalvied</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署环境"><span class="nav-number">3.</span> <span class="nav-text">部署环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置步骤"><span class="nav-number">4.</span> <span class="nav-text">配置步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#主备LVS下载软件包"><span class="nav-number">4.1.</span> <span class="nav-text">主备LVS下载软件包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主备LVS安装LVS和Keepalived"><span class="nav-number">4.2.</span> <span class="nav-text">主备LVS安装LVS和Keepalived</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主备LVS配置Keepalived"><span class="nav-number">4.3.</span> <span class="nav-text">主备LVS配置Keepalived</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置提供真实服务的主机"><span class="nav-number">4.4.</span> <span class="nav-text">配置提供真实服务的主机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#提供真实服务的主机修改/etc/rc-d/rc-loal"><span class="nav-number">4.5.</span> <span class="nav-text">提供真实服务的主机修改/etc/rc.d/rc.loal</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主备LVS执行"><span class="nav-number">4.6.</span> <span class="nav-text">主备LVS执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主备LVS启动keepalived服务"><span class="nav-number">4.7.</span> <span class="nav-text">主备LVS启动keepalived服务</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提供真实服务的主机运行/etc/realserver/realserver-sh"><span class="nav-number">5.</span> <span class="nav-text">提供真实服务的主机运行/etc/realserver/realserver.sh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见问题处理："><span class="nav-number">6.</span> <span class="nav-text">常见问题处理：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料："><span class="nav-number">7.</span> <span class="nav-text">参考资料：</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp;  2009 - 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">徐典阳</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.content img').each(function () {
+        var $image = $(this);
+        var $imageWrapLink = $image.parent('a');
+
+        if ($imageWrapLink.size() < 1) {
+          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
+        }
+        $imageWrapLink.addClass('fancybox');
+      });
+    });
+    $('.fancybox').fancybox({
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    LogoAndMenuMotion();
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+    function LogoAndMenuMotion() {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        
+        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
+        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
+        
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    }
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
+      $('.post').velocity('transition.slideDownIn', postMotionOptions);
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"phpboy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+</body>
+</html>
