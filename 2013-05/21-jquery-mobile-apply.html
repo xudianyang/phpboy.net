@@ -1,0 +1,963 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+  <meta name="google-site-verification" content="google93ba54ee93760f07" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+    <meta name="description" content="&nbsp;&nbsp;&nbsp;&nbsp;PHPBoy是一个PHP相关技术博客网站，在业余时间研究PHP内核与PHP扩展开发，关注WEB后端技术架构，LINUX服务器运维，系统安全，高性能与高可用大型网站技术架构。" />
+
+
+
+  <meta name="keywords" content="jquery,jquery mobile," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2d4c4b9cd9f303a04c4d9c24d32f6571";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  <title> 使用jquery mobile开发HTML5移动站的那点事儿 // PHPBoy-专注PHP架构N年 </title>
+</head>
+
+<body>
+<!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">PHPBoy-专注PHP架构N年</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-categories">
+        <a href="/categories">
+          <i class="menu-item-icon icon-categories"></i> <br />
+          分类
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-旧版">
+        <a href="http://www.tuicool.com/sites/qUVJJf">
+          <i class="menu-item-icon icon-旧版"></i> <br />
+          menu.旧版
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              使用jquery mobile开发HTML5移动站的那点事儿
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-05-10
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Javascript/">Javascript</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-05/21-jquery-mobile-apply.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/21-jquery-mobile-apply.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <h3 id="事出原由">事出原由</h3><p>首先申明本人不是前端工程师纯属酱油男，只是在一个移动站点项目中采用了jquery mobile进行HTML5单网页站点的开发（这是一段伤心的历程）。那天我还沉浸在服务器集群部署实施的那种美好感觉中（虽然就那么几台机子），那天我还是认为我永远都不会使用jquery mobile开发站点，可是这一切的美好都被那个姓牛的主任所打断。对，就是姓牛，虽然他会看到这篇blog,事实上他是想看的。牛主任在拉我入伙的时候，他已经研究了很长时间的html5,css3,jqm(jquery mobile)，然后突然说：<br>“典阳，我们要做HTML5 ELLEMEN手机端的项目，给你两个文档，你看看吧。我准备用jqm来做，然后……”</p>
+<a id="more"></a>
+<h3 id="牛主任给的两个文档：">牛主任给的两个文档：</h3><p><a href="http://jquerymobile.com/demos/1.2.1/docs/" target="_blank">http://jquerymobile.com/demos/1.2.1/docs/</a><br><a href="http://www.jqmapi.com/componts/page/transitions.html" target="_blank"><br>http://www.jqmapi.com/componts/page/transitions.html<br></a></p>
+<p>目前jqm最新版本是1.3.1，当我看了牛主任的两个文档之后，我才发现最新的jqm是1.3.1，然后官方文档是<a href="http://api.jquerymobile.com" target="_blank">http://api.jquerymobile.com</a>，然后我满怀疑惑的问了牛主任：“我们使用哪个版本的jqm”，牛主任很淡定的回了一句：“用最新的！”。</p>
+<h3 id="jQuery_Mobile">jQuery Mobile</h3><p>jQuery Mobile是jQuery在手机上和平板设备上的版本。jQuery Mobile 不仅会给主流移动平台带来jQuery核心库，而且会发布一个完整统一的jQuery移动UI框架。支持全球主流的移动平台。适合用来做HTML5的单网页应用，默认支持多种页面围场效果，通过ajax动态加载页面并在页面装载过程中注册多种事件，模拟原生APP的header,footer机制，支持多种插件机制，可以针对页面原HTML进行深加工，默认支持多种Widgets等等很强大的功能。</p>
+<h3 id="使用jqm的简单示例">使用jqm的简单示例</h3><p>参考api.jquerymobile.com的说明文档，知道了使用jqm的基本用法。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="doctype">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">title</span>&gt;</span>jquery mobile easy demo<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"UTF-8"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width, initial-scale=1"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"http://code.jquery.com/jquery-1.9.1.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--page1 start--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"page"</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!--header start--&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"header"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="title">h1</span>&gt;</span>My Title<span class="tag">&lt;/<span class="title">h1</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!--header end--&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">&lt;!--content start--&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"content"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello world<span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!--content end--&gt;</span></span><br><span class="line">                </span><br><span class="line">                <span class="comment">&lt;!--footer start--&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"footer"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="title">h1</span>&gt;</span>footer<span class="tag">&lt;/<span class="title">h1</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!--footer end--&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--page end--&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><a href="http://42.121.109.216/88.png" target="_blank" rel="external"><img src="http://42.121.109.216/88.png" alt="" title="88" width="350" height="269"></a></p>
+<p>说明</p>
+<ol>
+<li>使用jqm最简的demo如上，如果你需求jqm默认样式中使用的各种小图标，那你需要将<a href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.zip" targe="_blank" target="_blank" rel="external">http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.zip</a>里面的images文件夹放在项目相应的目录。另外值得一提的是jqm1.3支持按需定制jqm包，<a href="http://jquerymobile.com/download-builder/" target="_blank" rel="external">http://jquerymobile.com/download-builder/</a></li>
+<li>jqm将div[data-role=”page”]看作是一个页面，一个页面划分为三个部分div[data-role=”header”],div[data-role=”content”],div[data-role=”footer”]</li>
+</ol>
+<h4 id="同一个页面多个div[data-role=”page”]元素">同一个页面多个div[data-role=”page”]元素</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="doctype">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">title</span>&gt;</span>jquery mobile easy demo<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"UTF-8"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width, initial-scale=1"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"http://code.jquery.com/jquery-1.9.1.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--page1 start--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"page"</span> <span class="attribute">id</span>=<span class="value">"page1"</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!--header start--&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"header"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="title">h1</span>&gt;</span>My Title1<span class="tag">&lt;/<span class="title">h1</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!--header end--&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">&lt;!--content start--&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"content"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello world1<span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!--content end--&gt;</span></span><br><span class="line">                </span><br><span class="line">                <span class="comment">&lt;!--footer start--&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"footer"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#page2"</span>&gt;</span>page2<span class="tag">&lt;/<span class="title">a</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!--footer end--&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--page end--&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">&lt;!--page2 start--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"page"</span> <span class="attribute">id</span>=<span class="value">"page2"</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!--header start--&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"header"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="title">h1</span>&gt;</span>My Title2<span class="tag">&lt;/<span class="title">h1</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!--header end--&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">&lt;!--content start--&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"content"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello world2<span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!--content end--&gt;</span></span><br><span class="line">                </span><br><span class="line">                <span class="comment">&lt;!--footer start--&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">div</span> <span class="attribute">data-role</span>=<span class="value">"footer"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#page1"</span>&gt;</span>page1<span class="tag">&lt;/<span class="title">a</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!--footer end--&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--page end--&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><a href="http://42.121.109.216/99.png" target="_blank" rel="external"><img src="http://42.121.109.216/99.png" width="348" height="260"></a><br><a href="http://42.121.109.216/99.png" target="_blank" rel="external"><img src="http://42.121.109.216/1010.png" width="351" height="261"></a></p>
+<p>说明</p>
+<ol>
+<li>可以在一个页面中设置多个div[data-role=”page”],并且通过给a标签的href属性设置为div[data-role=”page”]元素的id前面加#，就可以实现page之间的切换，另外a标签同时支持多种以data-打头的属性，如data-transition,相信你在这儿可以找到你想要的所有a标签支持的属性<a href="http://api.jquerymobile.com/data-attribute/" target="_blank">http://api.jquerymobile.com/data-attribute/</a>中的Link项。</li>
+<li>另外值得一提的是，默认情况下通过jqm渲染的页面，所有的a标签连接地址的请求都将转化为ajax请求，通过ajax请求回来之后，jqm会将head标签中的title提取，其他标签丢弃，然后再提取返回的div[data-role=”page”]元素，通过转场隐藏前一个div[data-role=”page”],渲染当前的div[data-role=”page”]元素。当然你可以设置data-ajax=”false”来阻止这种默认行为。</li>
+</ol>
+<h4 id="如何在jqm渲染页面之前完成一些初始化">如何在jqm渲染页面之前完成一些初始化</h4><p>如果你的应用在jqm渲染页面之前需要获得一些初始化的数据（一般都是通过ajax获取的），由于jqm对$.ajaxSetup注册了一些行为，所以在jqm渲染页面之后再进行普通的ajax请求（非jqm机制的ajax）那么将会带来不少副作用，而这些副作用往往都是不可预期的（你在实践中会遇到的，但是请记住这一条提示）。在jqm渲染页面之前完成一些初始化的工作方法是：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"> </span><br><span class="line">$(<span class="built_in">document</span>).bind(<span class="string">"mobileinit"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    $.mobile.autoInitializePage = <span class="literal">false</span>;</span><br><span class="line">    <span class="comment">//这 可 或</span></span><br><span class="line">    <span class="comment">//是 能 者</span></span><br><span class="line">    <span class="comment">//初 是 是</span></span><br><span class="line">    <span class="comment">//始 一 ajax</span></span><br><span class="line">    <span class="comment">//化 些 的</span></span><br><span class="line">    <span class="comment">//工 计 请</span></span><br><span class="line">    <span class="comment">//作 算 求</span></span><br><span class="line">    $.mobile.autoInitializePage = <span class="literal">true</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ol>
+<li>mobileinit事件，将在document.ready之前触发，是为了能够修改jqm默认的配置。</li>
+<li>注意因为的mobileinit事件立即被触发，你需要绑定你的事件处理程序在加载jqm加载之前，如：</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"jquery.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"custom-scripting.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"jquery-mobile.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>其中custom-scripting.js相当于上面那部分的代码</p>
+<ol>
+<li>当前你可以在document.mobileinit内进行其他配置项的设置，如：</li>
+</ol>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 开启dom缓存，加载过的page将常驻于文档中</span></span><br><span class="line"><span class="variable">$.</span>mobile.page.prototype.options.domCache = true;</span><br><span class="line"><span class="comment">// 水平的滑动距离超过50px才触发swipe事件</span></span><br><span class="line"><span class="variable">$.</span><span class="keyword">event</span>.special.swipe.horizontalDistanceThreshold = <span class="number">50</span>;</span><br><span class="line"><span class="comment">// 这是用来定义选择器（元素类型，数据和角色等），将自动被初始化为jqm ui的表单按钮</span></span><br><span class="line"><span class="variable">$.</span>mobile.<span class="keyword">button</span>.prototype.options.initSelector = <span class="string">".jqm"</span>;</span><br></pre></td></tr></table></figure>
+<p>更多全局配置进入<a href="http://api.jquerymobile.com/global-config/" target="_blank">http://api.jquerymobile.com/global-config/</a></p>
+<ol>
+<li>不使用jqm ui的表单UI及按钮UI</li>
+</ol>
+<p>有时候页面制作完了之后才会觉得本次移动页面将要使用jqm来进行交互的实现（本人的项目就是这样过来的），这个时候就会有诸多的问题，样式的兼容，结构也jqm要求的格式不一样，另外还有一个比较恼火的问题，如果不仔细查看api文档，是会崩溃的，就是默认情况下button, [type=’button’], [type=’submit’], [type=’reset’],input[type=’text’], input[type=’search’], :jqmData(type=’search’), input[type=’number’], :jqmData(type=’number’), input[type=’password’], input[type=’email’], input[type=’url’], input[type=’tel’], textarea, input:not([type])这些表单或者按钮都会被jqm处理，渲染为jqm ui的默认风格。那么如何取消呢？方法是在mobileinit事件中针对上述的表单及按钮设置选择器，让jqm有选择的增强渲染为jqm ui风格的表单及按钮。如：</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是用来定义选择器（元素类型，数据和角色等），将自动被初始化为jqm ui的表单button</span></span><br><span class="line"><span class="variable">$.</span>mobile.<span class="keyword">button</span>.prototype.options.initSelector = <span class="string">".jqmbut"</span>;</span><br><span class="line"><span class="comment">// 这是用来定义选择器（元素类型，数据和角色等），将自动被初始化为jqm ui的表单Textinput</span></span><br><span class="line"><span class="variable">$.</span>mobile.textinput.prototype.options.initSelector = <span class="string">".jqminputs"</span>;</span><br></pre></td></tr></table></figure>
+<p>这样就会影响我们已经制作好的页面的样式。</p>
+<ol>
+<li>强大的$.mobile.changePage(to [, options ])<br>功能：通过脚本从一个页面围场到另一个页面<br>参数：</li>
+</ol>
+<ul>
+<li>to 类型为string或者object,可以为页面的url,或者div[data-role=”page”]元素的id前加#如“#page1”，object是jquery对象或者Dom对象</li>
+<li>类型为object，其中可以有如下的选项：<br>allowSamePageTransition 类型为Boolean，默认为false，是否对同一个页面触发转场<br>changeHash 类型为Boolean，默认为true,是否将访问的url添加到window hash列表中，主要是影响前后网页的跳转<br>data 类型为object或者string，默认为undefined，进行ajax请求是发送的其他数据，为url查询字符串或者为一个键值对对象<br>dataUrl 类型为string，默认为undefined，浏览器地址栏展示的url，只有changeHash设置为true有用<br>reverse 类型为boolean，默认为false，是否反转场效果，依赖于transition项的设置<br>transition 类型为string，默认为$.mobile.defaultPageTransition，默认支持的围场效果fade | flip | flow | pop | slide | slidedown | slidefade | slideup | turn | none<br>type 类型为string，默认为get,ajax的请求类型，get，post可用</li>
+</ul>
+<ol>
+<li>固定header,footer的用法</li>
+</ol>
+<p>有时候多个页面都会共用同一个header,footer能不能在页面切换的时候，让header,footer固定呢，答案是可以的。通过将多个页面的div[data-role=”header”],div[data-role=”footer”]元素id属性设置为一致的，在页面切换的时候，jqm处理将只要切换page的content部分，看起来就好像原生的APP一样，是一个不错的功能。如：</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="subst">&lt;</span>div <span class="built_in">data</span><span class="attribute">-role</span><span class="subst">=</span><span class="string">"header"</span> <span class="built_in">data</span><span class="attribute">-id</span><span class="subst">=</span><span class="string">"index-footer"</span> <span class="built_in">data</span><span class="attribute">-position</span><span class="subst">=</span><span class="string">"fixed"</span> <span class="built_in">data</span><span class="attribute">-tap</span><span class="attribute">-toggle</span><span class="subst">=</span><span class="string">"false"</span><span class="subst">&gt;</span><span class="attribute">...</span></span><br><span class="line"></span><br><span class="line"><span class="subst">&lt;</span>div <span class="built_in">data</span><span class="attribute">-role</span><span class="subst">=</span><span class="string">"footer"</span> <span class="built_in">data</span><span class="attribute">-id</span><span class="subst">=</span><span class="string">"index-footer"</span> <span class="built_in">data</span><span class="attribute">-position</span><span class="subst">=</span><span class="string">"fixed"</span> <span class="built_in">data</span><span class="attribute">-tap</span><span class="attribute">-toggle</span><span class="subst">=</span><span class="string">"false"</span><span class="subst">&gt;</span><span class="attribute">...</span></span><br></pre></td></tr></table></figure>
+<p>更多内容请参考<a href="http://api.jquerymobile.com/data-attribute/" target="_blank" rel="external">http://api.jquerymobile.com/data-attribute/</a>的Header,Footer部分。</p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/jquery/"> #jquery </a>
+          
+            <a href="/tags/jquery-mobile/"> #jquery mobile </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013-05/20-linux-coreseek.html">Coreseek建立索引出错libmysqlclient.so.18</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2013-05/21-jquery-mobile-apply.html"
+               data-title="使用jquery mobile开发HTML5移动站的那点事儿" data-url="http://dev.phpboy.net/2013-05/21-jquery-mobile-apply.html">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="徐典阳" />
+          <p class="site-author-name">徐典阳</p>
+        </div>
+        <p class="site-description motion-element">&nbsp;&nbsp;&nbsp;&nbsp;PHPBoy是一个PHP相关技术博客网站，在业余时间研究PHP内核与PHP扩展开发，关注WEB后端技术架构，LINUX服务器运维，系统安全，高性能与高可用大型网站技术架构。</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">34</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/xudianyang" target="_blank">GitHub</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://weibo.com/1586005914" target="_blank">Weibo</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.jinritemai.com/" target="_blank">目前工作</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#事出原由"><span class="nav-number">1.</span> <span class="nav-text">事出原由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#牛主任给的两个文档："><span class="nav-number">2.</span> <span class="nav-text">牛主任给的两个文档：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery_Mobile"><span class="nav-number">3.</span> <span class="nav-text">jQuery Mobile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用jqm的简单示例"><span class="nav-number">4.</span> <span class="nav-text">使用jqm的简单示例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#同一个页面多个div[data-role=”page”]元素"><span class="nav-number">4.1.</span> <span class="nav-text">同一个页面多个div[data-role=”page”]元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何在jqm渲染页面之前完成一些初始化"><span class="nav-number">4.2.</span> <span class="nav-text">如何在jqm渲染页面之前完成一些初始化</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp;  2009 - 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">徐典阳</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.content img').each(function () {
+        var $image = $(this);
+        var $imageWrapLink = $image.parent('a');
+
+        if ($imageWrapLink.size() < 1) {
+          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
+        }
+        $imageWrapLink.addClass('fancybox');
+      });
+    });
+    $('.fancybox').fancybox({
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    LogoAndMenuMotion();
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+    function LogoAndMenuMotion() {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        
+        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
+        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
+        
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    }
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
+      $('.post').velocity('transition.slideDownIn', postMotionOptions);
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"phpboy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+</body>
+</html>
