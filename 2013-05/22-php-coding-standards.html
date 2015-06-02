@@ -1,0 +1,1117 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+  <meta name="google-site-verification" content="google93ba54ee93760f07" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+    <meta name="description" content="&nbsp;&nbsp;&nbsp;&nbsp;PHPBoy是一个PHP相关技术博客网站，在业余时间研究PHP内核与PHP扩展开发，关注WEB后端技术架构，LINUX服务器运维，系统安全，高性能与高可用大型网站技术架构。" />
+
+
+
+  <meta name="keywords" content="coding standards,代码规范," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2d4c4b9cd9f303a04c4d9c24d32f6571";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  <title> PHP代码及命名规范 // PHPBoy-专注WEB架构N年 </title>
+</head>
+
+<body>
+<!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">PHPBoy-专注WEB架构N年</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-categories">
+        <a href="/categories">
+          <i class="menu-item-icon icon-categories"></i> <br />
+          分类
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-旧版">
+        <a href="http://www.tuicool.com/sites/qUVJJf">
+          <i class="menu-item-icon icon-旧版"></i> <br />
+          menu.旧版
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              PHP代码及命名规范
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-05-16
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-05/22-php-coding-standards.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/22-php-coding-standards.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <p>一个优秀的团队代码规范是必须的，可以促进团队合作，降低维护成本，体现团队的凝聚力，直接有助于代码审查，对于个人来说，有助于自身的成长。整理了现有团队的代码规范，虽不是最标准，但是收集了很多优雅规范。</p>
+<a id="more"></a>
+<h1 id="基本规范">基本规范</h1><h2 id="文件">文件</h2><ul>
+<li>所有文件，保存格式为UTF-8</li>
+<li>对于只包含PHP代码的文件，PHP的结束标记?&gt;，不允许存在</li>
+<li>使用制表符TAB，4个字符宽度缩进，并且在编辑器中设置4个空格代替TAB</li>
+<li>每行保持大约80-120个字符长度</li>
+</ul>
+<h2 id="关于空格">关于空格</h2><ul>
+<li>逗号后面紧跟一个空格</li>
+</ul>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">func</span>(<span class="variable">$val1</span>, <span class="variable">$val2</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>操作符两个加空格</li>
+</ul>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">$str</span> = <span class="label">$s</span> . <span class="string">"/gg"</span>;</span><br><span class="line"><span class="label">$str</span> = <span class="label">$s</span> . <span class="keyword">DIR</span> . <span class="string">"/index.html"</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>函数关键字与左括号“(”紧贴在一起，除此之外包括结构关键字等与“(”之间都应该加一个空格</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">print_r(<span class="variable">$var</span>);</span><br><span class="line">func(<span class="variable">$var</span>);</span><br><span class="line"><span class="keyword">echo</span> (<span class="string">""</span>);</span><br><span class="line"><span class="keyword">exit</span> (<span class="number">0</span>);</span><br><span class="line"><span class="keyword">include</span> (<span class="string">"/dir/some.php"</span>);</span><br><span class="line"><span class="keyword">if</span> (condition) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>右括号“)“除后面是“)”、“.”、“;”以外，其它一律用空格隔开它们</p>
+</li>
+<li><p>单行注释“//”后紧跟一个空格</p>
+</li>
+<li><p>程序中除字符串外不应有其它连续空格</p>
+</li>
+<li><p>每行结尾不允许多余的空格</p>
+</li>
+<li><p>赋值操作符前后一个空格</p>
+</li>
+</ul>
+<h2 id="换行">换行</h2><p>当一个表达式无法容纳在一行时（最多120字符，最好不要超过80），依据以下原则断开：</p>
+<ul>
+<li><p>在一个逗号后面断开</p>
+</li>
+<li><p>在一个操作符前面断开</p>
+</li>
+<li><p>新的一行应该与上一行同一级别表达式的开头处对齐</p>
+</li>
+<li><p>业务逻辑分块，如果在一个方法中完成一个小事务可以用换行分隔开其他事务</p>
+</li>
+</ul>
+<h2 id="引号">引号</h2><ul>
+<li><p>PHP中单引号和双引号具有不同的解析，单引号中，任何变量($var)、特殊转义字符(“\t \t \n”)不会被解析，因此PHP解析的更快，转义字符仅支持”\’“和”\”；双引号中，能被解析的都被解析，PHP常量不能被解析。</p>
+</li>
+<li><p>字符串是HTML代码的使用单引号</p>
+</li>
+<li><p>正则表达式使用单引号</p>
+</li>
+<li><p>包含有` ‘ 的字符串, 使用双引号引起来，例如SQL语句.</p>
+</li>
+<li><p>不需要双引号的地方一律用单引号</p>
+</li>
+<li><p>数组中下标中不是常量或者变量的使用单引号，如果数组使用在双引号字符串中，用{}包裹，或者不加引号</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$str</span> = <span class="string">"string<span class="variable">$arr</span>[key]string"</span>;</span><br><span class="line"><span class="variable">$str</span> = <span class="string">"string&#123;<span class="variable">$arr</span>['key']&#125;string"</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="对齐">对齐</h2><p>如果同一个内容要换行或有多个值，一般以操作符为左边界进行对齐。如：</p>
+<ul>
+<li>数组</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$arr</span> = <span class="keyword">array</span>(</span><br><span class="line">       <span class="string">'key1'</span>      =&gt; <span class="string">'val1'</span>,</span><br><span class="line">       <span class="string">'1234455'</span>   =&gt; <span class="string">'val2'</span>,</span><br><span class="line">       <span class="string">'key1'</span>      =&gt; <span class="string">'val3'</span>,</span><br><span class="line">       <span class="string">'key1'</span>      =&gt; <span class="string">'val4'</span>,</span><br><span class="line">       <span class="string">'key1str'</span>   =&gt; <span class="string">'val5'</span>,</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>双元运算符? ：的对齐</li>
+</ul>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$<span class="keyword">var</span> = condition ? <span class="number">1</span> : <span class="number">2</span>;</span><br><span class="line">$<span class="keyword">var</span> = condition</span><br><span class="line">       ? <span class="keyword">long</span> statement</span><br><span class="line">       : another <span class="keyword">long</span> statement;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>SQL语句的对齐</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$sql = "<span class="operator"><span class="keyword">SELECT</span> <span class="keyword">field</span>, <span class="keyword">field</span></span><br><span class="line">        <span class="keyword">FROM</span> <span class="keyword">table</span></span><br><span class="line">        <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> table2 <span class="keyword">ON</span> condition</span><br><span class="line">        <span class="keyword">WHERE</span> condition</span><br><span class="line">        <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="keyword">field</span> <span class="keyword">asc</span></span><br><span class="line">        <span class="keyword">LIMIT</span> <span class="number">1</span><span class="string">";</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="控制结构">控制结构</h2><ul>
+<li><p>不要把小括号和关键词紧贴在一起，要用空格隔开它们</p>
+</li>
+<li><p>小括号和函数名要紧贴在一起</p>
+</li>
+<li><p>结构体开始“{“，如果是函数、类声明时独占一行，其他不占一行而是于空格隔开紧跟空格后面；整个结构结尾“}”都独占一行</p>
+</li>
+<li><p>即便if后只有一条语句，仍然需要加入大括号，以保证结构清晰</p>
+</li>
+</ul>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">if</span> ( CONDITION ) &#123;</span><br><span class="line">    <span class="comment">// code goes here</span></span><br><span class="line">&#125; <span class="tag">elseif</span> ( condition ) &#123;</span><br><span class="line"></span><br><span class="line">&#125; <span class="tag">else</span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">function</span> <span class="tag">name</span>()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="命名约定">命名约定</h2><ul>
+<li><p>以标准计算机英文为蓝本，杜绝一切拼音、或拼音英文混杂的命名方式</p>
+</li>
+<li><p>命名必须足够长以使他人能够快速理解其要表达的含义，避免使用生癖词汇、缩写过简的命名，遵循顾名能思义原则</p>
+</li>
+<li><p>常量一律大写，多个单词以下划线“_”分割</p>
+</li>
+<li><p>变量名或类的属性名、函数名、类方法名一律采用驼峰命名</p>
+</li>
+<li><p>类名首字母大写，驼峰命名</p>
+</li>
+<li><p>类成员非公开时必须以private、protected声明，并以下划线“_”开头</p>
+</li>
+</ul>
+<h1 id="注释规范">注释规范</h1><h2 id="常用标记">常用标记</h2><table>
+<thead>
+<tr>
+<th>标记</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@author</td>
+<td>指明作者</td>
+</tr>
+<tr>
+<td>@copyright</td>
+<td>指明版权信息</td>
+</tr>
+<tr>
+<td>@name</td>
+<td>为关键字指定一个别名</td>
+</tr>
+<tr>
+<td>@param</td>
+<td>指明一个函数的参数</td>
+</tr>
+<tr>
+<td>@return</td>
+<td>指明一个方法或函数的返回值</td>
+</tr>
+<tr>
+<td>@var</td>
+<td>指明变量类型</td>
+</tr>
+<tr>
+<td>@version</td>
+<td>指明版本信息</td>
+</tr>
+<tr>
+<td>@todo</td>
+<td>指明应该改进或没有实现的地方</td>
+</tr>
+<tr>
+<td>@link</td>
+<td>可以通过link指到文档中的任何一个关键字</td>
+</tr>
+<tr>
+<td>@throws</td>
+<td>抛出的异常类型</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * 远程调用对象池</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> *<span class="phpdoc"> @author</span> xudianyang&lt;admin@phpboy.net&gt;</span><br><span class="line"> *<span class="phpdoc"> @copyright</span> Copyright (c) Company Name Co.,Ltd.</span><br><span class="line"> *<span class="phpdoc"> @version</span> $Id:1.0.0, TransferPool.php, 2014-08-19 13:16 created$</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">General</span>\<span class="title">Transfer</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">TransferPool</span></span><br><span class="line"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 默认Transfer Driver</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">const</span> DEFAULT_DRIVER = <span class="string">'YarClient'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Transfer 存储实例</span><br><span class="line">     *<span class="phpdoc"> @var</span> $pool array</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">static</span> <span class="variable">$pool</span> = <span class="keyword">array</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     *<span class="phpdoc"> @param</span> string $driver</span><br><span class="line">     *<span class="phpdoc"> @return</span> Driver\DriverInterface|null</span><br><span class="line">     *<span class="phpdoc"> @throws</span> Exception\RuntimeException</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">factory</span><span class="params">(<span class="variable">$driver</span> = self::DEFAULT_DRIVER)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">isset</span>(<span class="variable">$driver</span>)) &#123;</span><br><span class="line">            <span class="variable">$driver</span> = <span class="keyword">self</span>::DEFAULT_DRIVER;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    </span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="文件注释">文件注释</h2><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span> description</span><br><span class="line"> <span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span> <span class="comment">@author xudianyang&lt;admin@phpboy.net&gt;</span></span><br><span class="line"> <span class="keyword">*</span> <span class="comment">@copyright Copyright (c) Company Name Co.,Ltd.</span></span><br><span class="line"> <span class="keyword">*</span> <span class="comment">@version $Id:1.0.0, TransferPool.php, 2014-08-19 13:16 created (updated)$</span></span><br><span class="line"> <span class="keyword">*</span>/</span><br></pre></td></tr></table></figure>
+<h2 id="函数(类方法)注释">函数(类方法)注释</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * enter description here</span><br><span class="line"> *</span><br><span class="line"> *<span class="phpdoc"> @param</span> string $key  description</span><br><span class="line"> *<span class="phpdoc"> @param</span> string $val  description</span><br><span class="line"> *<span class="phpdoc"> @return</span> boolean</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">setField</span><span class="params">(<span class="variable">$key</span>, <span class="variable">$val</span>)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="类的属性注释">类的属性注释</h2><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span> description</span><br><span class="line"> <span class="keyword">*</span> </span><br><span class="line"> <span class="keyword">*</span> <span class="comment">@var model</span></span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line">protected $_model = null;</span><br></pre></td></tr></table></figure>
+<h2 id="变量注释">变量注释</h2><p>如果变量的类型是用户定义的类型，且IDE不能判断变量的类型，应该添加注释帮助IDE识别，如</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * @var $logger \General\Psr\Log\AbstractLogger</span><br><span class="line"> */</span></span><br><span class="line"><span class="variable">$logger</span> <span class="subst">=</span> <span class="subst">\</span>Yaf<span class="subst">\</span>Registry<span class="tag">::get</span>(<span class="string">'Mount'</span>)<span class="subst">-&gt;</span>get(<span class="string">'Logger'</span>);</span><br><span class="line"><span class="keyword">return</span> <span class="variable">$logger</span><span class="subst">-&gt;</span><span class="keyword">log</span>(<span class="variable">$level</span>, <span class="variable">$message</span>, <span class="variable">$content</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="单行注释">单行注释</h2><p>单行注释一般用在逻辑不易理解的地方，注释时“//”后紧跟一个空格</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// description</span></span><br><span class="line"><span class="variable">$statement</span> <span class="subst">=</span> <span class="built_in">null</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="多行注释">多行注释</h2><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span> enter description here,</span><br><span class="line"> <span class="keyword">*</span> enter description here</span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line">$statement = null;</span><br></pre></td></tr></table></figure>
+<h1 id="SVN规范">SVN规范</h1><h2 id="基本要求">基本要求</h2><p>在SVN的日常更新中我们做了如下要求：</p>
+<ul>
+<li><p>每次提交必须填写注释，注释不能少于5个中文字符，注释不能毫无意义，要讲明白本次提交的问题。</p>
+</li>
+<li><p>一次提交只解决一个问题，不能一次性提交多个模块/问题的更新。</p>
+</li>
+<li><p>不要尝试无意义的提交。</p>
+</li>
+<li><p>SVN提交注释填写标识说明：</p>
+<ol>
+<li><p>* 表示更新功能</p>
+</li>
+<li><p>+ 表示增加文件或功能</p>
+</li>
+<li><p>- 表示删除文件或功能</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="示例">示例</h2><p>解决抓取页面缓慢的问题，注释则应填写为：</p>
+<p>* 解决抓取页面缓慢的问题，原因是：header中设置的cookie不合理</p>
+<p>新增了一个HTTP请求处理类，注释则应填写为：</p>
+<p>+ 类库中新增了一个HTTP请求处理类</p>
+<p>删除了一个已经不再使用的文件，注释则应填写为：</p>
+<p>- 删除文件ufiles.php，下线功能u盘，删除相应文件</p>
+<h1 id="框架规范">框架规范</h1><p>我们基于Yaf的程序框架，有一些特殊的规范，也是最重要的规范。</p>
+<h2 id="使用命名空间">使用命名空间</h2><p>我们采用PHP-5.4.31的PHP版本，支持命名空间，程序中所有涉及到类的加载都采用命名空间的方式完成按需加载。如有不了解命名空间的同学，请参考：<a href="http://php.net/manual/zh/language.namespaces.php" target="_blank" rel="external">http://php.net/manual/zh/language.namespaces.php</a></p>
+<h2 id="use关键字">use关键字</h2><p>在编码中对use关键字的使用，不做强制规定，即下面两种写法均可以接受</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">use</span> <span class="tag">Core</span>\<span class="tag">Factory</span>;</span><br><span class="line"></span><br><span class="line"><span class="rule"><span class="attribute">Factory</span>:<span class="value">:session)()</span></span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\<span class="tag">Core</span>\<span class="rule"><span class="attribute">Factory</span>:<span class="value">:<span class="function">session</span>()</span></span>;</span><br></pre></td></tr></table></figure>
+<h2 id="目录与文件名">目录与文件名</h2><p>所有目录及文件名首字段大写，多个单词按照驼峰规则（其中对于Views下面的与控制器名称对应的视图文件目录及视图文件名小写）</p>
+<h2 id="类名与文件名">类名与文件名</h2><p>本地类库与全局类库类名与文件名保持一致，一个文件只允许定义一个类，对于特称的Yaf框架中的类如：控制器、插件、模型等，在文件名中不带相应的后缀。</p>
+<h3 id="Controller">Controller</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * 演示 Controller 常规操作，继承自前台基础控制器Basic</span><br><span class="line"> * </span><br><span class="line"> *<span class="phpdoc"> @author</span> xudianyang&lt;admin@phpboy.net&gt;</span><br><span class="line"> *<span class="phpdoc"> @copyright</span> Copyright (c) Company Name Co.,Ltd.</span><br><span class="line"> *<span class="phpdoc"> @version</span> $Id:1.0.0, Index.php, 2014-08-19 13:16 created$</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Yaf</span>\<span class="title">Dispatcher</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Core</span>\<span class="title">Basic</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">IndexController</span> <span class="keyword">extends</span> <span class="title">Basic</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 初始化</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">init</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">parent</span>::init();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>对应的控制器文件名为：Index.php</p>
+<h3 id="Plugin">Plugin</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * 模块初始化</span><br><span class="line"> * </span><br><span class="line"> *<span class="phpdoc"> @author</span> xudianyang&lt;admin@phpboy.net&gt;</span><br><span class="line"> *<span class="phpdoc"> @copyright</span> Copyright (c) Company Name Co.,Ltd.</span><br><span class="line"> *<span class="phpdoc"> @version</span> $Id:1.0.0, ModuleInit.php, 2014-08-19 13:16 created$</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Yaf</span>\<span class="title">Application</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Yaf</span>\<span class="title">Plugin_Abstract</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Yaf</span>\<span class="title">Request_Abstract</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Yaf</span>\<span class="title">Response_Abstract</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Yaf</span>\<span class="title">Registry</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Yaf</span>\<span class="title">Config</span>\<span class="title">Simple</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ModuleInitPlugin</span> <span class="keyword">extends</span> <span class="title">Plugin_Abstract</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 读取模块自定义配置，配置路径为：Modules/X/Config</span><br><span class="line">     *</span><br><span class="line">     *<span class="phpdoc"> @param</span> Request_Abstract $request</span><br><span class="line">     *<span class="phpdoc"> @param</span> Response_Abstract $response</span><br><span class="line">     *<span class="phpdoc"> @return</span> mixed|void</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">preDispatch</span><span class="params">(Request_Abstract <span class="variable">$request</span>, Response_Abstract <span class="variable">$response</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>对应的插件文件名为：ModuleInit.php</p>
+<h3 id="Model">Model</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Member模型</span><br><span class="line"> * </span><br><span class="line"> *<span class="phpdoc"> @author</span> xudianyang&lt;admin@phpboy.net&gt;</span><br><span class="line"> *<span class="phpdoc"> @copyright</span> Copyright (c) Company Name Co.,Ltd.</span><br><span class="line"> *<span class="phpdoc"> @version</span> $Id:1.0.0,Member.php, 2014-08-19 13:16 created$</span><br><span class="line"> */</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Model</span>\<span class="title">Index</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Core</span>\<span class="title">Factory</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MemberModel</span></span><br><span class="line"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">(<span class="variable">$postData</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>对应的模型文件名为：Member.php</p>
+<h2 id="throw_Exception">throw Exception</h2><p>对应可以重试或者自行捕获的异常，在业务逻辑代码中进行捕获，对于流程不可以走通的异常，直接抛出交由全局来进行捕获并写入日志。</p>
+<h2 id="视图文件">视图文件</h2><p>对于视图文件是PHP的脚本，那么视图只完成变量的输出及简单的遍历，业务逻辑不能在视图文件中完成。采用PHP的短标记（short_open_tag = On），注意只在视图文件才使用短标记。</p>
+<h3 id="变量输出">变量输出</h3><p>&lt;?=变量名?&gt;</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="doctype">&lt;!DOCTYPE html&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"utf-8"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">title</span>&gt;</span><span class="php"><span class="preprocessor">&lt;?</span>=<span class="variable">$title</span><span class="preprocessor">?&gt;</span></span><span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">form</span> <span class="attribute">action</span>=<span class="value">"<span class="php"><span class="preprocessor">&lt;?</span>=<span class="variable">$actionUrl</span><span class="preprocessor">?&gt;</span></span>"</span> <span class="attribute">method</span>=<span class="value">"post"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"hidden"</span> <span class="attribute">name</span>=<span class="value">"<span class="php"><span class="preprocessor">&lt;?</span>=\Core\Common::getSessionCsrfName();<span class="preprocessor">?&gt;</span></span>"</span> <span class="attribute">value</span>=<span class="value">"<span class="php"><span class="preprocessor">&lt;?</span>=\Core\Common::getSessionCsrfToken();<span class="preprocessor">?&gt;</span></span>"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">name</span>=<span class="value">"username"</span> <span class="attribute">value</span>=<span class="value">"<span class="php"><span class="preprocessor">&lt;?</span>=<span class="variable">$name</span><span class="preprocessor">?&gt;</span></span>"</span> /&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">name</span>=<span class="value">"address"</span> <span class="attribute">value</span>=<span class="value">"<span class="php"><span class="preprocessor">&lt;?</span>=<span class="variable">$address</span><span class="preprocessor">?&gt;</span></span>"</span> /&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"submit"</span> <span class="attribute">value</span>=<span class="value">"测试"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="title">form</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="控制结构与遍历">控制结构与遍历</h3><p>采用PHP语言控制结构的替代语法</p>
+<p>PHP 提供了一些流程控制的替代语法，包括 if，while，for，foreach 和 switch。替代语法的基本形式是把左花括号（{）换成冒号（:），把右花括号（}）分别换成 endif;，endwhile;，endfor;，endforeach; 以及 endswitch;，不清楚的同学参考：<a href="http://php.net/manual/zh/control-structures.alternative-syntax.php" target="_blank" rel="external">http://php.net/manual/zh/control-structures.alternative-syntax.php</a></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="doctype">&lt;!DOCTYPE html&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"utf-8"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">title</span>&gt;</span><span class="php"><span class="preprocessor">&lt;?</span>=<span class="variable">$title</span><span class="preprocessor">?&gt;</span></span><span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line">    <span class="php"><span class="preprocessor">&lt;?</span>=<span class="variable">$hello</span><span class="preprocessor">?&gt;</span></span></span><br><span class="line">    <span class="pi">&lt;?if (isset($displayWelcome) &amp;&amp; $displayWelcome):?&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"http://www.phpboy.net/wp-content/uploads/2014/01/ap-140x100.jpg"</span> /&gt;</span></span><br><span class="line">    <span class="pi">&lt;?endif;?&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="输入与输出过滤">输入与输出过滤</h2><p>为了防止XSS的攻击，我们在表单输入进行了全局过滤，在Yaf请求对象Yaf\Request\Http中获取的参数与使用$_GET/$_POST获取参数效果相同，针对PHP的全局GPRC，我们在InputFilter插件中自动完成过滤，可以直接使用。如果变量输入已经过滤，变量的输出理论上不会有问题，具体情况待研究。</p>
+<h2 id="SQL查询参数">SQL查询参数</h2><p>所以用户输入的数据在拼接查询语句时，都需要采用占们符参数绑定的形式，如：</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$id = <span class="number">38</span>;</span><br><span class="line">$result = <span class="attribute">Factory</span>::sql<span class="function"><span class="params">()</span></span><br><span class="line">    -&gt;</span>select<span class="function"><span class="params">()</span>-&gt;</span><span class="keyword">from</span><span class="function"><span class="params">(<span class="string">'member'</span>)</span></span><br><span class="line">    -&gt;</span>columns<span class="function"><span class="params">(<span class="string">'id, username'</span>)</span></span><br><span class="line">    -&gt;</span>order<span class="function"><span class="params">(<span class="string">'id desc'</span>)</span>-&gt;</span>where<span class="function"><span class="params">(<span class="string">'id = :id and state = :state'</span>)</span></span><br><span class="line">    -&gt;</span>execute<span class="function"><span class="params">(array(<span class="string">'id'</span> =&gt; $id, <span class="string">'state'</span> =&gt; <span class="number">1</span>))</span>-&gt;</span>getFetchArrays();</span><br><span class="line">var_dump($result);</span><br><span class="line"></span><br><span class="line">$result = <span class="attribute">Factory</span>::sql<span class="function"><span class="params">()</span></span><br><span class="line">    -&gt;</span>select<span class="function"><span class="params">()</span>-&gt;</span><span class="keyword">from</span><span class="function"><span class="params">(<span class="string">'member'</span>)</span></span><br><span class="line">    -&gt;</span>columns<span class="function"><span class="params">(<span class="string">'id, username'</span>)</span></span><br><span class="line">    -&gt;</span>order<span class="function"><span class="params">(<span class="string">'id desc'</span>)</span>-&gt;</span>where<span class="function"><span class="params">(<span class="string">'id = ? and state = ?'</span>)</span></span><br><span class="line">    -&gt;</span>execute<span class="function"><span class="params">(array($id, <span class="number">1</span>))</span>-&gt;</span>getFetchArrays();</span><br><span class="line">var_dump($result);</span><br></pre></td></tr></table></figure>
+<h1 id="实践">实践</h1><h2 id="控制结构-1">控制结构</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span> ((condition1) || (condition2)) &#123;</span><br><span class="line">    action1;</span><br><span class="line">&#125; <span class="keyword">elseif</span> ((condition3) &amp;&amp; (condition4)) &#123;</span><br><span class="line">    action2;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    defaultaction;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">switch</span> (condition) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        action1;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        action2;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        defaultaction;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ((<span class="variable">$condition1</span></span><br><span class="line">    || <span class="variable">$condition2</span>)</span><br><span class="line">    &amp;&amp; <span class="variable">$condition3</span></span><br><span class="line">    &amp;&amp; <span class="variable">$condition4</span></span><br><span class="line">) &#123;</span><br><span class="line">    <span class="comment">//code here</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$a</span> = <span class="variable">$condition1</span> &amp;&amp; <span class="variable">$condition2</span></span><br><span class="line">    ? <span class="variable">$foo</span> : <span class="variable">$bar</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">$b</span> = <span class="variable">$condition3</span> &amp;&amp; <span class="variable">$condition4</span></span><br><span class="line">    ? <span class="variable">$foo_man_this_is_too_long_what_should_i_do</span></span><br><span class="line">    : <span class="variable">$bar</span>;</span></span><br></pre></td></tr></table></figure>
+<h2 id="函数调用">函数调用</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="variable">$var</span> = foo(<span class="variable">$bar</span>, <span class="variable">$baz</span>, <span class="variable">$quux</span>);</span><br><span class="line"><span class="variable">$short</span>         = foo(<span class="variable">$bar</span>);</span><br><span class="line"><span class="variable">$long_variable</span> = foo(<span class="variable">$baz</span>);</span></span><br></pre></td></tr></table></figure>
+<h2 id="方法名">方法名</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fooFunction</span><span class="params">(<span class="variable">$arg1</span>, <span class="variable">$arg2</span> = <span class="string">''</span>)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (condition) &#123;</span><br><span class="line">        statement;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$val</span>;</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="异常">异常</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">connectDB</span><span class="params">(<span class="variable">$dsn</span>)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="variable">$this</span>-&gt;db =&amp; DB::connect(<span class="variable">$dsn</span>);</span><br><span class="line">    <span class="keyword">if</span> (DB::isError(<span class="variable">$this</span>-&gt;db)) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> Example_Datasource_Exception(</span><br><span class="line">                <span class="string">"Unable to connect to $dsn:"</span> . <span class="variable">$this</span>-&gt;db-&gt;getMessage()</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="命名空间">命名空间</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">PEAR2</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span><br><span class="line"></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/coding-standards/"> #coding standards </a>
+          
+            <a href="/tags/代码规范/"> #代码规范 </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013-05/21-jquery-mobile-apply.html">使用jquery mobile开发HTML5移动站的那点事儿</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2013-05/22-php-coding-standards.html"
+               data-title="PHP代码及命名规范" data-url="http://dev.phpboy.net/2013-05/22-php-coding-standards.html">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="徐典阳" />
+          <p class="site-author-name">徐典阳</p>
+        </div>
+        <p class="site-description motion-element">&nbsp;&nbsp;&nbsp;&nbsp;PHPBoy是一个PHP相关技术博客网站，在业余时间研究PHP内核与PHP扩展开发，关注WEB后端技术架构，LINUX服务器运维，系统安全，高性能与高可用大型网站技术架构。</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">36</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/xudianyang" target="_blank">GitHub</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://weibo.com/1586005914" target="_blank">Weibo</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.jinritemai.com/" target="_blank">目前工作</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本规范"><span class="nav-number">1.</span> <span class="nav-text">基本规范</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件"><span class="nav-number">1.1.</span> <span class="nav-text">文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于空格"><span class="nav-number">1.2.</span> <span class="nav-text">关于空格</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#换行"><span class="nav-number">1.3.</span> <span class="nav-text">换行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引号"><span class="nav-number">1.4.</span> <span class="nav-text">引号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对齐"><span class="nav-number">1.5.</span> <span class="nav-text">对齐</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制结构"><span class="nav-number">1.6.</span> <span class="nav-text">控制结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命名约定"><span class="nav-number">1.7.</span> <span class="nav-text">命名约定</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注释规范"><span class="nav-number">2.</span> <span class="nav-text">注释规范</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用标记"><span class="nav-number">2.1.</span> <span class="nav-text">常用标记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件注释"><span class="nav-number">2.2.</span> <span class="nav-text">文件注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数(类方法)注释"><span class="nav-number">2.3.</span> <span class="nav-text">函数(类方法)注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类的属性注释"><span class="nav-number">2.4.</span> <span class="nav-text">类的属性注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量注释"><span class="nav-number">2.5.</span> <span class="nav-text">变量注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单行注释"><span class="nav-number">2.6.</span> <span class="nav-text">单行注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多行注释"><span class="nav-number">2.7.</span> <span class="nav-text">多行注释</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SVN规范"><span class="nav-number">3.</span> <span class="nav-text">SVN规范</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本要求"><span class="nav-number">3.1.</span> <span class="nav-text">基本要求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">3.2.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#框架规范"><span class="nav-number">4.</span> <span class="nav-text">框架规范</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用命名空间"><span class="nav-number">4.1.</span> <span class="nav-text">使用命名空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#use关键字"><span class="nav-number">4.2.</span> <span class="nav-text">use关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目录与文件名"><span class="nav-number">4.3.</span> <span class="nav-text">目录与文件名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类名与文件名"><span class="nav-number">4.4.</span> <span class="nav-text">类名与文件名</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Controller"><span class="nav-number">4.4.1.</span> <span class="nav-text">Controller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Plugin"><span class="nav-number">4.4.2.</span> <span class="nav-text">Plugin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model"><span class="nav-number">4.4.3.</span> <span class="nav-text">Model</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#throw_Exception"><span class="nav-number">4.5.</span> <span class="nav-text">throw Exception</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#视图文件"><span class="nav-number">4.6.</span> <span class="nav-text">视图文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#变量输出"><span class="nav-number">4.6.1.</span> <span class="nav-text">变量输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制结构与遍历"><span class="nav-number">4.6.2.</span> <span class="nav-text">控制结构与遍历</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入与输出过滤"><span class="nav-number">4.7.</span> <span class="nav-text">输入与输出过滤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL查询参数"><span class="nav-number">4.8.</span> <span class="nav-text">SQL查询参数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实践"><span class="nav-number">5.</span> <span class="nav-text">实践</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#控制结构-1"><span class="nav-number">5.1.</span> <span class="nav-text">控制结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数调用"><span class="nav-number">5.2.</span> <span class="nav-text">函数调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法名"><span class="nav-number">5.3.</span> <span class="nav-text">方法名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异常"><span class="nav-number">5.4.</span> <span class="nav-text">异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命名空间"><span class="nav-number">5.5.</span> <span class="nav-text">命名空间</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp;  2009 - 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">徐典阳</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.content img').each(function () {
+        var $image = $(this);
+        var $imageWrapLink = $image.parent('a');
+
+        if ($imageWrapLink.size() < 1) {
+          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
+        }
+        $imageWrapLink.addClass('fancybox');
+      });
+    });
+    $('.fancybox').fancybox({
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    LogoAndMenuMotion();
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+    function LogoAndMenuMotion() {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        
+        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
+        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
+        
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    }
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
+      $('.post').velocity('transition.slideDownIn', postMotionOptions);
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"phpboy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+</body>
+</html>
