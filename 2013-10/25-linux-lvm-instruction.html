@@ -1,0 +1,960 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+  <meta name="google-site-verification" content="google93ba54ee93760f07" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+    <meta name="description" content="&nbsp;&nbsp;&nbsp;&nbsp;PHPBoy是一个PHP相关技术博客网站，在业余时间研究PHP内核与PHP扩展开发，关注WEB后端技术架构，LINUX服务器运维，系统安全，高性能与高可用大型网站技术架构。" />
+
+
+
+  <meta name="keywords" content="LVM," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2d4c4b9cd9f303a04c4d9c24d32f6571";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  <title> linux LVM 增加、扩容逻辑卷 // PHPBoy-专注WEB架构N年 </title>
+</head>
+
+<body>
+<!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">PHPBoy-专注WEB架构N年</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-categories">
+        <a href="/categories">
+          <i class="menu-item-icon icon-categories"></i> <br />
+          分类
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-旧版">
+        <a href="http://www.tuicool.com/sites/qUVJJf">
+          <i class="menu-item-icon icon-旧版"></i> <br />
+          menu.旧版
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              linux LVM 增加、扩容逻辑卷
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-10-30
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Linux/">Linux</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-10/25-linux-lvm-instruction.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-10/25-linux-lvm-instruction.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <p>LVM百度百科</p>
+<blockquote>
+<p>LVM是 Logical Volume Manager（逻辑卷管理）的简写，它是Linux环境下对磁盘分区进行管理的一种机制，它由Heinz Mauelshagen在Linux 2.4内核上实现，目前最新版本为：稳定版1.0.5，开发版 1.1.0-rc2，以及LVM2开发版。</p>
+</blockquote>
+<p>以下操作假设新增一个硬盘的设备文件名为/dev/sdb</p>
+<a id="more"></a>
+<h3 id="查看硬盘分区情况">查看硬盘分区情况</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&gt;fdisk <span class="operator">-l</span></span><br></pre></td></tr></table></figure>
+<h3 id="开始分区">开始分区</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$&gt;</span>fdisk /dev/sdb</span><br></pre></td></tr></table></figure>
+<h3 id="查看指令帮助信息">查看指令帮助信息</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&gt;Command (<span class="keyword">m</span> <span class="keyword">for</span> <span class="keyword">help</span>): <span class="literal">m</span></span><br></pre></td></tr></table></figure>
+<h3 id="查看已有分区表">查看已有分区表</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Command (m <span class="keyword">for</span> help): p</span><br><span class="line"></span><br><span class="line">Disk <span class="regexp">/dev/</span><span class="string">sdb:</span> <span class="number">500.0</span> GB, <span class="number">500097376256</span> bytes</span><br><span class="line"><span class="number">255</span> heads, <span class="number">63</span> sectors/track, <span class="number">60800</span> cylinders</span><br><span class="line">Units = cylinders of <span class="number">16065</span> * <span class="number">512</span> = <span class="number">8225280</span> bytes</span><br><span class="line"></span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br><span class="line"><span class="regexp">/dev/</span>sdb1   *           <span class="number">1</span>       <span class="number">60800</span>   <span class="number">488375968</span>    <span class="number">7</span>  HPFS/NTFS</span><br></pre></td></tr></table></figure>
+<p>注：可以看出此硬盘已经有一个分区，且所有的柱面都已分配</p>
+<h3 id="删除原有分区">删除原有分区</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Command (<span class="keyword">m</span> <span class="keyword">for</span> <span class="keyword">help</span>): <span class="literal">d</span></span><br></pre></td></tr></table></figure>
+<h3 id="再次查看分区表">再次查看分区表</h3><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Command (m <span class="keyword">for</span> help): p</span><br><span class="line"></span><br><span class="line">Disk /dev/sdb: <span class="number">500.0</span> GB, <span class="number">500097376256</span> <span class="keyword">bytes</span></span><br><span class="line"><span class="number">255</span> heads, <span class="number">63</span> sectors/track, <span class="number">60800</span> cylinders</span><br><span class="line">Units = cylinders <span class="operator">of</span> <span class="number">16065</span> * <span class="number">512</span> = <span class="number">8225280</span> <span class="keyword">bytes</span></span><br><span class="line"></span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br></pre></td></tr></table></figure>
+<h3 id="新增分区">新增分区</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Command (m for <span class="operator"><span class="keyword">help</span>): n</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Command <span class="keyword">action</span></span><br><span class="line">   e   <span class="keyword">extended</span></span><br><span class="line">   p   <span class="keyword">primary</span> <span class="keyword">partition</span> (<span class="number">1</span>-<span class="number">4</span>)</span></span><br></pre></td></tr></table></figure>
+<h3 id="选择分区类型（主分区、扩展分区）、第几个分区">选择分区类型（主分区、扩展分区）、第几个分区</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">p</span></span><br><span class="line"></span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="设置分区的柱面范围，这里开始与结束都默认，直接回车">设置分区的柱面范围，这里开始与结束都默认，直接回车</h3><h3 id="查看分区表">查看分区表</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Command (m <span class="keyword">for</span> help): p </span><br><span class="line"></span><br><span class="line">Disk <span class="regexp">/dev/</span><span class="string">sdb:</span> <span class="number">500.0</span> GB, <span class="number">500097376256</span> bytes</span><br><span class="line"><span class="number">255</span> heads, <span class="number">63</span> sectors/track, <span class="number">60800</span> cylinders</span><br><span class="line">Units = cylinders of <span class="number">16065</span> * <span class="number">512</span> = <span class="number">8225280</span> bytes</span><br><span class="line"></span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br><span class="line"><span class="regexp">/dev/</span>sdb1               <span class="number">1</span>       <span class="number">60800</span>   <span class="number">488375968</span>+  <span class="number">83</span>  Linux</span><br></pre></td></tr></table></figure>
+<h3 id="更改分区的类型">更改分区的类型</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Command (<span class="keyword">m</span> <span class="keyword">for</span> <span class="keyword">help</span>): t </span><br><span class="line">Selected partition 1  </span><br><span class="line">Hex code (<span class="keyword">type</span> <span class="keyword">L</span> to <span class="keyword">list</span> codes):<span class="keyword">L</span></span><br></pre></td></tr></table></figure>
+<p>注：如果有多个分区，会出现提示选择分区 </p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> 0  Empty           1e  Hidden W95 FAT1 80  Old Minix       bf  Solaris       </span><br><span class="line"> 1  FAT12           24  NEC DOS         81  Minix / old Lin c1  DRDOS/sec (FAT-</span><br><span class="line"> 2  XENIX root      39  Plan 9          82  Linux swap / <span class="keyword">So</span> c4  DRDOS/sec (FAT-</span><br><span class="line"> 3  XENIX usr       3c  PartitionMagic  83  Linux           c6  DRDOS/sec (FAT-</span><br><span class="line"> 4  FAT16 &amp;lt;32M      40  Venix 80286     84  OS/2 hidden C:  c7  Syrinx        </span><br><span class="line"> 5  Extended        41  PPC PReP <span class="keyword">Boot</span>   85  Linux extended  da  Non-FS data   </span><br><span class="line"> 6  FAT16           42  SFS             86  NTFS volume <span class="keyword">set</span> <span class="keyword">db</span>  CP/<span class="keyword">M</span> / CTOS / .</span><br><span class="line"> 7  HPFS/NTFS       4d  QNX4.x          87  NTFS volume <span class="keyword">set</span> <span class="keyword">de</span>  Dell Utility  </span><br><span class="line"> 8  AIX             4e  QNX4.x 2nd part 88  Linux plaintext df  BootIt        </span><br><span class="line"> 9  AIX bootable    4f  QNX4.x 3rd part 8e  Linux LVM       e1  DOS access    </span><br><span class="line"> a  OS/2 <span class="keyword">Boot</span> Manag 50  OnTrack DM      93  Amoeba          e3  DOS R/O       </span><br><span class="line"> b  W95 FAT32       51  OnTrack DM6 Aux 94  Amoeba BBT      e4  SpeedStor     </span><br><span class="line"> c  W95 FAT32 (LBA) 52  CP/<span class="keyword">M</span>            9f  BSD/OS          eb  BeOS fs       </span><br><span class="line"> <span class="keyword">e</span>  W95 FAT16 (LBA) 53  OnTrack DM6 Aux a0  IBM Thinkpad hi ee  EFI GPT       </span><br><span class="line"> f  W95 Ext'<span class="keyword">d</span> (LBA) 54  OnTrackDM6      a5  FreeBSD         ef  EFI (FAT-12/16/</span><br><span class="line">10  OPUS            55  EZ-Drive        a6  OpenBSD         f0  Linux/PA-RISC b</span><br><span class="line">11  Hidden FAT12    56  Golden Bow      a7  NeXTSTEP        f1  SpeedStor     </span><br><span class="line">12  Compaq diagnost 5c  Priam Edisk     a8  Darwin UFS      f4  SpeedStor     </span><br><span class="line">14  Hidden FAT16 &amp;lt;3 61  SpeedStor       a9  NetBSD          f2  DOS secondary </span><br><span class="line">16  Hidden FAT16    63  GNU HURD or Sys ab  Darwin <span class="keyword">boot</span>     fb  VMware VMFS   </span><br><span class="line">17  Hidden HPFS/NTF 64  Novell Netware  b7  BSDI fs         fc  VMware VMKCORE</span><br><span class="line">18  AST SmartSleep  65  Novell Netware  b8  BSDI swap       fd  Linux raid auto</span><br><span class="line">1b  Hidden W95 FAT3 70  DiskSecure Mult bb  <span class="keyword">Boot</span> Wizard hid fe  LANstep       </span><br><span class="line">1c  Hidden W95 FAT3 75  PC/IX           be  Solaris <span class="keyword">boot</span>    ff  BBT</span><br></pre></td></tr></table></figure>
+<h3 id="将磁盘格式设置为linux_LVM">将磁盘格式设置为linux LVM</h3><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Hex</span> code (<span class="typedef"><span class="keyword">type</span> <span class="type">L</span> to list codes): 8e</span></span><br><span class="line"><span class="type">Changed</span> system <span class="typedef"><span class="keyword">type</span> of partition 1 to 8e <span class="container">(<span class="type">Linux</span> <span class="type">LVM</span>)</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="再次查看分区表-1">再次查看分区表</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Command (m <span class="keyword">for</span> help): p</span><br><span class="line"></span><br><span class="line">Disk <span class="regexp">/dev/</span><span class="string">sdb:</span> <span class="number">500.0</span> GB, <span class="number">500097376256</span> bytes</span><br><span class="line"><span class="number">255</span> heads, <span class="number">63</span> sectors/track, <span class="number">60800</span> cylinders</span><br><span class="line">Units = cylinders of <span class="number">16065</span> * <span class="number">512</span> = <span class="number">8225280</span> bytes</span><br><span class="line"></span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br><span class="line"><span class="regexp">/dev/</span>sdb1               <span class="number">1</span>       <span class="number">60800</span>   <span class="number">488375968</span>+  <span class="number">8</span>e  Linux LVM</span><br></pre></td></tr></table></figure>
+<h3 id="保存，退出fdisk">保存，退出fdisk</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Command (m <span class="keyword">for</span> help): w</span><br><span class="line">The partition <span class="tag">table</span> has been altered!</span><br><span class="line"></span><br><span class="line">Calling <span class="function"><span class="title">ioctl</span><span class="params">()</span></span> to re-read partition <span class="tag">table</span>.</span><br><span class="line">Syncing disks.</span><br></pre></td></tr></table></figure>
+<p>如果出错，使用partprobe指令重载分区表</p>
+<h3 id="查看硬盘分区情况-1">查看硬盘分区情况</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$&gt;fdisk -l</span><br><span class="line">Disk <span class="regexp">/dev/</span><span class="string">sdb:</span> <span class="number">500.0</span> GB, <span class="number">500097376256</span> bytes</span><br><span class="line"><span class="number">255</span> heads, <span class="number">63</span> sectors/track, <span class="number">60800</span> cylinders</span><br><span class="line">Units = cylinders of <span class="number">16065</span> * <span class="number">512</span> = <span class="number">8225280</span> bytes</span><br><span class="line"></span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br><span class="line"><span class="regexp">/dev/</span>sdb1               <span class="number">1</span>       <span class="number">60800</span>   <span class="number">488375968</span>+  <span class="number">8</span>e  Linux LVM</span><br></pre></td></tr></table></figure>
+<h3 id="查看系统中已有的物理卷">查看系统中已有的物理卷</h3><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$&gt;pvdisplay</span><br><span class="line"></span><br><span class="line"> --- Physical volume ---</span><br><span class="line">  PV <span class="keyword">Name</span>               /dev/sda2</span><br><span class="line">  VG <span class="keyword">Name</span>               VolGroup00</span><br><span class="line">  PV <span class="built_in">Size</span>               <span class="number">297.99</span> GB / not usable <span class="number">20.87</span> MB</span><br><span class="line">  <span class="type">Allocatable</span>           yes (but full)</span><br><span class="line">  PE <span class="built_in">Size</span> (KByte)       <span class="number">32768</span></span><br><span class="line">  Total PE              <span class="number">9535</span></span><br><span class="line">  Free PE               <span class="number">0</span></span><br><span class="line">  <span class="built_in">Allocated</span> PE          <span class="number">9535</span></span><br><span class="line">  PV UUID               oa2rNU-Tz2c-N1W0-AKcV-UnE-ctdp-8dFQd</span><br></pre></td></tr></table></figure>
+<h3 id="建立物理卷">建立物理卷</h3><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$<span class="subst">&gt;</span>pvcreate /dev/sdb1</span><br><span class="line"></span><br><span class="line">Writing physical volume <span class="built_in">data</span> <span class="keyword">to</span> disk <span class="string">"/dev/sdb1"</span></span><br><span class="line">  Physical volume <span class="string">"/dev/sdb1"</span> successfully created</span><br></pre></td></tr></table></figure>
+<h3 id="将新物理卷加入到卷组中">将新物理卷加入到卷组中</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$&gt;vgextend VolGroup00 /dev/sdb1</span><br><span class="line"></span><br><span class="line"><span class="built_in">Volume</span> <span class="bash">group <span class="string">"VolGroup00"</span> successfully extended</span></span><br></pre></td></tr></table></figure>
+<h3 id="将新的空间加到原有逻辑卷中去">将新的空间加到原有逻辑卷中去</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$&gt;</span>lvextend -<span class="constant">L+</span><span class="number">500</span>G /dev/<span class="constant">VolGroup00/LogVol00</span></span><br></pre></td></tr></table></figure>
+<h3 id="激活扩容的LVM分区">激活扩容的LVM分区</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&gt;resize2fs -<span class="tag">p</span> /dev/VolGroup00/LogVol00</span><br></pre></td></tr></table></figure>
+<h3 id="如果不扩容，可以增加逻辑卷">如果不扩容，可以增加逻辑卷</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$&gt;lvcreate -<span class="keyword">L</span> 200G -<span class="keyword">n</span> lvol0 VolGroup00</span><br><span class="line">Logical volume <span class="string">"lvol0"</span> created`</span><br></pre></td></tr></table></figure>
+<h3 id="删除逻辑卷">删除逻辑卷</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$&gt;</span>lvremove /dev/mapper/<span class="constant">VolGroup00-</span>lvol<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<h3 id="查看已经存在的逻辑卷">查看已经存在的逻辑卷</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">$&gt;lvdisplay</span><br><span class="line">  --- Logical volume ---</span><br><span class="line">  <span class="keyword">LV</span> Name                /dev/VolGroup00/LogVol00</span><br><span class="line">  VG Name                VolGroup00</span><br><span class="line">  <span class="keyword">LV</span> UUID                ipf0Gk-3xXU-vN0I-cXbm-ZKLD-XUju-mDe02Z</span><br><span class="line">  <span class="keyword">LV</span> Write Access        <span class="keyword">read</span>/write</span><br><span class="line">  <span class="keyword">LV</span> Status              available</span><br><span class="line">  # <span class="keyword">open</span>                 1</span><br><span class="line">  <span class="keyword">LV</span> Size                48.81 GB</span><br><span class="line">  Current LE             1562</span><br><span class="line">  Segments               1</span><br><span class="line">  Allocation             inherit</span><br><span class="line">  <span class="keyword">Read</span> ahead sectors     auto</span><br><span class="line">  - currently <span class="keyword">set</span> to     256</span><br><span class="line">  Block device           253:0</span><br><span class="line">  </span><br><span class="line">  --- Logical volume ---</span><br><span class="line">  <span class="keyword">LV</span> Name                /dev/VolGroup00/LogVol02</span><br><span class="line">  VG Name                VolGroup00</span><br><span class="line">  <span class="keyword">LV</span> UUID                RybA0Q-5B8T-bOwA-SsPK-Prai-qsix-kCeWWI</span><br><span class="line">  <span class="keyword">LV</span> Write Access        <span class="keyword">read</span>/write</span><br><span class="line">  <span class="keyword">LV</span> Status              available</span><br><span class="line">  # <span class="keyword">open</span>                 1</span><br><span class="line">  <span class="keyword">LV</span> Size                49.91 GB</span><br><span class="line">  Current LE             1597</span><br><span class="line">  Segments               1</span><br><span class="line">  Allocation             inherit</span><br><span class="line">  <span class="keyword">Read</span> ahead sectors     auto</span><br><span class="line">  - currently <span class="keyword">set</span> to     256</span><br><span class="line">  Block device           253:1</span><br><span class="line">  </span><br><span class="line">  --- Logical volume ---</span><br><span class="line">  <span class="keyword">LV</span> Name                /dev/VolGroup00/LogVol03</span><br><span class="line">  VG Name                VolGroup00</span><br><span class="line">  <span class="keyword">LV</span> UUID                czznK0-VsUK-VAtj-Vbam-PDJS-1yZt-A6BPgK</span><br><span class="line">  <span class="keyword">LV</span> Write Access        <span class="keyword">read</span>/write</span><br><span class="line">  <span class="keyword">LV</span> Status              available</span><br><span class="line">  # <span class="keyword">open</span>                 1</span><br><span class="line">  <span class="keyword">LV</span> Size                195.31 GB</span><br><span class="line">  Current LE             6250</span><br><span class="line">  Segments               1</span><br><span class="line">  Allocation             inherit</span><br><span class="line">  <span class="keyword">Read</span> ahead sectors     auto</span><br><span class="line">  - currently <span class="keyword">set</span> to     256</span><br><span class="line">  Block device           253:2</span><br><span class="line">  </span><br><span class="line">  --- Logical volume ---</span><br><span class="line">  <span class="keyword">LV</span> Name                /dev/VolGroup00/LogVol01</span><br><span class="line">  VG Name                VolGroup00</span><br><span class="line">  <span class="keyword">LV</span> UUID                zvLpEL-Dj8Y-a0XG-4H7q-ZPaa-XUXY-0ln7qw</span><br><span class="line">  <span class="keyword">LV</span> Write Access        <span class="keyword">read</span>/write</span><br><span class="line">  <span class="keyword">LV</span> Status              available</span><br><span class="line">  # <span class="keyword">open</span>                 1</span><br><span class="line">  <span class="keyword">LV</span> Size                3.94 GB</span><br><span class="line">  Current LE             126</span><br><span class="line">  Segments               1</span><br><span class="line">  Allocation             inherit</span><br><span class="line">  <span class="keyword">Read</span> ahead sectors     auto</span><br><span class="line">  - currently <span class="keyword">set</span> to     256</span><br><span class="line">  Block device           253:3</span><br></pre></td></tr></table></figure>
+<h3 id="正式新增逻辑卷">正式新增逻辑卷</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&gt;lvcreate -<span class="keyword">L</span> 500G -<span class="keyword">n</span> LogVol04 VolGroup00</span><br></pre></td></tr></table></figure>
+<h3 id="格式化新增逻辑卷">格式化新增逻辑卷</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&gt;mkfs<span class="class">.ext3</span> /dev/mapper/VolGroup00-LogVol04</span><br></pre></td></tr></table></figure>
+<h3 id="挂载逻辑卷">挂载逻辑卷</h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&gt;mount <span class="regexp">/dev/m</span>apper<span class="regexp">/VolGroup00-LogVol04 /</span>data</span><br></pre></td></tr></table></figure>
+<h3 id="编辑/etc/fstab将新增逻辑卷设置开机挂载，新增下面一行">编辑/etc/fstab将新增逻辑卷设置开机挂载，新增下面一行</h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/dev/</span>VolGroup00<span class="regexp">/LogVol04 /</span>data                   ext3    defaults        <span class="number">1</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h3 id="测试挂载">测试挂载</h3><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&gt;mount -<span class="literal">a</span></span><br></pre></td></tr></table></figure>
+<h3 id="查看并删除物理卷">查看并删除物理卷</h3><p>查看挂载情况</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$&gt;</span>df -h</span><br><span class="line">/dev/mapper/<span class="constant">VolGroup00-LogVol04</span></span><br><span class="line">                      <span class="number">296</span>G  <span class="number">245</span>M  <span class="number">281</span>G   <span class="number">1</span>% <span class="regexp">/backup</span></span><br></pre></td></tr></table></figure>
+<p>卸载</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$&gt;</span>umount /backup</span><br></pre></td></tr></table></figure>
+<p>删除逻辑卷</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$&gt;</span><span class="comment">#lvremove /dev/mapper/VolGroup00-LogVol04</span></span><br></pre></td></tr></table></figure>
+<p>查看物理卷</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">$&gt;pvdisplay</span><br><span class="line">  --- Physical volume ---</span><br><span class="line">  PV <span class="keyword">Name</span>               /dev/sda2</span><br><span class="line">  VG <span class="keyword">Name</span>               VolGroup00</span><br><span class="line">  PV <span class="built_in">Size</span>               <span class="number">297.99</span> GB / not usable <span class="number">20.87</span> MB</span><br><span class="line">  <span class="type">Allocatable</span>           yes (but full)</span><br><span class="line">  PE <span class="built_in">Size</span> (KByte)       <span class="number">32768</span></span><br><span class="line">  Total PE              <span class="number">9535</span></span><br><span class="line">  Free PE               <span class="number">0</span></span><br><span class="line">  <span class="built_in">Allocated</span> PE          <span class="number">9535</span></span><br><span class="line">  PV UUID               oa2rNU-Tz2c-N1W0-AKcV-UnE-ctdp-8dFQd</span><br><span class="line">  </span><br><span class="line">  --- Physical volume ---</span><br><span class="line">  PV <span class="keyword">Name</span>               /dev/sdb1</span><br><span class="line">  VG <span class="keyword">Name</span>               VolGroup00</span><br><span class="line">  PV <span class="built_in">Size</span>               <span class="number">465.75</span> GB / not usable <span class="number">1.66</span> MB</span><br><span class="line">  <span class="type">Allocatable</span>           yes</span><br><span class="line">  PE <span class="built_in">Size</span> (KByte)       <span class="number">32768</span></span><br><span class="line">  Total PE              <span class="number">14904</span></span><br><span class="line">  Free PE               <span class="number">5304</span></span><br><span class="line">  <span class="built_in">Allocated</span> PE          <span class="number">9600</span></span><br><span class="line">  PV UUID               avEKz2-t5Ko-jsn0-Pvuh-h8DJ-GV0o-ZQfBOL</span><br></pre></td></tr></table></figure>
+<p>将物理卷从卷组中移除</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$&gt;</span>vgreduce <span class="constant">VolGroup00 </span> /dev/sdb1</span><br></pre></td></tr></table></figure>
+<p>删除物理卷</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$&gt;</span>pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
+<p>这样就可以重新进行格式化磁盘</p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/LVM/"> #LVM </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013-11/26-linux-httpd-add-module.html">linux下httpd增加模块</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013-09/24-php-extension-develop-not-head-file.html">PHP扩展开发编译时找不到相应的头文件</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2013-10/25-linux-lvm-instruction.html"
+               data-title="linux LVM 增加、扩容逻辑卷" data-url="http://dev.phpboy.net/2013-10/25-linux-lvm-instruction.html">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="徐典阳" />
+          <p class="site-author-name">徐典阳</p>
+        </div>
+        <p class="site-description motion-element">&nbsp;&nbsp;&nbsp;&nbsp;PHPBoy是一个PHP相关技术博客网站，在业余时间研究PHP内核与PHP扩展开发，关注WEB后端技术架构，LINUX服务器运维，系统安全，高性能与高可用大型网站技术架构。</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/xudianyang" target="_blank">GitHub</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://weibo.com/1586005914" target="_blank">Weibo</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.jinritemai.com/" target="_blank">目前工作</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#查看硬盘分区情况"><span class="nav-number">1.</span> <span class="nav-text">查看硬盘分区情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开始分区"><span class="nav-number">2.</span> <span class="nav-text">开始分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看指令帮助信息"><span class="nav-number">3.</span> <span class="nav-text">查看指令帮助信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看已有分区表"><span class="nav-number">4.</span> <span class="nav-text">查看已有分区表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除原有分区"><span class="nav-number">5.</span> <span class="nav-text">删除原有分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#再次查看分区表"><span class="nav-number">6.</span> <span class="nav-text">再次查看分区表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新增分区"><span class="nav-number">7.</span> <span class="nav-text">新增分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择分区类型（主分区、扩展分区）、第几个分区"><span class="nav-number">8.</span> <span class="nav-text">选择分区类型（主分区、扩展分区）、第几个分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置分区的柱面范围，这里开始与结束都默认，直接回车"><span class="nav-number">9.</span> <span class="nav-text">设置分区的柱面范围，这里开始与结束都默认，直接回车</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看分区表"><span class="nav-number">10.</span> <span class="nav-text">查看分区表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更改分区的类型"><span class="nav-number">11.</span> <span class="nav-text">更改分区的类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将磁盘格式设置为linux_LVM"><span class="nav-number">12.</span> <span class="nav-text">将磁盘格式设置为linux LVM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#再次查看分区表-1"><span class="nav-number">13.</span> <span class="nav-text">再次查看分区表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#保存，退出fdisk"><span class="nav-number">14.</span> <span class="nav-text">保存，退出fdisk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看硬盘分区情况-1"><span class="nav-number">15.</span> <span class="nav-text">查看硬盘分区情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看系统中已有的物理卷"><span class="nav-number">16.</span> <span class="nav-text">查看系统中已有的物理卷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立物理卷"><span class="nav-number">17.</span> <span class="nav-text">建立物理卷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将新物理卷加入到卷组中"><span class="nav-number">18.</span> <span class="nav-text">将新物理卷加入到卷组中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将新的空间加到原有逻辑卷中去"><span class="nav-number">19.</span> <span class="nav-text">将新的空间加到原有逻辑卷中去</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#激活扩容的LVM分区"><span class="nav-number">20.</span> <span class="nav-text">激活扩容的LVM分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如果不扩容，可以增加逻辑卷"><span class="nav-number">21.</span> <span class="nav-text">如果不扩容，可以增加逻辑卷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除逻辑卷"><span class="nav-number">22.</span> <span class="nav-text">删除逻辑卷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看已经存在的逻辑卷"><span class="nav-number">23.</span> <span class="nav-text">查看已经存在的逻辑卷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正式新增逻辑卷"><span class="nav-number">24.</span> <span class="nav-text">正式新增逻辑卷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#格式化新增逻辑卷"><span class="nav-number">25.</span> <span class="nav-text">格式化新增逻辑卷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#挂载逻辑卷"><span class="nav-number">26.</span> <span class="nav-text">挂载逻辑卷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑/etc/fstab将新增逻辑卷设置开机挂载，新增下面一行"><span class="nav-number">27.</span> <span class="nav-text">编辑/etc/fstab将新增逻辑卷设置开机挂载，新增下面一行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试挂载"><span class="nav-number">28.</span> <span class="nav-text">测试挂载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看并删除物理卷"><span class="nav-number">29.</span> <span class="nav-text">查看并删除物理卷</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp;  2009 - 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">徐典阳</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.content img').each(function () {
+        var $image = $(this);
+        var $imageWrapLink = $image.parent('a');
+
+        if ($imageWrapLink.size() < 1) {
+          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
+        }
+        $imageWrapLink.addClass('fancybox');
+      });
+    });
+    $('.fancybox').fancybox({
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    LogoAndMenuMotion();
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+    function LogoAndMenuMotion() {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        
+        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
+        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
+        
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    }
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
+      $('.post').velocity('transition.slideDownIn', postMotionOptions);
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"phpboy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+</body>
+</html>

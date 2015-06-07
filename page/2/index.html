@@ -135,6 +135,460 @@
           
           
             
+              <a class="post-title-link" href="/2013-05/17-linux-ssh-slow.html">
+                Linux CentOS SSH内网登录慢及vsftpd登录慢
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-05-06
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Linux/">Linux</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-05/17-linux-ssh-slow.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/17-linux-ssh-slow.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="引述">引述</h3><p>最近做的一个网站项目，实施服务器集群部署(LVS+KEEPALIVED,RHCS,HA)，n台机器的ssh远程登录都通过一个外网IP先登录集群中一台服务器，然后再通过ssh命令登录到其他机器，问题在于集群内网中直接通过内网IP ssh到另外一台机器时输入密码之后，会等待10-20秒才能登录成功。我一直没有在意这个问题，我认为是内网网络的问题，因为网络的不属于我管，但是我实在忍不了了。最后Google,百度一下，整理如下的解决办法（问题竟是出在sshd的配置）</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013-05/17-linux-ssh-slow.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CentOS/"> #CentOS </a>
+          
+            <a href="/tags/SSH/"> #SSH </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2013-05/16-mysqlhotcopy.html">
+                mysqlhotcopy的使用介绍及简单的备份脚本示例
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-05-03
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/MySQL/">MySQL</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-05/16-mysqlhotcopy.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/16-mysqlhotcopy.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="mysqldump">mysqldump</h3><p>是采用SQL级别的备份机制，它将数据表导成 SQL 脚本文件，数据库大时，占用系统资源较多，支持常用的MyISAM，innodb</p>
+<h3 id="mysqlhotcopy">mysqlhotcopy</h3><p>只是简单的缓存写入和文件复制的过程，占用资源和备份速度比mysqldump快很多很多。特别适合大的数据库，但需要注意的是：mysqlhotcopy只支持MyISAM 引擎</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013-05/16-mysqlhotcopy.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysqldump/"> #mysqldump </a>
+          
+            <a href="/tags/mysqlhotcopy/"> #mysqlhotcopy </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2013-01/15-html-to-pdo.image.html">
+                PHP将HTML转换成各种格式图片或PDF
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-01-06
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-01/15-html-to-pdo.image.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-01/15-html-to-pdo.image.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="需求">需求</h3><p>用WordPress建立博客站点，选择了一套可以显示文章缩略图的模板，几经折腾将原有模板改得面目全非，最后还是直接上线吧，不想折腾了。站点上线没几天，在公司做项目时，对图片做了一个放大的JS，自己博客也加上点击缩略图查看原图的功能，然后迅速的加了。过了几天，突发奇想，想做文章预览图，即点击缩略图查看文章预览图，也就是你们现在首页和文章列表页看到的那个功能。</p>
+<p>Linux下PHP自动生成文章预览图，最初大致的思路很简单，就是我能不能通过某种方式调用浏览器内核来渲染网页即HTML，然后将HTML保存为图片。然后开始一头扎进Google、Baidu，搜索了很长时间，得出结论，资料太少，想自己写一个C扩展，调用webkit内核。就在快要放弃的时候，在论坛里面看到wkhtmltox，然后所有的问题都在于wkhtmltox了，很庆幸的是在google code里面又看到了phpwkhtmltox，然后我笑了。</p>
+<h3 id="安装软件清单">安装软件清单</h3><ol>
+<li>libwkhtmltox linux下的webkit内核</li>
+<li>phpwkhtmltox php扩展，可调用webkit内核将网页转换成各种格式图片或者pdf</li>
+<li>font-chinese 中文字体</li>
+<li>msyh,Consolas 字体</li>
+</ol>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013-01/15-html-to-pdo.image.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/htmltoimage/"> #htmltoimage </a>
+          
+            <a href="/tags/htmltopdf/"> #htmltopdf </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2012-12/14-apache-work-mode.html">
+                Apache工作模式及配置参数优化详解
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2012-12-20
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Apache/">Apache</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2012-12/14-apache-work-mode.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2012-12/14-apache-work-mode.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="导语">导语</h3><p>自从笔者在百度空间“一不小心”点击了升级博客空间懊悔之后，一直寻思摒弃百度博客，自己搭建一个博客站点。经过“多番”努力，从选择VPS——&gt;选择博客程序——&gt;网站/域名备案——&gt;数据迁移（百度博客文章）——&gt;内容整理——&gt;站点上线，自至站点已运行了一段时间，总是希望最大化的利用硬件资源，达到最优化的LMAP配置。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2012-12/14-apache-work-mode.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/apache-prefork/"> #apache prefork </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2011-06/13-php-splsubject-splobserver.html">
+                PHP SplSubject SplObserver 接口实现_观察者模式
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2011-06-08
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2011-06/13-php-splsubject-splobserver.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2011-06/13-php-splsubject-splobserver.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="观察者模式">观察者模式</h3><p>其实观察者模式这是一种较为容易去理解的一种模式吧，它是一种事件系统，意味着这一模式允许某个类观察另一个类的状态，当被观察的类状态发生改变的时候，观察类可以收到通知并且做出相应的动作。比如键盘，我一敲击，系统就收到通知并进行相应的回应。</p>
+<p>对于PHP来说，PHP内置提供了两个接口来供外部应用区实现这个模式。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2011-06/13-php-splsubject-splobserver.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SplObserver/"> #SplObserver </a>
+          
+            <a href="/tags/SplSubject/"> #SplSubject </a>
+          
+            <a href="/tags/观察者模式/"> #观察者模式 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2011-02/12-php-strtotime-calendar.html">
                 灵活运用PHP strtotime生成简单日历
               </a>
@@ -600,461 +1054,6 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2011-02/7-php-data-structure-stack.html">
-                数据结构系列_5_栈的PHP的实现和栈的基本操作
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2011-02-09
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Data-Structure/">Data Structure</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2011-02/7-php-data-structure-stack.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2011-02/7-php-data-structure-stack.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="栈和队列">栈和队列</h3><p>两种应用非常广泛的数据结构，它们都来自线性表数据结构，都是“操作受限”的线性表。</p>
-<h3 id="栈">栈</h3><h4 id="栈的实现方式">栈的实现方式</h4><p>硬堆栈：利用CPU中的某些寄存器组或类似的硬件或使用内存的特殊区域来实现。这类堆栈容量有限，但速度很快；</p>
-<p>软堆栈：这类堆栈主要在内存中实现。堆栈容量可以达到很大。在实现方式上，又有动态方式和静态方式两种</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2011-02/7-php-data-structure-stack.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/数据结构/"> #数据结构 </a>
-          
-            <a href="/tags/栈/"> #栈 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2011-02/6-php-data-structure-one-variable-polynomial.html">
-                数据结构系列_4_一元多项式的相加PHP单链实现
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2011-02-07
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Data-Structure/">Data Structure</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2011-02/6-php-data-structure-one-variable-polynomial.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2011-02/6-php-data-structure-one-variable-polynomial.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="单链表的应用">单链表的应用</h3><p>在学习了基本的数据结构知识之后，可能感觉好像没有多大用，找不到应用场景，其实数据结构大有用武之地，下面我们就用简单的单链表实现数学里面的一元多项式相加。代码中用到了前面的示例程序：<a href="http://dev.phpboy.net/2011-02/3-php-data-structure-single-linked-list.html">数据结构系列<em>3</em>线性表中的单链表的PHP实现</a></p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2011-02/6-php-data-structure-one-variable-polynomial.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/单链表/"> #单链表 </a>
-          
-            <a href="/tags/数据结构/"> #数据结构 </a>
-          
-            <a href="/tags/线性表/"> #线性表 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2011-02/5-life-philosophy-8p.m.-10p.m..html">
-                一个人的命运决定于晚上8点到10点之间
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2011-02-07
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Philosophy/">Philosophy</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2011-02/5-life-philosophy-8p.m.-10p.m..html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2011-02/5-life-philosophy-8p.m.-10p.m..html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>下面的语录是网上得来，很有哲理，转载之，勉励。</p>
-<h3 id="语录">语录</h3><p>哈佛有一个著名的理论：人的差别在于业余时间，而一个人的命运决定于晚上8点到10点之间。每晚抽出2个小时的时间用来阅读、进修、思考或参加有意的演讲、讨论，你会发现，你的人生正在发生改变，坚持数年之后，成功会向你招手。不要每天抱着QQ/MSN/游戏/电影/肥皂剧……奋斗到12点都舍不得休息，看就看一些励志的影视或者文章，不要当作消遣；学会思考人生，学会感悟人生，慢慢的，你的人生将会发生变化……</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2011-02/5-life-philosophy-8p.m.-10p.m..html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/命运/"> #命运 </a>
-          
-            <a href="/tags/哲理/"> #哲理 </a>
-          
-            <a href="/tags/晚上8点到10点/"> #晚上8点到10点 </a>
-          
-            <a href="/tags/经典语录/"> #经典语录 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2011-02/4-php-unset.html">
-                unset全局变量运用问题详解
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2011-02-07
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2011-02/4-php-unset.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2011-02/4-php-unset.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="表象结论">表象结论</h3><p>PHP unset全局变量在实际使用中只能销毁局部变量，并不能实现全局变量的目的。</p>
-<h3 id="引述">引述</h3><p>PHP中有个释放变量的语句叫做unset（从PHP4开始unset已经不再是一个函数了，而是一个语句），前几天用unset的时候出了点问题。如果您仔细阅读过PHP的手册，那么就没必要再看这篇文章了，这篇文章是写给看手册不用心的同学的。首先要强调的一点是PHP unset全局变量在PHP中已经不再是一个函数了，既然不是函数，那么就没有了返回值，所以用的时候不能够用unset的返回值来做判断。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2011-02/4-php-unset.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/unset/"> #unset </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2011-02/3-php-data-structure-single-linked-list.html">
-                数据结构系列_3_线性表中的单链表的PHP实现
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2011-02-06
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Data-Structure/">Data Structure</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2011-02/3-php-data-structure-single-linked-list.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2011-02/3-php-data-structure-single-linked-list.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="线性表的链式存储">线性表的链式存储</h3><p>用一组任意的存储单元存储线性表中的数据元素，用这种方法存储的线性表简称线性链表。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2011-02/3-php-data-structure-single-linked-list.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/单链表/"> #单链表 </a>
-          
-            <a href="/tags/数据结构/"> #数据结构 </a>
-          
-            <a href="/tags/线性表/"> #线性表 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -1093,7 +1092,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-count">27</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1107,7 +1106,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">36</span>
+              <span class="site-state-item-count">44</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
