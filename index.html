@@ -135,6 +135,97 @@
           
           
             
+              <a class="post-title-link" href="/2013-12/28-php-stream-wrapper.html">
+                PHP内核之资源类型、流、流包装器实现分析
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-12-09
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-12/28-php-stream-wrapper.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-12/28-php-stream-wrapper.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="资源">资源</h3><p>一些无法用标量来表示的数据类型，它仅仅是PHP与外部资源的一个通道，在PHP内核看来它只是一个C指针</p>
+<p>1.EG(regular_list) 存储着所有的只用在当前请求的{资源} </p>
+<p>2.EG(persistent_list) 存储着所有的持久{资源}</p>
+<p>3.对于持久资源，我们打开一个本地文件，就可以一直占用它的操作句柄，随时可以进行相应的只得。但如果是远程计算机机上的资源，如mysql链接，http链接，虽然我们仍然有与服务器的链接，但是服务器端有可能关闭了，那么这样的持久链接就没有价值了。如何检测持久资源的有效性呢？如果无效了，我们需要将其从EG(persistent_list) HashTable中删除</p>
+<h3 id="流、流的类型和流包装层">流、流的类型和流包装层</h3>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013-12/28-php-stream-wrapper.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/stream/"> #stream </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2013-12/27-php-hashtable-analysis.html">
                 PHP内核之HashTable实现分析与使用
               </a>
@@ -927,94 +1018,6 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-05/18-linux-rsyslog.html">
-                Linux CentOS-6.2系统日志rsyslog替换默认的日志服务syslog
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-05-07
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Linux/">Linux</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-05/18-linux-rsyslog.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/18-linux-rsyslog.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="/etc/syslog-conf不见了">/etc/syslog.conf不见了</h3><p>最近遇到配置centos 6.2的sshd及sftp日志，发现/etc/syslog.conf文件不存在，</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$&gt;rpm -<span class="keyword">qa</span> | <span class="keyword">grep</span> syslog</span><br><span class="line">rsyslog-<span class="number">5.8</span>.<span class="number">10</span>-<span class="number">6</span>.el6.x86_64</span><br><span class="line">$&gt;<span class="keyword">cat</span> /etc/rsyslog.<span class="keyword">conf</span></span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-05/18-linux-rsyslog.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/rsyslog/"> #rsyslog </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -1053,7 +1056,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-count">28</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

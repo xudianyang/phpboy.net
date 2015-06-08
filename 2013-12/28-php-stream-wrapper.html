@@ -1,0 +1,959 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+  <meta name="google-site-verification" content="google93ba54ee93760f07" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+    <meta name="description" content="&nbsp;&nbsp;&nbsp;&nbsp;PHPBoy是一个PHP相关技术博客网站，在业余时间研究PHP内核与PHP扩展开发，关注WEB后端技术架构，LINUX服务器运维，系统安全，高性能与高可用大型网站技术架构。" />
+
+
+
+  <meta name="keywords" content="stream," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2d4c4b9cd9f303a04c4d9c24d32f6571";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  <title> PHP内核之资源类型、流、流包装器实现分析 // PHPBoy-专注WEB架构N年 </title>
+</head>
+
+<body>
+<!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">PHPBoy-专注WEB架构N年</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-categories">
+        <a href="/categories">
+          <i class="menu-item-icon icon-categories"></i> <br />
+          分类
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-旧版">
+        <a href="http://www.tuicool.com/sites/qUVJJf">
+          <i class="menu-item-icon icon-旧版"></i> <br />
+          menu.旧版
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              PHP内核之资源类型、流、流包装器实现分析
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-12-09
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-12/28-php-stream-wrapper.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-12/28-php-stream-wrapper.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <h3 id="资源">资源</h3><p>一些无法用标量来表示的数据类型，它仅仅是PHP与外部资源的一个通道，在PHP内核看来它只是一个C指针</p>
+<p>1.EG(regular_list) 存储着所有的只用在当前请求的{资源} </p>
+<p>2.EG(persistent_list) 存储着所有的持久{资源}</p>
+<p>3.对于持久资源，我们打开一个本地文件，就可以一直占用它的操作句柄，随时可以进行相应的只得。但如果是远程计算机机上的资源，如mysql链接，http链接，虽然我们仍然有与服务器的链接，但是服务器端有可能关闭了，那么这样的持久链接就没有价值了。如何检测持久资源的有效性呢？如果无效了，我们需要将其从EG(persistent_list) HashTable中删除</p>
+<h3 id="流、流的类型和流包装层">流、流的类型和流包装层</h3><a id="more"></a>
+<blockquote>
+<p>Streams were introduced with PHP 4.3.0 as a way of generalizing file, network, data compression, and other operations which share a common set of functions and uses. A wrapper is additional code which tells the stream how to handle specific protocols/encodings.</p>
+</blockquote>
+<p>stream实质也是封装了的PHP资源类型，当创建流时自动的往内核中注册了相应的资源类型。</p>
+<p>PHP中的流在php-4.3.0引入的，通常直接的文件描述符就可以完成PHP中流的功能，但是为了完成一个扩展实现特定的协议，我们会自己实现诸如ssl、http等。庆幸的是PHP引入了流及流的包装器可以方便扩展实现特定的协议，并在用户空间提供一套标准的函数。</p>
+<p>通过流包装层, 扩展代码可以透明的使用各种内建的流包装, 比如HTTP, FTP, 以及它们对应的SSL版本, 另外还有gzip和bzip2压缩包装. 通过include特定的PEAR或PECL模块,还可以访问其他协议, 比如SSH2, WebDav, 甚至是Gopher! </p>
+<p>用户空间创建流时，传入的流的名称格式为：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">scheme:</span><span class="comment">//target</span></span><br></pre></td></tr></table></figure>
+<p>其中scheme为使用的包装器名称，如：file,http,ftp,compress.lib等，stream_get_wrapper()可查看PHP内核中已注册的协议与封装的协议列表<br>target：根据scheme传入操作目标，如：本地文件名，uri等</p>
+<h3 id="四种类型的流">四种类型的流</h3><p>1.fopen<br>操作文件/URI方式指定远程文件资源</p>
+<p>2.transport<br>基于套接字顺序I/O的传输器流</p>
+<p>3.directory<br>目录流</p>
+<p>4.特殊的流<br>创建一个可seek的缓冲区流用于读写</p>
+<h3 id="PHP内核流与流包装器的关系图">PHP内核流与流包装器的关系图</h3><p><a href="http://42.121.109.216/PHP流及流包装器.jpg" title="PHP流及流包装器.jpg" target="_blank" rel="external"><img src="http://42.121.109.216/PHP流及流包装器.jpg" alt=""></a></p>
+<p>PHP内核中关于php_stream,main/php_stream.h中有这样的定义：</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">struct _php_stream  &#123;</span><br><span class="line">     php_stream_ops <span class="keyword">*</span>ops;</span><br><span class="line">     void <span class="keyword">*</span>abstract;/<span class="keyword">*</span> convenience pointer for abstraction <span class="keyword">*</span>/</span><br><span class="line"></span><br><span class="line">     php_stream_filter_chain readfilters, writefilters;</span><br><span class="line"></span><br><span class="line">     php_stream_wrapper <span class="keyword">*</span>wrapper; /<span class="keyword">*</span> which wrapper was used to open the stream <span class="keyword">*</span>/</span><br><span class="line">     void <span class="keyword">*</span>wrapperthis;/<span class="keyword">*</span> convenience pointer for a instance of a wrapper <span class="keyword">*</span>/</span><br><span class="line">     zval <span class="keyword">*</span>wrapperdata;/<span class="keyword">*</span> fgetwrapperdata retrieves this <span class="keyword">*</span>/</span><br><span class="line"></span><br><span class="line">     int fgetss_state;/<span class="keyword">*</span> for fgetss to handle multiline tags <span class="keyword">*</span>/</span><br><span class="line">     int is_persistent;</span><br><span class="line">     char mode[16];/<span class="keyword">*</span> &amp;quot;rwb&amp;quot; etc. ala stdio <span class="keyword">*</span>/</span><br><span class="line">     int rsrc_id;/<span class="keyword">*</span> used for auto-cleanup <span class="keyword">*</span>/</span><br><span class="line">     int in_free;/<span class="keyword">*</span> to prevent recursion during free <span class="keyword">*</span>/</span><br><span class="line">     /<span class="keyword">*</span> so we know how to clean it up correctly.  This should be set to</span><br><span class="line">     <span class="keyword">*</span> PHP_STREAM_FCLOSE_XXX as appropriate <span class="keyword">*</span>/</span><br><span class="line">     int fclose_stdiocast;</span><br><span class="line">     FILE <span class="keyword">*</span>stdiocast;    /<span class="keyword">*</span> cache this, otherwise we might leak! <span class="keyword">*</span>/</span><br><span class="line"><span class="comment">#if ZEND_DEBUG</span></span><br><span class="line">     int __exposed;/<span class="keyword">*</span> non-zero if exposed as a zval somewhere <span class="keyword">*</span>/</span><br><span class="line"><span class="comment">#endif</span></span><br><span class="line">     char <span class="keyword">*</span>orig_path;</span><br><span class="line"></span><br><span class="line">     php_stream_context <span class="keyword">*</span>context;</span><br><span class="line">     int flags;/<span class="keyword">*</span> PHP_STREAM_FLAG_XXX <span class="keyword">*</span>/</span><br><span class="line"></span><br><span class="line">     /<span class="keyword">*</span> buffer <span class="keyword">*</span>/</span><br><span class="line">     off_t position; /<span class="keyword">*</span> of underlying stream <span class="keyword">*</span>/</span><br><span class="line">     unsigned char <span class="keyword">*</span>readbuf;</span><br><span class="line">     size_t readbuflen;</span><br><span class="line">     off_t readpos;</span><br><span class="line">     off_t writepos;</span><br><span class="line"></span><br><span class="line">     /<span class="keyword">*</span> how much data to read when filling buffer <span class="keyword">*</span>/</span><br><span class="line">     size_t chunk_size;</span><br><span class="line"></span><br><span class="line">     int eof;</span><br><span class="line"></span><br><span class="line"><span class="comment">#if ZEND_DEBUG</span></span><br><span class="line">     const char <span class="keyword">*</span>open_filename;</span><br><span class="line">     uint open_lineno;</span><br><span class="line"><span class="comment">#endif</span></span><br><span class="line"></span><br><span class="line">     struct _php_stream <span class="keyword">*</span>enclosing_stream; /<span class="keyword">*</span> this is a private stream owned by enclosing_stream <span class="keyword">*</span>/</span><br><span class="line"></span><br><span class="line">&#125;; /<span class="keyword">*</span> php_stream <span class="keyword">*</span>/ </span><br><span class="line"></span><br><span class="line">typedef struct _php_stream php_stream</span><br></pre></td></tr></table></figure>
+<p>php_stream重要结构体成员描述：</p>
+<p>php_stream_ops *ops：流访问的函数指针集合，如write,read</p>
+<p>void *abstract：便利指针，指向我们捆绑自定义实现的数据结构，通过这个指针可以获取到所有捆绑的信息 </p>
+<p>php_stream_filter_chain readfilters, writefilters： 流过滤器链表</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">*</span> operations on streams that are file-handles <span class="keyword">*</span>/</span><br><span class="line">typedef struct _php_stream_ops  &#123;</span><br><span class="line">     /<span class="keyword">*</span> stdio like functions - these are mandatory! <span class="keyword">*</span>/</span><br><span class="line">     size_t (<span class="keyword">*</span>write)(php_stream <span class="keyword">*</span>stream, const char <span class="keyword">*</span>buf, size_t count TSRMLS_DC);</span><br><span class="line">     size_t (<span class="keyword">*</span>read)(php_stream <span class="keyword">*</span>stream, char <span class="keyword">*</span>buf, size_t count TSRMLS_DC);</span><br><span class="line">     int    (<span class="keyword">*</span>close)(php_stream <span class="keyword">*</span>stream, int close_handle TSRMLS_DC);</span><br><span class="line">     int    (<span class="keyword">*</span>flush)(php_stream <span class="keyword">*</span>stream TSRMLS_DC);</span><br><span class="line"></span><br><span class="line">     const char <span class="keyword">*</span>label; /<span class="keyword">*</span> label for this ops structure <span class="keyword">*</span>/</span><br><span class="line"></span><br><span class="line">     /<span class="keyword">*</span> these are optional <span class="keyword">*</span>/</span><br><span class="line">     int (<span class="keyword">*</span>seek)(php_stream <span class="keyword">*</span>stream, off_t offset, int whence, off_t <span class="keyword">*</span>newoffset TSRMLS_DC);</span><br><span class="line">     int (<span class="keyword">*</span>cast)(php_stream <span class="keyword">*</span>stream, int castas, void <span class="keyword">*</span><span class="keyword">*</span>ret TSRMLS_DC);</span><br><span class="line">     int (<span class="keyword">*</span>stat)(php_stream <span class="keyword">*</span>stream, php_stream_statbuf <span class="keyword">*</span>ssb TSRMLS_DC);</span><br><span class="line">     int (<span class="keyword">*</span>set_option)(php_stream <span class="keyword">*</span>stream, int option, int value, void <span class="keyword">*</span>ptrparam TSRMLS_DC);</span><br><span class="line">&#125; php_stream_ops;</span><br></pre></td></tr></table></figure>
+<p>php_stream_ops重要结构体成员描述：</p>
+<p>size_t (*write)：写入数据流的函数指针</p>
+<p>size_t (*read)：读取数据流的函数指针 </p>
+<p>int (*seek)：随机访问时的设置流的内部指针位置的函数指针</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">typedef struct _php_stream_wrapper_ops &#123;</span><br><span class="line">     /<span class="keyword">*</span> open/create a wrapped stream <span class="keyword">*</span>/</span><br><span class="line">     php_stream <span class="keyword">*</span>(<span class="keyword">*</span>stream_opener)(php_stream_wrapper <span class="keyword">*</span>wrapper, char <span class="keyword">*</span>filename, char <span class="keyword">*</span>mode,</span><br><span class="line">               int options, char <span class="keyword">*</span><span class="keyword">*</span>opened_path, php_stream_context <span class="keyword">*</span>context STREAMS_DC TSRMLS_DC);</span><br><span class="line">     /<span class="keyword">*</span> close/destroy a wrapped stream <span class="keyword">*</span>/</span><br><span class="line">     int (<span class="keyword">*</span>stream_closer)(php_stream_wrapper <span class="keyword">*</span>wrapper, php_stream <span class="keyword">*</span>stream TSRMLS_DC);</span><br><span class="line">     /<span class="keyword">*</span> stat a wrapped stream <span class="keyword">*</span>/</span><br><span class="line">     int (<span class="keyword">*</span>stream_stat)(php_stream_wrapper <span class="keyword">*</span>wrapper, php_stream <span class="keyword">*</span>stream, php_stream_statbuf <span class="keyword">*</span>ssb TSRMLS_DC);</span><br><span class="line">     /<span class="keyword">*</span> stat a URL <span class="keyword">*</span>/</span><br><span class="line">     int (<span class="keyword">*</span>url_stat)(php_stream_wrapper <span class="keyword">*</span>wrapper, char <span class="keyword">*</span>url, int flags, php_stream_statbuf <span class="keyword">*</span>ssb, php_stream_context <span class="keyword">*</span>context TSRMLS_DC);</span><br><span class="line">     /<span class="keyword">*</span> open a &amp;quot;directory&amp;quot; stream <span class="keyword">*</span>/</span><br><span class="line">     php_stream <span class="keyword">*</span>(<span class="keyword">*</span>dir_opener)(php_stream_wrapper <span class="keyword">*</span>wrapper, char <span class="keyword">*</span>filename, char <span class="keyword">*</span>mode,</span><br><span class="line">               int options, char <span class="keyword">*</span><span class="keyword">*</span>opened_path, php_stream_context <span class="keyword">*</span>context STREAMS_DC TSRMLS_DC);</span><br><span class="line"></span><br><span class="line">     const char <span class="keyword">*</span>label;</span><br><span class="line"></span><br><span class="line">     /<span class="keyword">*</span> delete a file <span class="keyword">*</span>/</span><br><span class="line">     int (<span class="keyword">*</span>unlink)(php_stream_wrapper <span class="keyword">*</span>wrapper, char <span class="keyword">*</span>url, int options, php_stream_context <span class="keyword">*</span>context TSRMLS_DC);</span><br><span class="line"></span><br><span class="line">     /<span class="keyword">*</span> rename a file <span class="keyword">*</span>/</span><br><span class="line">     int (<span class="keyword">*</span>rename)(php_stream_wrapper <span class="keyword">*</span>wrapper, char <span class="keyword">*</span>url_from, char <span class="keyword">*</span>url_to, int options, php_stream_context <span class="keyword">*</span>context TSRMLS_DC);</span><br><span class="line"></span><br><span class="line">     /<span class="keyword">*</span> Create/Remove directory <span class="keyword">*</span>/</span><br><span class="line">     int (<span class="keyword">*</span>stream_mkdir)(php_stream_wrapper <span class="keyword">*</span>wrapper, char <span class="keyword">*</span>url, int mode, int options, php_stream_context <span class="keyword">*</span>context TSRMLS_DC);</span><br><span class="line">     int (<span class="keyword">*</span>stream_rmdir)(php_stream_wrapper <span class="keyword">*</span>wrapper, char <span class="keyword">*</span>url, int options, php_stream_context <span class="keyword">*</span>context TSRMLS_DC);</span><br><span class="line">     /<span class="keyword">*</span> Metadata handling <span class="keyword">*</span>/</span><br><span class="line">     int (<span class="keyword">*</span>stream_metadata)(php_stream_wrapper <span class="keyword">*</span>wrapper, char <span class="keyword">*</span>url, int options, void <span class="keyword">*</span>value, php_stream_context <span class="keyword">*</span>context TSRMLS_DC);</span><br><span class="line">&#125; php_stream_wrapper_ops;</span><br></pre></td></tr></table></figure>
+<p>php_stream_wrapper_ops重要结构成员描述：</p>
+<p>php_stream <em>(</em>stream_opener)：创建流函数指针</p>
+<p>int (*stream_closer)：关闭流函数指针</p>
+<figure class="highlight d"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> _php_stream_wrapper     &#123;</span><br><span class="line">     php_stream_wrapper_ops *wops;     <span class="comment">/* operations the wrapper can perform */</span></span><br><span class="line">     <span class="keyword">void</span> *<span class="keyword">abstract</span>;                         <span class="comment">/* context for the wrapper */</span></span><br><span class="line">     <span class="keyword">int</span> is_url;                              <span class="comment">/* so that PG(allow_url_fopen) can be respected */</span></span><br><span class="line"></span><br><span class="line">     <span class="comment">/* support for wrappers to return (multiple) error messages to the stream opener */</span></span><br><span class="line">     <span class="keyword">int</span> err_count;                         <span class="comment">/* unused */</span></span><br><span class="line">     <span class="built_in">char</span> **err_stack;                    <span class="comment">/* unusued */</span></span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> _php_stream_wrapper php_stream_wrapper</span><br></pre></td></tr></table></figure>
+<p>各种流的实例，文件流或者网络流，它们不同在于流创建函数返回的php_stream结构中的ops成员。</p>
+<p>当流访问函数比如php_stream_read()被调用时, 流包装层实际上解析调用了stream-&gt;ops中对应的函数, 这样实际调用的就是当前流类型特有的read实现</p>
+<p>ops结构体指向的函数指针常常是对数据源真正的读取函数的一个瘦代理       </p>
+<p>关于stat()和lstat()的区别, 查看*nix手册</p>
+<h3 id="流的上下文">流的上下文</h3><p>1.改变流包装器的初始化行为</p>
+<p>2.上下文参数</p>
+<h3 id="流过滤器">流过滤器</h3><p>流过滤器具有两个独立的链条，一个是php_stream_write()调用响应之前的处理，一个是php_stream_read()取回数据之后的处理。</p>
+<p>实现一个包装器的示例（感谢phpbook的作者们）：</p>
+<p><a href="https://github.com/xudianyang/phpbook/blob/master/15.3.md" title="实现一个包装器" target="_blank">https://github.com/xudianyang/phpbook/blob/master/15.3.md</a></p>
+<h3 id="用户空间提供一套标准的函数">用户空间提供一套标准的函数</h3><p>上面说了扩展的支持的协议与封装的协议在PHP用户空间是使用一套标准的函数，笔者是从PHP内核扩展开发角度来阐述上述的内容，当然如果了解PHP内核中对流及流包装器的实现，在PHP用户空间使用已实现协议也就游刃有余,具体的函数列表可参考PHP手册：</p>
+<p>允许我们在PHP空间实现特定的协议及包装器：<br><a href="http://www.php.net/manual/zh/class.streamwrapper.php" target="_blank">http://www.php.net/manual/zh/class.streamwrapper.php</a></p>
+<p>流函数：<br><a href="http://www.php.net/manual/zh/ref.stream.php" title="流函数" target="_blank">http://www.php.net/manual/zh/ref.stream.php</a></p>
+<p>注册一个用 PHP 类实现的 URL 封装协议：<br><a href="http://www.php.net/manual/zh/function.stream-wrapper-register.php" title="注册一个用 PHP 类实现的 URL 封装协议" target="_blank">http://www.php.net/manual/zh/function.stream-wrapper-register.php</a></p>
+<p>所支持的URI/URL文件资源流<br><a href="http://www.php.net/manual/zh/function.stream-get-wrappers.php" target="_blank" title="所支持的URI/URL文件资源流">http://www.php.net/manual/zh/function.stream-get-wrappers.php</a></p>
+<p>所支持的套接字传输器列表<br><a href="http://www.php.net/manual/zh/transports.php" target="_blank" title="所支持的套接字传输器列表">http://www.php.net/manual/zh/transports.php</a></p>
+<p>初始化一个传输器流：<br><a href="http://www.php.net/manual/zh/function.stream-socket-client.php" target="_blank" title="初始化一个传输器流">http://www.php.net/manual/zh/function.stream-socket-client.php</a></p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/stream/"> #stream </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013-12/27-php-hashtable-analysis.html">PHP内核之HashTable实现分析与使用</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2013-12/28-php-stream-wrapper.html"
+               data-title="PHP内核之资源类型、流、流包装器实现分析" data-url="http://dev.phpboy.net/2013-12/28-php-stream-wrapper.html">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="徐典阳" />
+          <p class="site-author-name">徐典阳</p>
+        </div>
+        <p class="site-description motion-element">&nbsp;&nbsp;&nbsp;&nbsp;PHPBoy是一个PHP相关技术博客网站，在业余时间研究PHP内核与PHP扩展开发，关注WEB后端技术架构，LINUX服务器运维，系统安全，高性能与高可用大型网站技术架构。</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/xudianyang" target="_blank">GitHub</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://weibo.com/1586005914" target="_blank">Weibo</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.jinritemai.com/" target="_blank">目前工作</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#资源"><span class="nav-number">1.</span> <span class="nav-text">资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流、流的类型和流包装层"><span class="nav-number">2.</span> <span class="nav-text">流、流的类型和流包装层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四种类型的流"><span class="nav-number">3.</span> <span class="nav-text">四种类型的流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP内核流与流包装器的关系图"><span class="nav-number">4.</span> <span class="nav-text">PHP内核流与流包装器的关系图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流的上下文"><span class="nav-number">5.</span> <span class="nav-text">流的上下文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流过滤器"><span class="nav-number">6.</span> <span class="nav-text">流过滤器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户空间提供一套标准的函数"><span class="nav-number">7.</span> <span class="nav-text">用户空间提供一套标准的函数</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp;  2009 - 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">徐典阳</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.content img').each(function () {
+        var $image = $(this);
+        var $imageWrapLink = $image.parent('a');
+
+        if ($imageWrapLink.size() < 1) {
+          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
+        }
+        $imageWrapLink.addClass('fancybox');
+      });
+    });
+    $('.fancybox').fancybox({
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    LogoAndMenuMotion();
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+    function LogoAndMenuMotion() {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        
+        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
+        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
+        
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    }
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
+      $('.post').velocity('transition.slideDownIn', postMotionOptions);
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"phpboy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+</body>
+</html>
