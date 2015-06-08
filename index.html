@@ -135,6 +135,455 @@
           
           
             
+              <a class="post-title-link" href="/2014-03/33-php-xhprof.html">
+                PHP性能分析工具xhprof介绍、安装、使用说明
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-03-08
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-03/33-php-xhprof.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-03/33-php-xhprof.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="为什么使用xhprof?">为什么使用xhprof?</h3><p>我们在开发中虽然微观上去控制每一个逻辑的最佳算法，可能了解数据结构之后会去分析一个小段脚本的时间复杂度和空间复杂度，但是我们很难从宏观上去分析一个系统的执行性能与执行流程，以及程序执行的瓶颈。当被问到“你如何去分析一个PHP应用的性能，以及程序的瓶颈是什么的时候”，会不会很尴尬呢？其实PHP性能分析工具有多种可以选择，下面我来说说我使用的xhprof。</p>
+<blockquote>
+<p>XHProf (A Hierarchical Profiler For PHP)是一个轻量级的分层性能测量分析器，是C实现的PHP Zend扩展，最初是facebook的大神们写的，是分层的函数调用级别的分析函数执行的时间、CPU计算时间、内存消耗的PHP性能分析工具。XHProf 除了用C实现的Zend扩展之外，还有一个PHP实现的界面，使得查看XHProf分析结果变得更加容易。</p>
+</blockquote>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014-03/33-php-xhprof.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/xhprof/"> #xhprof </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014-02/32-php-opcode.html">
+                PHP代码加密与PHP Opcode缓存总结
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-02-23
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-02/32-php-opcode.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-02/32-php-opcode.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="什么是opcode?">什么是opcode?</h3><p>通常情况PHP的程序运行Zend虚拟之上的，当然也可以选择FB出的HHVM。PHP的opcode就是Zend虚拟机执行的指令。我们的PHP代码在需要先通过Zend编译器编译为opcode，再通过Zend解析器执行opcode指令。</p>
+<h3 id="opcode缓存目的">opcode缓存目的</h3><p>通过将PHP脚本预编译的字节码存储到共享内存中来提升PHP的性能，存储预编译字节码的好处就是省去了每次加载和解析PHP脚本的开销。 </p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014-02/32-php-opcode.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/opcode/"> #opcode </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2013-12/31-php-yaf-src-read.html">
+                PHP C MVC Yaf源码笔记
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-12-26
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-12/31-php-yaf-src-read.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-12/31-php-yaf-src-read.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="C扩展的MVC">C扩展的MVC</h3><p>从了解PHP不久就想着用扩展的方式来实现PHP的程序框架，后来了解鸟哥已经实现了yaf简单的C实现PHP的MVC框架，故将其源代码研究了好几遍。yaf的优势是简单，高效，高性能，框架长驻内存，程序配置内存化，其实主要是运行速度比大部分PHP的框架都快。</p>
+<p>yaf-2.2.9版本的源码为例</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013-12/31-php-yaf-src-read.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MVC/"> #MVC </a>
+          
+            <a href="/tags/Yaf/"> #Yaf </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2013-12/30-php-cli-stdout-stdin.html">
+                PHP cli接收终端的标准输入
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-12-13
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-12/30-php-cli-stdout-stdin.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-12/30-php-cli-stdout-stdin.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="Case">Case</h3><p>最近在工作中遇到一个问题，需要shell与php结合的方式完成一个与WEB服务器安全相关的功能。我通过shell完成一些服务器配置的扫描，扫描的最终结果要交给PHP进一步整理并分析，最终展现在产品的后台。</p>
+<p>这样就遇到一个问题，shell如何将最终的处理结果交给PHP呢？PHP cli命令行模式下有一些预定义的常量，其中STDIN就可以完美的解决上述的问题，当然也可以通过php://stdin达到同样的效果。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013-12/30-php-cli-stdout-stdin.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CLI/"> #CLI </a>
+          
+            <a href="/tags/STDIN/"> #STDIN </a>
+          
+            <a href="/tags/STDOUT/"> #STDOUT </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2013-12/29-php-smart-str.html">
+                PHP内核之smart_str实现分析与在扩展开发中的应用
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-12-10
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-12/29-php-smart-str.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-12/29-php-smart-str.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="smart_str">smart_str</h3><p>smart_str个人喜欢称为智能字符串，使用C语言的同学都知道C语言中字符串是用字符数组来表示的，既然是数组那么就会涉及到定义数组长度或者手动分配内存空间，虽然C99引入了可变长数组的特性，但是在进行字符串操作中或多或少受到长度的限制，真是一个头疼的事情。在学习PHP扩展开发中，阅读部分已实现扩展代码中，发现90%的PHP扩展都用到了smart_str，在不用考虑字符串长度的前提下自动分配内容空间，同时分配的空间以内存块的形式分配或者重新分配，提高访问速度，其在字符串拼接需求很有用，另外还能直接将无符号的长整型的数字直接转化为字符，添加到smart_str中。</p>
+<p>smart_str结构体的定义，ext/standard/php_smart_str_public.h：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line"> <span class="keyword">char</span> *c;</span><br><span class="line"> size_t len;</span><br><span class="line"> size_t a;</span><br><span class="line">&#125; smart_str;</span><br></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013-12/29-php-smart-str.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/smart-str/"> #smart_str </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2013-12/28-php-stream-wrapper.html">
                 PHP内核之资源类型、流、流包装器实现分析
               </a>
@@ -571,458 +1020,11 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-07/23-apache-log-format.html">
-                Apache日志格式与配置（记录远端用户端口）
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-07-11
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Apache/">Apache</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-07/23-apache-log-format.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-07/23-apache-log-format.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>Apache强大的日志模块提供了详细的参数来配置个性化的日志记录。</p>
-<p>使用apache的日志，最基本的两个配置指令</p>
-<h3 id="LogFormat">LogFormat</h3><p>使用格式：</p>
-<p>LogFormat “格式串” 日志格式名称</p>
-<p>具体的格式串的说明，参考Apache手册。<br><a href="http://apache.jz123.cn/mod/mod_log_config.html">http://apache.jz123.cn/mod/mod_log_config.html</a></p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-07/23-apache-log-format.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/LogFormat/"> #LogFormat </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-05/22-php-coding-standards.html">
-                PHP代码及命名规范
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-05-16
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-05/22-php-coding-standards.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/22-php-coding-standards.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>一个优秀的团队代码规范是必须的，可以促进团队合作，降低维护成本，体现团队的凝聚力，直接有助于代码审查，对于个人来说，有助于自身的成长。整理了现有团队的代码规范，虽不是最标准，但是收集了很多优雅规范。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-05/22-php-coding-standards.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/coding-standards/"> #coding standards </a>
-          
-            <a href="/tags/代码规范/"> #代码规范 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-05/21-jquery-mobile-apply.html">
-                使用jquery mobile开发HTML5移动站的那点事儿
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-05-10
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Javascript/">Javascript</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-05/21-jquery-mobile-apply.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/21-jquery-mobile-apply.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="事出原由">事出原由</h3><p>首先申明本人不是前端工程师纯属酱油男，只是在一个移动站点项目中采用了jquery mobile进行HTML5单网页站点的开发（这是一段伤心的历程）。那天我还沉浸在服务器集群部署实施的那种美好感觉中（虽然就那么几台机子），那天我还是认为我永远都不会使用jquery mobile开发站点，可是这一切的美好都被那个姓牛的主任所打断。对，就是姓牛，虽然他会看到这篇blog,事实上他是想看的。牛主任在拉我入伙的时候，他已经研究了很长时间的html5,css3,jqm(jquery mobile)，然后突然说：<br>“典阳，我们要做HTML5 ELLEMEN手机端的项目，给你两个文档，你看看吧。我准备用jqm来做，然后……”</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-05/21-jquery-mobile-apply.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/jquery/"> #jquery </a>
-          
-            <a href="/tags/jquery-mobile/"> #jquery mobile </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-05/20-linux-coreseek.html">
-                Coreseek建立索引出错libmysqlclient.so.18
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-05-10
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Linux/">Linux</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-05/20-linux-coreseek.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/20-linux-coreseek.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="问题">问题</h3><p>Coreseek建立索引出错</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/<span class="keyword">local</span>/coreseek/bin/indexer  --all --<span class="keyword">rotate</span></span><br><span class="line">/usr/<span class="keyword">local</span>/coreseek/bin/indexer: <span class="keyword">error</span> <span class="keyword">while</span> loading shared libraries: libmysqlclient.<span class="keyword">so</span>.18: cannot <span class="keyword">open</span> shared object <span class="keyword">file</span>: <span class="keyword">No</span> such <span class="keyword">file</span> or directory</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-05/20-linux-coreseek.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/coreseek/"> #coreseek </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-05/19-linux-lvs-keepalived.html">
-                Linux LVS Keepalived实现Httpd服务器80端口的负载均衡
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-05-08
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Linux/">Linux</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-05/19-linux-lvs-keepalived.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/19-linux-lvs-keepalived.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="LVS">LVS</h3><p>LVS是Linux Virtual Server的简写，意即Linux虚拟服务器，是一个虚拟的服务器集群系统。本项目在1998年5月由章文嵩博士成立，是中国国内最早出现的自由软件项目之一。目前有三种IP负载均衡技术（VS/NAT、VS/TUN和VS/DR）本文是按照VS/DR的方式配置,十种调度算法（rrr|wrr|lc|wlc|lblc|lblcr|dh|sh|sed|nq）。</p>
-<h3 id="Keepalvied">Keepalvied</h3><p>Keepalived在这里主要用作RealServer的健康状态检查以及LoadBalance主机和BackUP主机之间failover的实现</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-05/19-linux-lvs-keepalived.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/keepalived/"> #keepalived </a>
-          
-            <a href="/tags/lvs/"> #lvs </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
   <div class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">&raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">&raquo;</a>
   </div>
 
 
@@ -1056,7 +1058,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-count">33</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1070,7 +1072,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-count">53</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
