@@ -184,7 +184,7 @@
 <h3 id="Apache日志格式配置记录远端用户端口">Apache日志格式配置记录远端用户端口</h3><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LogFormat <span class="string">"<span class="variable">%h</span> <span class="variable">%&#123;REMOTE_PORT&#125;</span>e <span class="variable">%l</span> <span class="variable">%u</span> <span class="variable">%t</span> \"<span class="variable">%r</span>\" <span class="variable">%&gt;</span>s <span class="variable">%b</span> \"<span class="variable">%&#123;Referer&#125;</span>i\" \"%&#123;User-Agent&#125;i\""</span> combined</span><br><span class="line">CustomLog logs/phpboy.net-access_log combined env=!STATIC</span><br></pre></td></tr></table></figure>
 <p>注意：%{REMOTE_PORT}e代表远端端口，在日志格式串中有这样的说明，</p>
 <p>%{FOOBAR}e     环境变量FOOBAR的值</p>
-<p>而环境器环境变量在mod_rewrite模块有如下的说明<br><a href="http://42.121.109.216/apache-logformat.png" target="_blank" rel="external"><img src="http://42.121.109.216/apache-logformat.png" alt="" title="apache服务器环境变量" width="496" height="394"></a><br>其中REMOTE_PORT是服务器设置的代表远端端口变量。</p>
+<p>而环境器环境变量在mod_rewrite模块有如下的说明<br><a href="http://a.phpboy.net/apache-logformat.png" target="_blank" rel="external"><img src="http://a.phpboy.net/apache-logformat.png" alt="" title="apache服务器环境变量" width="496" height="394"></a><br>其中REMOTE_PORT是服务器设置的代表远端端口变量。</p>
 
       
     </div>

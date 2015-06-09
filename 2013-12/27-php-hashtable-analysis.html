@@ -195,9 +195,9 @@
 <p><code>struct bucket *pNext</code>:指向具有同一个hash值的下一个元素</p>
 <p><code>struct bucket *pLast</code>:指向具有同一个hash值的 上一个元素</p>
 <p><code>const char *arKey</code>:字符串key，这里用到了C语言的灵活数组成员的特性（<code>Flexible Array</code>）</p>
-<h5 id="HashTable访问与更新元素原理">HashTable访问与更新元素原理</h5><p><img src="http://42.121.109.216/php-HashTable原理.jpg" alt="image"></p>
+<h5 id="HashTable访问与更新元素原理">HashTable访问与更新元素原理</h5><p><img src="http://a.phpboy.net/php-HashTable原理.jpg" alt="image"></p>
 <h5 id="PHP_HashTable实现示图">PHP HashTable实现示图</h5><p><code>如果下面这个图理解不清就不要往下看了</code></p>
-<p><a href="http://42.121.109.216/php-HashTable实现.jpg" title="点击查看大图" target="_blank" rel="external"><img src="http://42.121.109.216/php-HashTable实现.jpg" width="600"></a></p>
+<p><a href="http://a.phpboy.net/php-HashTable实现.jpg" title="点击查看大图" target="_blank" rel="external"><img src="http://a.phpboy.net/php-HashTable实现.jpg" width="600"></a></p>
 <h5 id="PHP内核中HashTable的使用示例">PHP内核中HashTable的使用示例</h5><h5 id="数字索引HashTable_API">数字索引HashTable API</h5><h6 id="HashTable初始化">HashTable初始化</h6><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HashTable *ht;</span><br><span class="line">ALLOC_HASHTABLE<span class="comment">(ht)</span>;</span><br><span class="line"><span class="keyword">if</span> <span class="comment">(zend_hash_init(ht, 0, NULL, ZVAL_PTR_DTOR, 0)</span> == FAILURE) &#123;</span><br><span class="line">     FREE_HASHTABLE<span class="comment">(ht)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><code>ALLOC_HASHTABLE(ht)</code>宏展开为:<br><code>(ht) = (HashTable *) emalloc(sizeof(HashTable))</code></p>
 <p>更多查看<code>Zend/zend_hash.c</code></p>

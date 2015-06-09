@@ -174,7 +174,7 @@
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">array</span>( <span class="string">'one'</span> );</span><br><span class="line"><span class="variable">$a</span>[] =&amp;<span class="variable">$a</span>;</span><br><span class="line"><span class="keyword">unset</span>(<span class="variable">$a</span>);</span></span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <p>那么变量 $a 和数组元素 “1” 所指向的变量容器的引用次数减1, 从”2”变成”1”.</p>
-<p><a href="http://42.121.109.216/cycle-reference.png" target="_blank" rel="external"><img src="http://42.121.109.216/cycle-reference.png" alt=""></a></p>
+<p><a href="http://a.phpboy.net/cycle-reference.png" target="_blank" rel="external"><img src="http://a.phpboy.net/cycle-reference.png" alt=""></a></p>
 <p>问题</p>
 <p>尽管不再有某个作用域中的任何符号指向这个结构(就是变量容器)，由于数组元素“1”仍然指向数组本身，所以这个zval容器不能被清除。</p>
 <p>对PHP应用带来的风险</p>
