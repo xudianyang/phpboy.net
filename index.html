@@ -135,6 +135,459 @@
           
           
             
+              <a class="post-title-link" href="/2014-05/39-php-splclassloader-psr-0.html">
+                SplClassLoader 基于PSR-0规范的PHP C扩展的自动加载器
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-05-18
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-05/39-php-splclassloader-psr-0.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-05/39-php-splclassloader-psr-0.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>本周强迫症又犯了，本来是有想法做其他的东西，但是开始时，就想到PHP类自动按需加载的问题。</p>
+<p>PHP的类自动加载器是所有PHP框架都会精心设计的一个基础构件，各种实现，五花八门。</p>
+<p>另外就是目录与类名称的定义规范，只有有一定的规范才能完成自动加载。在PHP不支持命名空间时，最优雅的实现方式，是类名称和目录映射（常用下划线），有了命名空间我们可以实现更优雅的自动加载。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014-05/39-php-splclassloader-psr-0.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SplClassLoader/"> #SplClassLoader </a>
+          
+            <a href="/tags/扩展开发/"> #扩展开发 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014-05/38-php-yaf-loader.html">
+                Yaf Loader自动加载策略及Dispatcher路由分发策略
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-05-01
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-05/38-php-yaf-loader.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-05/38-php-yaf-loader.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="I_mean">I mean</h3><p>虽然鸟哥的文档已经介绍了，但是在实际应用中，我们总是会有一些特殊，而且根据鸟哥的文档，无法推理得知，必须从源码得知，故下面的内容基本上从源码中取得。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014-05/38-php-yaf-loader.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Yaf-Dispatcher/"> #Yaf Dispatcher </a>
+          
+            <a href="/tags/Yaf-Loader/"> #Yaf Loader </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014-04/36-php-gc.html">
+                PHP GC（Garbage Collection）垃圾回收机制
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-04-22
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-04/36-php-gc.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-04/36-php-gc.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>要了解PHP的GC垃圾回收机制，至少对PHP内核表示PHP空间的值或者变量要有所了解，不然无法理解。</p>
+<p>1.当任何关联到某个变量容器的变量离开它的作用域(比如：函数执行结束)，或者对变量调用了函数 unset()时，“refcount”就会减1</p>
+<p>2.php-5.3以前循环引用问题</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">array</span>( <span class="string">'one'</span> );</span><br><span class="line"><span class="variable">$a</span>[] =&amp;<span class="variable">$a</span>;</span><br><span class="line"><span class="keyword">unset</span>(<span class="variable">$a</span>);</span></span><br></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014-04/36-php-gc.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/gc/"> #gc </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014-04/35-php-yaf-ide-auto-complete.html">
+                Yaf框架之PhpStrom代码自动补全-Yaf IDE Auto Complete
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-04-05
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-04/35-php-yaf-ide-auto-complete.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-04/35-php-yaf-ide-auto-complete.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>Yaf Develop Auto Compelete</p>
+<p>Yaf框架之PhpStrom代码自动补全（屏蔽IDE undefined，支持命名空间和下划线两种类命名，中文详细文档，比手册更详细），全手敲。</p>
+<p>下载：</p>
+<p><a href="https://github.com/xudianyang/yaf.auto.complete" title="Yaf IDE Auto Complete" target="_blank">Yaf IDE Auto Complete</a></p>
+<p>使用说明</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014-04/35-php-yaf-ide-auto-complete.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Phpstorm/"> #Phpstorm </a>
+          
+            <a href="/tags/Yaf/"> #Yaf </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014-03/34-php-yaf-response-output.html">
+                关于Yaf响应输出，不想看源码的同学请入
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-03-30
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-03/34-php-yaf-response-output.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-03/34-php-yaf-response-output.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="解惑">解惑</h3><p>估计这块疑团是不少的，尤其是不看源码的同学，能够控制Yaf响应输出响应相关类就有Yaf\Dispatcher，Yaf\Controller_Abstract，另外两个类又分别有相应的属性用来控制响应输出，而属性又对应的类方法来设置。</p>
+<h3 id="Yaf\Dispatcher类属性">Yaf\Dispatcher类属性</h3><h4 id="_auto_render">_auto_render</h4><p>自动渲染功能开关，默认1。自动渲染是指根据当前请求的控制器Controller和动作Action自动寻找模块文件，加载与渲染模块，之后返回结果或者输出。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014-03/34-php-yaf-response-output.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Yaf/"> #Yaf </a>
+          
+            <a href="/tags/Yaf-response/"> #Yaf response </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014-03/33-php-xhprof.html">
                 PHP性能分析工具xhprof介绍、安装、使用说明
               </a>
@@ -579,459 +1032,6 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-12/28-php-stream-wrapper.html">
-                PHP内核之资源类型、流、流包装器实现分析
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-12-09
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-12/28-php-stream-wrapper.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-12/28-php-stream-wrapper.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="资源">资源</h3><p>一些无法用标量来表示的数据类型，它仅仅是PHP与外部资源的一个通道，在PHP内核看来它只是一个C指针</p>
-<p>1.EG(regular_list) 存储着所有的只用在当前请求的{资源} </p>
-<p>2.EG(persistent_list) 存储着所有的持久{资源}</p>
-<p>3.对于持久资源，我们打开一个本地文件，就可以一直占用它的操作句柄，随时可以进行相应的只得。但如果是远程计算机机上的资源，如mysql链接，http链接，虽然我们仍然有与服务器的链接，但是服务器端有可能关闭了，那么这样的持久链接就没有价值了。如何检测持久资源的有效性呢？如果无效了，我们需要将其从EG(persistent_list) HashTable中删除</p>
-<h3 id="流、流的类型和流包装层">流、流的类型和流包装层</h3>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-12/28-php-stream-wrapper.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/PHP内核/"> #PHP内核 </a>
-          
-            <a href="/tags/PHP扩展开发/"> #PHP扩展开发 </a>
-          
-            <a href="/tags/stream/"> #stream </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-12/27-php-hashtable-analysis.html">
-                PHP内核之HashTable实现分析与使用
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-12-02
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-12/27-php-hashtable-analysis.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-12/27-php-hashtable-analysis.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="HashTable">HashTable</h3><p>即哈希表，又名散列表，是根据关键字（key value)直接访问在内存存储位置的数据结构。是一种将随机访问的数据结构转换为有序储存的数据结构。它通过把键值通过一个函数的计算，映射到表中一个位置来访问，此函数称为散列函数。现在很多高级程序语言中都有实现HashTable，而C语言中最常用的是uthashtable。</p>
-<h3 id="PHP内核中HashTable（以php-5-4为例）">PHP内核中HashTable（以php-5.4为例）</h3><p>PHP作为C语言的开源应用，其HashTable的实现既经典又是创新的。PHP中的HashTable实现代码保存在Zend/zend_hash.h和Zend/zend_hash.c这两个文件中，首先来分析其结构体的定义：</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-12/27-php-hashtable-analysis.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/HashTable/"> #HashTable </a>
-          
-            <a href="/tags/PHP内核/"> #PHP内核 </a>
-          
-            <a href="/tags/PHP扩展开发/"> #PHP扩展开发 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-11/26-linux-httpd-add-module.html">
-                linux下httpd增加模块
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-11-02
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Apache/">Apache</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-11/26-linux-httpd-add-module.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-11/26-linux-httpd-add-module.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="I_mean">I mean</h3><p>通常我们在部署LAMP时，安装完httpd服务，用我们整理的httpd.conf替换默认的httpd.conf重启httpd服务时可能会遇到某些模块未编译的情况，第一反应是要重新编译，但是apache是支持动态扩展模块的，也就是说不需要重新编译整个apache，就像的PHP phpize工具一样，能够单独编译某个扩展，并加入到已有的环境中。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-11/26-linux-httpd-add-module.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/httpd/"> #httpd </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-10/25-linux-lvm-instruction.html">
-                linux LVM 增加、扩容逻辑卷
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-10-30
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Linux/">Linux</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-10/25-linux-lvm-instruction.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-10/25-linux-lvm-instruction.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>LVM百度百科</p>
-<blockquote>
-<p>LVM是 Logical Volume Manager（逻辑卷管理）的简写，它是Linux环境下对磁盘分区进行管理的一种机制，它由Heinz Mauelshagen在Linux 2.4内核上实现，目前最新版本为：稳定版1.0.5，开发版 1.1.0-rc2，以及LVM2开发版。</p>
-</blockquote>
-<p>以下操作假设新增一个硬盘的设备文件名为/dev/sdb</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-10/25-linux-lvm-instruction.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/LVM/"> #LVM </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-09/24-php-extension-develop-not-head-file.html">
-                PHP扩展开发编译时找不到相应的头文件
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-09-10
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-09/24-php-extension-develop-not-head-file.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-09/24-php-extension-develop-not-head-file.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>在扩展开发中往往我们自己开发的扩展会使用到现有一些开源扩展提供的库函数，需要引入相应的头文件，编译扩展时有可能会提示找不到相应的头文件，如：</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">In</span> <span class="keyword">file</span> included from /Users/xudianyang/C/php-5.4.14/ext/firephp/firephp.c:1:</span><br><span class="line">./firephp.<span class="keyword">h</span>:18:10: fatal <span class="keyword">error</span>: 'ext/reflection/php_reflection.<span class="keyword">h</span>' <span class="keyword">file</span> not found</span><br><span class="line">#<span class="keyword">include</span> <span class="string">"ext/reflection/php_reflection.h"</span> <span class="comment">/* for php reflection*/</span></span><br></pre></td></tr></table></figure>
-<p>在开发PHP内建又称静态扩展、外部又称动态加载扩展时，要使用其他扩展中的库函数时，那就是依赖了其他的扩展，这时就要安装其他的扩展。</p>
-<p>如果明白phpize的机制就明了，我们只需要在PHP源码的目录找到php-x.x.x/ext/ext<em>name/[php</em>]ext_name.h，然后在PHP的安装目录下的./include/php/ext/建立与之对应的扩展名目录和头文件即可，如：<br>php根目录/include/php/ext/reflection/php_reflection.h</p>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/头文件/"> #头文件 </a>
-          
-            <a href="/tags/扩展开发/"> #扩展开发 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -1070,7 +1070,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">33</span>
+              <span class="site-state-item-count">39</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1084,7 +1084,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">53</span>
+              <span class="site-state-item-count">61</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

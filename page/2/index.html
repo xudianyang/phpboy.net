@@ -135,6 +135,554 @@
           
           
             
+              <a class="post-title-link" href="/2013-12/28-php-stream-wrapper.html">
+                PHP内核之资源类型、流、流包装器实现分析
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-12-09
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-12/28-php-stream-wrapper.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-12/28-php-stream-wrapper.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="资源">资源</h3><p>一些无法用标量来表示的数据类型，它仅仅是PHP与外部资源的一个通道，在PHP内核看来它只是一个C指针</p>
+<p>1.EG(regular_list) 存储着所有的只用在当前请求的{资源} </p>
+<p>2.EG(persistent_list) 存储着所有的持久{资源}</p>
+<p>3.对于持久资源，我们打开一个本地文件，就可以一直占用它的操作句柄，随时可以进行相应的只得。但如果是远程计算机机上的资源，如mysql链接，http链接，虽然我们仍然有与服务器的链接，但是服务器端有可能关闭了，那么这样的持久链接就没有价值了。如何检测持久资源的有效性呢？如果无效了，我们需要将其从EG(persistent_list) HashTable中删除</p>
+<h3 id="流、流的类型和流包装层">流、流的类型和流包装层</h3>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013-12/28-php-stream-wrapper.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP内核/"> #PHP内核 </a>
+          
+            <a href="/tags/PHP扩展开发/"> #PHP扩展开发 </a>
+          
+            <a href="/tags/stream/"> #stream </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2013-12/27-php-hashtable-analysis.html">
+                PHP内核之HashTable实现分析与使用
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-12-02
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-12/27-php-hashtable-analysis.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-12/27-php-hashtable-analysis.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="HashTable">HashTable</h3><p>即哈希表，又名散列表，是根据关键字（key value)直接访问在内存存储位置的数据结构。是一种将随机访问的数据结构转换为有序储存的数据结构。它通过把键值通过一个函数的计算，映射到表中一个位置来访问，此函数称为散列函数。现在很多高级程序语言中都有实现HashTable，而C语言中最常用的是uthashtable。</p>
+<h3 id="PHP内核中HashTable（以php-5-4为例）">PHP内核中HashTable（以php-5.4为例）</h3><p>PHP作为C语言的开源应用，其HashTable的实现既经典又是创新的。PHP中的HashTable实现代码保存在Zend/zend_hash.h和Zend/zend_hash.c这两个文件中，首先来分析其结构体的定义：</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013-12/27-php-hashtable-analysis.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HashTable/"> #HashTable </a>
+          
+            <a href="/tags/PHP内核/"> #PHP内核 </a>
+          
+            <a href="/tags/PHP扩展开发/"> #PHP扩展开发 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2013-11/26-linux-httpd-add-module.html">
+                linux下httpd增加模块
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-11-02
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Apache/">Apache</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-11/26-linux-httpd-add-module.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-11/26-linux-httpd-add-module.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="I_mean">I mean</h3><p>通常我们在部署LAMP时，安装完httpd服务，用我们整理的httpd.conf替换默认的httpd.conf重启httpd服务时可能会遇到某些模块未编译的情况，第一反应是要重新编译，但是apache是支持动态扩展模块的，也就是说不需要重新编译整个apache，就像的PHP phpize工具一样，能够单独编译某个扩展，并加入到已有的环境中。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013-11/26-linux-httpd-add-module.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/httpd/"> #httpd </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2013-10/25-linux-lvm-instruction.html">
+                linux LVM 增加、扩容逻辑卷
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-10-30
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Linux/">Linux</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-10/25-linux-lvm-instruction.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-10/25-linux-lvm-instruction.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>LVM百度百科</p>
+<blockquote>
+<p>LVM是 Logical Volume Manager（逻辑卷管理）的简写，它是Linux环境下对磁盘分区进行管理的一种机制，它由Heinz Mauelshagen在Linux 2.4内核上实现，目前最新版本为：稳定版1.0.5，开发版 1.1.0-rc2，以及LVM2开发版。</p>
+</blockquote>
+<p>以下操作假设新增一个硬盘的设备文件名为/dev/sdb</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013-10/25-linux-lvm-instruction.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/LVM/"> #LVM </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2013-09/37-php-firephp-console.html">
+                PHP扩展之firephp console
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-09-21
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-09/37-php-firephp-console.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-09/37-php-firephp-console.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>最近一直研究PHP的C扩展开发，在工作闲暇时，用C实现了一个PHP扩展——firephp，主要目的是为了学习PHP的扩展开发，所以只实现了firephp的INFO两种格式的console输出。</p>
+<p>相信做PHP项目开发的coder都了解firephp是什么，但还是说明一下。</p>
+<p>在大型项目或者线上生产环境中为了快速的解决问题，我们在调试代码时又往往不能var_dump,echo,print_r来输出信息，特别在调试ajax程序时，这时就需要一种特殊的输出方式，从而使得普通用户访问正常的程序与输出调试信息的程序无异；当然我们有时候也是为了格式化输出的调试信息。那么，firephp就是这样的一个服务端console与firefox浏览器插件配合的PHP调试代码的一个工具。</p>
+<p>目前firephp基于firebug插件基础上，并且这两个浏览器插件都是firefox浏览器的。我们在安装的时候也注意安装顺序先安装firebug，后安装firephp。我们浏览器虽然安装了console的客户端，还需要我们服务器端输出调试信息，而输出的信息是一个格式化的响应报头。一般情况下我们都会在github找到:<br><a href="https://github.com/firephp/firephp" target="_blank">https://github.com/firephp/firephp</a><br>firephp的格式化字符串header报头输出的PHP语言实现，但是我们在任何项目或者脚本中都需要引入此类文件。</p>
+<p>所以我用C实现了一个mini版本的firephp PHP的C扩展，另外，我在php-5.2.17,php-5.3.25,php-5.4.14,php-5.5.4等版本调试编译通过。此扩展依赖php的json扩展，如需console正常运行，请安装json扩展。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013-09/37-php-firephp-console.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/console/"> #console </a>
+          
+            <a href="/tags/firephp/"> #firephp </a>
+          
+            <a href="/tags/扩展开发/"> #扩展开发 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2013-09/24-php-extension-develop-not-head-file.html">
+                PHP扩展开发编译时找不到相应的头文件
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-09-10
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-09/24-php-extension-develop-not-head-file.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-09/24-php-extension-develop-not-head-file.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>在扩展开发中往往我们自己开发的扩展会使用到现有一些开源扩展提供的库函数，需要引入相应的头文件，编译扩展时有可能会提示找不到相应的头文件，如：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">In</span> <span class="keyword">file</span> included from /Users/xudianyang/C/php-5.4.14/ext/firephp/firephp.c:1:</span><br><span class="line">./firephp.<span class="keyword">h</span>:18:10: fatal <span class="keyword">error</span>: 'ext/reflection/php_reflection.<span class="keyword">h</span>' <span class="keyword">file</span> not found</span><br><span class="line">#<span class="keyword">include</span> <span class="string">"ext/reflection/php_reflection.h"</span> <span class="comment">/* for php reflection*/</span></span><br></pre></td></tr></table></figure>
+<p>在开发PHP内建又称静态扩展、外部又称动态加载扩展时，要使用其他扩展中的库函数时，那就是依赖了其他的扩展，这时就要安装其他的扩展。</p>
+<p>如果明白phpize的机制就明了，我们只需要在PHP源码的目录找到php-x.x.x/ext/ext<em>name/[php</em>]ext_name.h，然后在PHP的安装目录下的./include/php/ext/建立与之对应的扩展名目录和头文件即可，如：<br>php根目录/include/php/ext/reflection/php_reflection.h</p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/头文件/"> #头文件 </a>
+          
+            <a href="/tags/扩展开发/"> #扩展开发 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2013-07/23-apache-log-format.html">
                 Apache日志格式与配置（记录远端用户端口）
               </a>
@@ -481,546 +1029,6 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-05/19-linux-lvs-keepalived.html">
-                Linux LVS Keepalived实现Httpd服务器80端口的负载均衡
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-05-08
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Linux/">Linux</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-05/19-linux-lvs-keepalived.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/19-linux-lvs-keepalived.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="LVS">LVS</h3><p>LVS是Linux Virtual Server的简写，意即Linux虚拟服务器，是一个虚拟的服务器集群系统。本项目在1998年5月由章文嵩博士成立，是中国国内最早出现的自由软件项目之一。目前有三种IP负载均衡技术（VS/NAT、VS/TUN和VS/DR）本文是按照VS/DR的方式配置,十种调度算法（rrr|wrr|lc|wlc|lblc|lblcr|dh|sh|sed|nq）。</p>
-<h3 id="Keepalvied">Keepalvied</h3><p>Keepalived在这里主要用作RealServer的健康状态检查以及LoadBalance主机和BackUP主机之间failover的实现</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-05/19-linux-lvs-keepalived.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/keepalived/"> #keepalived </a>
-          
-            <a href="/tags/lvs/"> #lvs </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-05/18-linux-rsyslog.html">
-                Linux CentOS-6.2系统日志rsyslog替换默认的日志服务syslog
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-05-07
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Linux/">Linux</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-05/18-linux-rsyslog.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/18-linux-rsyslog.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="/etc/syslog-conf不见了">/etc/syslog.conf不见了</h3><p>最近遇到配置centos 6.2的sshd及sftp日志，发现/etc/syslog.conf文件不存在，</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$&gt;rpm -<span class="keyword">qa</span> | <span class="keyword">grep</span> syslog</span><br><span class="line">rsyslog-<span class="number">5.8</span>.<span class="number">10</span>-<span class="number">6</span>.el6.x86_64</span><br><span class="line">$&gt;<span class="keyword">cat</span> /etc/rsyslog.<span class="keyword">conf</span></span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-05/18-linux-rsyslog.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/rsyslog/"> #rsyslog </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-05/17-linux-ssh-slow.html">
-                Linux CentOS SSH内网登录慢及vsftpd登录慢
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-05-06
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Linux/">Linux</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-05/17-linux-ssh-slow.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/17-linux-ssh-slow.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="引述">引述</h3><p>最近做的一个网站项目，实施服务器集群部署(LVS+KEEPALIVED,RHCS,HA)，n台机器的ssh远程登录都通过一个外网IP先登录集群中一台服务器，然后再通过ssh命令登录到其他机器，问题在于集群内网中直接通过内网IP ssh到另外一台机器时输入密码之后，会等待10-20秒才能登录成功。我一直没有在意这个问题，我认为是内网网络的问题，因为网络的不属于我管，但是我实在忍不了了。最后Google,百度一下，整理如下的解决办法（问题竟是出在sshd的配置）</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-05/17-linux-ssh-slow.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/CentOS/"> #CentOS </a>
-          
-            <a href="/tags/SSH/"> #SSH </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-05/16-mysqlhotcopy.html">
-                mysqlhotcopy的使用介绍及简单的备份脚本示例
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-05-03
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/MySQL/">MySQL</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-05/16-mysqlhotcopy.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/16-mysqlhotcopy.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="mysqldump">mysqldump</h3><p>是采用SQL级别的备份机制，它将数据表导成 SQL 脚本文件，数据库大时，占用系统资源较多，支持常用的MyISAM，innodb</p>
-<h3 id="mysqlhotcopy">mysqlhotcopy</h3><p>只是简单的缓存写入和文件复制的过程，占用资源和备份速度比mysqldump快很多很多。特别适合大的数据库，但需要注意的是：mysqlhotcopy只支持MyISAM 引擎</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-05/16-mysqlhotcopy.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/mysqldump/"> #mysqldump </a>
-          
-            <a href="/tags/mysqlhotcopy/"> #mysqlhotcopy </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-01/15-html-to-pdo.image.html">
-                PHP将HTML转换成各种格式图片或PDF
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-01-06
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-01/15-html-to-pdo.image.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-01/15-html-to-pdo.image.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="需求">需求</h3><p>用WordPress建立博客站点，选择了一套可以显示文章缩略图的模板，几经折腾将原有模板改得面目全非，最后还是直接上线吧，不想折腾了。站点上线没几天，在公司做项目时，对图片做了一个放大的JS，自己博客也加上点击缩略图查看原图的功能，然后迅速的加了。过了几天，突发奇想，想做文章预览图，即点击缩略图查看文章预览图，也就是你们现在首页和文章列表页看到的那个功能。</p>
-<p>Linux下PHP自动生成文章预览图，最初大致的思路很简单，就是我能不能通过某种方式调用浏览器内核来渲染网页即HTML，然后将HTML保存为图片。然后开始一头扎进Google、Baidu，搜索了很长时间，得出结论，资料太少，想自己写一个C扩展，调用webkit内核。就在快要放弃的时候，在论坛里面看到wkhtmltox，然后所有的问题都在于wkhtmltox了，很庆幸的是在google code里面又看到了phpwkhtmltox，然后我笑了。</p>
-<h3 id="安装软件清单">安装软件清单</h3><ol>
-<li>libwkhtmltox linux下的webkit内核</li>
-<li>phpwkhtmltox php扩展，可调用webkit内核将网页转换成各种格式图片或者pdf</li>
-<li>font-chinese 中文字体</li>
-<li>msyh,Consolas 字体</li>
-</ol>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-01/15-html-to-pdo.image.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/htmltoimage/"> #htmltoimage </a>
-          
-            <a href="/tags/htmltopdf/"> #htmltopdf </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2012-12/14-apache-work-mode.html">
-                Apache工作模式及配置参数优化详解
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2012-12-20
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Apache/">Apache</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2012-12/14-apache-work-mode.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2012-12/14-apache-work-mode.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="导语">导语</h3><p>自从笔者在百度空间“一不小心”点击了升级博客空间懊悔之后，一直寻思摒弃百度博客，自己搭建一个博客站点。经过“多番”努力，从选择VPS——&gt;选择博客程序——&gt;网站/域名备案——&gt;数据迁移（百度博客文章）——&gt;内容整理——&gt;站点上线，自至站点已运行了一段时间，总是希望最大化的利用硬件资源，达到最优化的LMAP配置。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2012-12/14-apache-work-mode.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/apache-prefork/"> #apache prefork </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -1059,7 +1067,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">33</span>
+              <span class="site-state-item-count">39</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1073,7 +1081,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">53</span>
+              <span class="site-state-item-count">61</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
