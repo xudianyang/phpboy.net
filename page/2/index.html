@@ -127,6 +127,99 @@
           
           
             
+              <a class="post-title-link" href="/2013-12/29-php-smart-str.html">
+                PHP内核之smart_str实现分析与在扩展开发中的应用
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-12-10
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-12/29-php-smart-str.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-12/29-php-smart-str.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="smart_str">smart_str</h3><p>smart_str个人喜欢称为智能字符串，使用C语言的同学都知道C语言中字符串是用字符数组来表示的，既然是数组那么就会涉及到定义数组长度或者手动分配内存空间，虽然C99引入了可变长数组的特性，但是在进行字符串操作中或多或少受到长度的限制，真是一个头疼的事情。在学习PHP扩展开发中，阅读部分已实现扩展代码中，发现90%的PHP扩展都用到了smart_str，在不用考虑字符串长度的前提下自动分配内容空间，同时分配的空间以内存块的形式分配或者重新分配，提高访问速度，其在字符串拼接需求很有用，另外还能直接将无符号的长整型的数字直接转化为字符，添加到smart_str中。</p>
+<p>smart_str结构体的定义，ext/standard/php_smart_str_public.h：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line"> <span class="keyword">char</span> *c;</span><br><span class="line"> size_t len;</span><br><span class="line"> size_t a;</span><br><span class="line">&#125; smart_str;</span><br></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013-12/29-php-smart-str.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP内核/"> #PHP内核 </a>
+          
+            <a href="/tags/PHP扩展开发/"> #PHP扩展开发 </a>
+          
+            <a href="/tags/smart-str/"> #smart_str </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2013-12/28-php-stream-wrapper.html">
                 PHP内核之资源类型、流、流包装器实现分析
               </a>
@@ -933,94 +1026,6 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-05/20-linux-coreseek.html">
-                Coreseek建立索引出错libmysqlclient.so.18
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-05-10
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Linux/">Linux</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-05/20-linux-coreseek.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/20-linux-coreseek.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="问题">问题</h3><p>Coreseek建立索引出错</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/<span class="keyword">local</span>/coreseek/bin/indexer  --all --<span class="keyword">rotate</span></span><br><span class="line">/usr/<span class="keyword">local</span>/coreseek/bin/indexer: <span class="keyword">error</span> <span class="keyword">while</span> loading shared libraries: libmysqlclient.<span class="keyword">so</span>.18: cannot <span class="keyword">open</span> shared object <span class="keyword">file</span>: <span class="keyword">No</span> such <span class="keyword">file</span> or directory</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-05/20-linux-coreseek.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/coreseek/"> #coreseek </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -1059,21 +1064,21 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">39</span>
+              <span class="site-state-item-count">40</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">60</span>
+              <span class="site-state-item-count">61</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

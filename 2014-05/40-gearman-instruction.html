@@ -24,7 +24,7 @@
 
 
 
-  <meta name="keywords" content="PHP,WEB开发,LAMP,Linux,MySQL,Aapache,Nginx,php内核,php扩展,php源码,phpboy,web架构师,web架构设计,高性能,高可用,PHP技术博客,技术,管理" />
+  <meta name="keywords" content="Gearman," />
 
 
 
@@ -45,14 +45,12 @@
   </script>
 
 
-  <title> PHPBoy-专注WEB架构N年 </title>
+  <title> Gearman调研/测试/原理分析 // PHPBoy-专注WEB架构N年 </title>
 </head>
 
 <body>
 <!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
-  <div class="container one-column 
-   page-home 
-">
+  <div class="container one-column page-post-detail">
     <div class="headband"></div>
 
     <div id="header" class="header">
@@ -114,9 +112,9 @@
       <div class="main-inner">
         <div id="content" class="content">
           
+
   <div id="posts" class="posts-expand">
     
-      
 
   <div class="post post-type-normal ">
     <div class="post-header">
@@ -127,9 +125,7 @@
           
           
             
-              <a class="post-title-link" href="/2014-05/40-gearman-instruction.html">
-                Gearman调研/测试/原理分析
-              </a>
+              Gearman调研/测试/原理分析
             
           
         </h1>
@@ -172,8 +168,7 @@
       
 
       
-        
-          <h3 id="Gearman是什么？">Gearman是什么？</h3><p>它是分布式的程序调用框架，可完成跨语言的相互调用，适合在后台运行工作任务。最初是2005年perl版本，2008年发布C/C++版本。目前大部分源码都是（Gearmand服务job Server）C++，各个API实现有各种语言的版本。PHP的Client API与Worker API实现为C扩展，在PHP官方网站有此扩展的中英文文档。</p>
+        <h3 id="Gearman是什么？">Gearman是什么？</h3><p>它是分布式的程序调用框架，可完成跨语言的相互调用，适合在后台运行工作任务。最初是2005年perl版本，2008年发布C/C++版本。目前大部分源码都是（Gearmand服务job Server）C++，各个API实现有各种语言的版本。PHP的Client API与Worker API实现为C扩展，在PHP官方网站有此扩展的中英文文档。</p>
 <h3 id="Gearman架构中的三个角色">Gearman架构中的三个角色</h3><p>client：请求的发起者，工作任务的需求方（可以是C、PHP、Java、Perl、Mysql udf等等）</p>
 <p>Job Server：请求的调度者，负责将client的请求转发给相应的worker（gearmand服务进程创建）</p>
 <p>worker：请求的处理者（可以是C、PHP、Java、Perl等等）</p>
@@ -341,7 +336,6 @@
 </li>
 </ol>
 
-        
       
     </div>
 
@@ -355,836 +349,35 @@
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
             
-              <a class="post-title-link" href="/2014-05/39-php-splclassloader-psr-0.html">
-                SplClassLoader 基于PSR-0规范的PHP C扩展的自动加载器
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-05-18
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014-05/39-php-splclassloader-psr-0.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014-05/39-php-splclassloader-psr-0.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>本周强迫症又犯了，本来是有想法做其他的东西，但是开始时，就想到PHP类自动按需加载的问题。</p>
-<p>PHP的类自动加载器是所有PHP框架都会精心设计的一个基础构件，各种实现，五花八门。</p>
-<p>另外就是目录与类名称的定义规范，只有有一定的规范才能完成自动加载。在PHP不支持命名空间时，最优雅的实现方式，是类名称和目录映射（常用下划线），有了命名空间我们可以实现更优雅的自动加载。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014-05/39-php-splclassloader-psr-0.html#more">
-              阅读全文 &raquo;
-            </a>
           </div>
-        
-      
-    </div>
 
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/PHP扩展开发/"> #PHP扩展开发 </a>
-          
-            <a href="/tags/SplClassLoader/"> #SplClassLoader </a>
-          
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-05/39-php-splclassloader-psr-0.html">SplClassLoader 基于PSR-0规范的PHP C扩展的自动加载器</a>
+            
+          </div>
         </div>
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
       
     </div>
   </div>
 
 
+
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014-05/38-php-yaf-loader.html">
-                Yaf Loader自动加载策略及Dispatcher路由分发策略
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-05-01
-        </span>
-
+      <div class="comments" id="comments">
         
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014-05/38-php-yaf-loader.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014-05/38-php-yaf-loader.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="I_mean">I mean</h3><p>虽然鸟哥的文档已经介绍了，但是在实际应用中，我们总是会有一些特殊，而且根据鸟哥的文档，无法推理得知，必须从源码得知，故下面的内容基本上从源码中取得。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014-05/38-php-yaf-loader.html#more">
-              阅读全文 &raquo;
-            </a>
+          <div class="ds-thread" data-thread-key="2014-05/40-gearman-instruction.html"
+               data-title="Gearman调研/测试/原理分析" data-url="http://dev.phpboy.net/2014-05/40-gearman-instruction.html">
           </div>
         
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Yaf-Dispatcher/"> #Yaf Dispatcher </a>
-          
-            <a href="/tags/Yaf-Loader/"> #Yaf Loader </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014-04/36-php-gc.html">
-                PHP GC（Garbage Collection）垃圾回收机制
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-04-22
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014-04/36-php-gc.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014-04/36-php-gc.html"></span>
-            </a>
-          </span>
-          
-        
       </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>要了解PHP的GC垃圾回收机制，至少对PHP内核表示PHP空间的值或者变量要有所了解，不然无法理解。</p>
-<p>1.当任何关联到某个变量容器的变量离开它的作用域(比如：函数执行结束)，或者对变量调用了函数 unset()时，“refcount”就会减1</p>
-<p>2.php-5.3以前循环引用问题</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">array</span>( <span class="string">'one'</span> );</span><br><span class="line"><span class="variable">$a</span>[] =&amp;<span class="variable">$a</span>;</span><br><span class="line"><span class="keyword">unset</span>(<span class="variable">$a</span>);</span></span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014-04/36-php-gc.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/gc/"> #gc </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014-04/35-php-yaf-ide-auto-complete.html">
-                Yaf框架之PhpStrom代码自动补全-Yaf IDE Auto Complete
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-04-05
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014-04/35-php-yaf-ide-auto-complete.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014-04/35-php-yaf-ide-auto-complete.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>Yaf Develop Auto Compelete</p>
-<p>Yaf框架之PhpStrom代码自动补全（屏蔽IDE undefined，支持命名空间和下划线两种类命名，中文详细文档，比手册更详细），全手敲。</p>
-<p>下载：</p>
-<p><a href="https://github.com/xudianyang/yaf.auto.complete" title="Yaf IDE Auto Complete" target="_blank">Yaf IDE Auto Complete</a></p>
-<p>使用说明</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014-04/35-php-yaf-ide-auto-complete.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Phpstorm/"> #Phpstorm </a>
-          
-            <a href="/tags/Yaf/"> #Yaf </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014-03/34-php-yaf-response-output.html">
-                关于Yaf响应输出，不想看源码的同学请入
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-03-30
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014-03/34-php-yaf-response-output.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014-03/34-php-yaf-response-output.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="解惑">解惑</h3><p>估计这块疑团是不少的，尤其是不看源码的同学，能够控制Yaf响应输出响应相关类就有Yaf\Dispatcher，Yaf\Controller_Abstract，另外两个类又分别有相应的属性用来控制响应输出，而属性又对应的类方法来设置。</p>
-<h3 id="Yaf\Dispatcher类属性">Yaf\Dispatcher类属性</h3><h4 id="_auto_render">_auto_render</h4><p>自动渲染功能开关，默认1。自动渲染是指根据当前请求的控制器Controller和动作Action自动寻找模块文件，加载与渲染模块，之后返回结果或者输出。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014-03/34-php-yaf-response-output.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Yaf/"> #Yaf </a>
-          
-            <a href="/tags/Yaf-response/"> #Yaf response </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014-03/33-php-xhprof.html">
-                PHP性能分析工具xhprof介绍、安装、使用说明
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-03-08
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014-03/33-php-xhprof.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014-03/33-php-xhprof.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="为什么使用xhprof?">为什么使用xhprof?</h3><p>我们在开发中虽然微观上去控制每一个逻辑的最佳算法，可能了解数据结构之后会去分析一个小段脚本的时间复杂度和空间复杂度，但是我们很难从宏观上去分析一个系统的执行性能与执行流程，以及程序执行的瓶颈。当被问到“你如何去分析一个PHP应用的性能，以及程序的瓶颈是什么的时候”，会不会很尴尬呢？其实PHP性能分析工具有多种可以选择，下面我来说说我使用的xhprof。</p>
-<blockquote>
-<p>XHProf (A Hierarchical Profiler For PHP)是一个轻量级的分层性能测量分析器，是C实现的PHP Zend扩展，最初是facebook的大神们写的，是分层的函数调用级别的分析函数执行的时间、CPU计算时间、内存消耗的PHP性能分析工具。XHProf 除了用C实现的Zend扩展之外，还有一个PHP实现的界面，使得查看XHProf分析结果变得更加容易。</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014-03/33-php-xhprof.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/xhprof/"> #xhprof </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014-02/32-php-opcode.html">
-                PHP代码加密与PHP Opcode缓存总结
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-02-23
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014-02/32-php-opcode.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014-02/32-php-opcode.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="什么是opcode?">什么是opcode?</h3><p>通常情况PHP的程序运行Zend虚拟之上的，当然也可以选择FB出的HHVM。PHP的opcode就是Zend虚拟机执行的指令。我们的PHP代码在需要先通过Zend编译器编译为opcode，再通过Zend解析器执行opcode指令。</p>
-<h3 id="opcode缓存目的">opcode缓存目的</h3><p>通过将PHP脚本预编译的字节码存储到共享内存中来提升PHP的性能，存储预编译字节码的好处就是省去了每次加载和解析PHP脚本的开销。 </p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014-02/32-php-opcode.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/opcode/"> #opcode </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-12/31-php-yaf-src-read.html">
-                PHP C MVC Yaf源码笔记
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-12-26
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-12/31-php-yaf-src-read.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-12/31-php-yaf-src-read.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="C扩展的MVC">C扩展的MVC</h3><p>从了解PHP不久就想着用扩展的方式来实现PHP的程序框架，后来了解鸟哥已经实现了yaf简单的C实现PHP的MVC框架，故将其源代码研究了好几遍。yaf的优势是简单，高效，高性能，框架长驻内存，程序配置内存化，其实主要是运行速度比大部分PHP的框架都快。</p>
-<p>yaf-2.2.9版本的源码为例</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-12/31-php-yaf-src-read.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/MVC/"> #MVC </a>
-          
-            <a href="/tags/PHP扩展开发/"> #PHP扩展开发 </a>
-          
-            <a href="/tags/Yaf/"> #Yaf </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-12/30-php-cli-stdout-stdin.html">
-                PHP CLI接收终端的标准输入
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-12-13
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-12/30-php-cli-stdout-stdin.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-12/30-php-cli-stdout-stdin.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="Case">Case</h3><p>最近在工作中遇到一个问题，需要shell与php结合的方式完成一个与WEB服务器安全相关的功能。我通过shell完成一些服务器配置的扫描，扫描的最终结果要交给PHP进一步整理并分析，最终展现在产品的后台。</p>
-<p>这样就遇到一个问题，shell如何将最终的处理结果交给PHP呢？PHP cli命令行模式下有一些预定义的常量，其中STDIN就可以完美的解决上述的问题，当然也可以通过php://stdin达到同样的效果。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-12/30-php-cli-stdout-stdin.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/CLI/"> #CLI </a>
-          
-            <a href="/tags/STDIN/"> #STDIN </a>
-          
-            <a href="/tags/STDOUT/"> #STDOUT </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-  </div>
-
-  
-  <div class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">&raquo;</a>
   </div>
 
 
@@ -1207,6 +400,15 @@
   <div id="sidebar" class="sidebar">
     <div class="sidebar-inner">
 
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
       
 
       <div class="site-overview">
@@ -1270,6 +472,17 @@
 
       </div>
 
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gearman是什么？"><span class="nav-number">1.</span> <span class="nav-text">Gearman是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gearman架构中的三个角色"><span class="nav-number">2.</span> <span class="nav-text">Gearman架构中的三个角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gearman是如何工作的？"><span class="nav-number">3.</span> <span class="nav-text">Gearman是如何工作的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gearman的吞吐能力"><span class="nav-number">4.</span> <span class="nav-text">Gearman的吞吐能力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gearman典型的部署结构"><span class="nav-number">5.</span> <span class="nav-text">Gearman典型的部署结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gearman支持的特性"><span class="nav-number">6.</span> <span class="nav-text">Gearman支持的特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#高可用"><span class="nav-number">6.1.</span> <span class="nav-text">高可用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#负载均衡（附gearman协议会详细解释）"><span class="nav-number">6.2.</span> <span class="nav-text">负载均衡（附gearman协议会详细解释）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可扩展"><span class="nav-number">6.3.</span> <span class="nav-text">可扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分布式"><span class="nav-number">6.4.</span> <span class="nav-text">分布式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#队列机制"><span class="nav-number">6.5.</span> <span class="nav-text">队列机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#高性能"><span class="nav-number">6.6.</span> <span class="nav-text">高性能</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#两种工作任务"><span class="nav-number">7.</span> <span class="nav-text">两种工作任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于持久化"><span class="nav-number">8.</span> <span class="nav-text">关于持久化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gearman框架中的一个问题"><span class="nav-number">9.</span> <span class="nav-text">Gearman框架中的一个问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我建议的部署结构"><span class="nav-number">10.</span> <span class="nav-text">我建议的部署结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于Gearman的管理工具"><span class="nav-number">11.</span> <span class="nav-text">关于Gearman的管理工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用场景"><span class="nav-number">12.</span> <span class="nav-text">应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gearman安装（unbuntu）"><span class="nav-number">13.</span> <span class="nav-text">Gearman安装（unbuntu）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载"><span class="nav-number">13.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装依赖包"><span class="nav-number">13.2.</span> <span class="nav-text">安装依赖包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动"><span class="nav-number">13.3.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装php的Gearman扩展"><span class="nav-number">13.4.</span> <span class="nav-text">安装php的Gearman扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#php_client_api与php_worker_api"><span class="nav-number">13.5.</span> <span class="nav-text">php client api与php worker api</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gearman通信协议"><span class="nav-number">14.</span> <span class="nav-text">Gearman通信协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#总括"><span class="nav-number">14.1.</span> <span class="nav-text">总括</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#请求的报文体"><span class="nav-number">14.2.</span> <span class="nav-text">请求的报文体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#响应的报文体"><span class="nav-number">14.3.</span> <span class="nav-text">响应的报文体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后台工作任务Background_job"><span class="nav-number">14.4.</span> <span class="nav-text">后台工作任务Background job</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一般工作任务Non-background_job"><span class="nav-number">14.5.</span> <span class="nav-text">一般工作任务Non-background job</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二进制包"><span class="nav-number">14.6.</span> <span class="nav-text">二进制包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#header的组成"><span class="nav-number">14.7.</span> <span class="nav-text">header的组成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#具体各包类型的说明"><span class="nav-number">14.8.</span> <span class="nav-text">具体各包类型的说明</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#client和worker可发送请求报文"><span class="nav-number">14.8.1.</span> <span class="nav-text">client和worker可发送请求报文</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#ECHO_REQ"><span class="nav-number">14.8.1.1.</span> <span class="nav-text">ECHO_REQ</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#client和worker可接收响应报文"><span class="nav-number">14.8.2.</span> <span class="nav-text">client和worker可接收响应报文</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#ECHO_RES"><span class="nav-number">14.8.2.1.</span> <span class="nav-text">ECHO_RES</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#ERROR"><span class="nav-number">14.8.2.2.</span> <span class="nav-text">ERROR</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#SUBMIT_JOB_SCHED"><span class="nav-number">14.8.2.3.</span> <span class="nav-text">SUBMIT_JOB_SCHED</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#SUBMIT_JOB_EPOCH"><span class="nav-number">14.8.2.4.</span> <span class="nav-text">SUBMIT_JOB_EPOCH</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#OPTION_REQ"><span class="nav-number">14.8.2.5.</span> <span class="nav-text">OPTION_REQ</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#STATUS_RES"><span class="nav-number">14.8.2.6.</span> <span class="nav-text">STATUS_RES</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#OPTION_RES"><span class="nav-number">14.8.2.7.</span> <span class="nav-text">OPTION_RES</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#CAN_DO"><span class="nav-number">14.8.2.8.</span> <span class="nav-text">CAN_DO</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#CAN_DO_TIMEOUT"><span class="nav-number">14.8.2.9.</span> <span class="nav-text">CAN_DO_TIMEOUT</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#CANT_DO"><span class="nav-number">14.8.2.10.</span> <span class="nav-text">CANT_DO</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#RESET_ABILITIES"><span class="nav-number">14.8.2.11.</span> <span class="nav-text">RESET_ABILITIES</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#PRE_SLEEP"><span class="nav-number">14.8.2.12.</span> <span class="nav-text">PRE_SLEEP</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#GRAB_JOB"><span class="nav-number">14.8.2.13.</span> <span class="nav-text">GRAB_JOB</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#NGRAB_JOB_UNIQ"><span class="nav-number">14.8.2.14.</span> <span class="nav-text">NGRAB_JOB_UNIQ</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#WORK_DATA"><span class="nav-number">14.8.2.15.</span> <span class="nav-text">WORK_DATA</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#WORK_WARNING"><span class="nav-number">14.8.2.16.</span> <span class="nav-text">WORK_WARNING</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#WORK_STATU"><span class="nav-number">14.8.2.17.</span> <span class="nav-text">WORK_STATU</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#WORK_COMPLETE"><span class="nav-number">14.8.2.18.</span> <span class="nav-text">WORK_COMPLETE</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#WORK_FAIL"><span class="nav-number">14.8.2.19.</span> <span class="nav-text">WORK_FAIL</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#WORK_EXCEPTION"><span class="nav-number">14.8.2.20.</span> <span class="nav-text">WORK_EXCEPTION</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#SET_CLIENT_ID"><span class="nav-number">14.8.2.21.</span> <span class="nav-text">SET_CLIENT_ID</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#ALL_YOURS"><span class="nav-number">14.8.2.22.</span> <span class="nav-text">ALL_YOURS</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#worker获取的响应报文："><span class="nav-number">14.8.3.</span> <span class="nav-text">worker获取的响应报文：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#NOOP"><span class="nav-number">14.8.3.1.</span> <span class="nav-text">NOOP</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#NO_JOB"><span class="nav-number">14.8.3.2.</span> <span class="nav-text">NO_JOB</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#JOB_ASSIGN"><span class="nav-number">14.8.3.3.</span> <span class="nav-text">JOB_ASSIGN</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#JOB_ASSIGN_UNIQ"><span class="nav-number">14.8.3.4.</span> <span class="nav-text">JOB_ASSIGN_UNIQ</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结worker的工作流程"><span class="nav-number">15.</span> <span class="nav-text">总结worker的工作流程</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
       
 
     </div>
@@ -1501,6 +714,328 @@
 
 
   
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+
 
   
 
