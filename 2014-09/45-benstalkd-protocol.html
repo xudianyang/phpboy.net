@@ -1,0 +1,1115 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+  <meta name="google-site-verification" content="google93ba54ee93760f07" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+    <meta name="description" content="&nbsp;&nbsp;&nbsp;&nbsp;PHPBoy是一个PHP相关技术博客网站，在业余时间研究PHP内核与PHP扩展开发，关注WEB后端技术架构，LINUX服务器运维，系统安全，高性能与高可用大型网站技术架构。" />
+
+
+
+  <meta name="keywords" content="beanstalkd," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2d4c4b9cd9f303a04c4d9c24d32f6571";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  <title> beanstalkd协议中文翻译 // PHPBoy-专注WEB架构N年 </title>
+</head>
+
+<body>
+<!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">PHPBoy-专注WEB架构N年</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-categories">
+        <a href="/categories">
+          <i class="menu-item-icon icon-categories"></i> <br />
+          分类
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              beanstalkd协议中文翻译
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-09-08
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/异步编程/">异步编程</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-09/45-benstalkd-protocol.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-09/45-benstalkd-protocol.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <h2 id="Beanstalkd中文协议解读">Beanstalkd中文协议解读</h2><p>最近有需求做全平台的定时器，业务复杂，性能要求高，<code>linux crontab</code>的方式不适用，调研一些支持定时执行的内存队列系统，其中<code>beanstalkd</code>较适合。先将其协议研究一遍，使用就不是问题了。</p>
+<h3 id="总括">总括</h3><p><code>beanstalkd</code>协议基于ASCII编码运行在tcp上。客户端连接服务器并发送指令和数据，然后等待响应并关闭连接。对于每个连接，服务器按照接收命令的序列依次处理并响应。所有整型值都非负的十进制数，除非有特别声明。</p>
+<h3 id="名称约定">名称约定</h3><p>所有名称必须是ASCII码字符串，即包括：</p>
+<ul>
+<li><strong>字母</strong> (A-Z and a-z)</li>
+<li><strong>数字</strong> (0-9)</li>
+<li><strong>连字符</strong> (“-“)</li>
+<li><strong>加号</strong> (“+”)</li>
+<li><strong>斜线</strong> (“/“)</li>
+<li><strong>分号</strong> (“;”)</li>
+<li><strong>点</strong> (“.”)</li>
+<li><strong>美元符</strong> (“$”)</li>
+<li><strong>下划线</strong> (“_”)</li>
+<li><strong>括号</strong> (“<em>(</em>“ and “<em>)</em>“)</li>
+</ul>
+<a id="more"></a>
+<p><strong>注意</strong>：名称不能以连字符开始，并且是以空白字符结束，每个名称至少包含一个字符。</p>
+<h3 id="错误说明">错误说明</h3><table>
+<thead>
+<tr>
+<th>返回的错误</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OUT_OF_MEMORY</code></td>
+<td>服务器没有足够的内存分配给特定的job，客户端应该稍后重试</td>
+</tr>
+<tr>
+<td><code>INTERNAL_ERROR</code></td>
+<td>服务器内部错误，该错误不应该发生，如果发生了，请报告：<a href="http://groups.google.com/group/beanstalk-talk" target="_blank" rel="external">http://groups.google.com/group/beanstalk-talk</a>.</td>
+</tr>
+<tr>
+<td><code>BAD_FORMAT</code></td>
+<td>格式不正确，客户端发送的指令格式出错，有可能不是以结尾，或者要求整型值等等</td>
+</tr>
+<tr>
+<td><code>UNKNOWN_COMMAND</code></td>
+<td>未知的命令，客户端发送的指令服务器不理解</td>
+</tr>
+</tbody>
+</table>
+<h3 id="job的生命周期">job的生命周期</h3><p>一个工作任务job当client使用put命令时创建。在整个生命周期中job可能有四个工作状态：ready，reserved，delayed，buried。在put之后，一个job的典型状态是ready，在ready队列中，它将等待一个worker取出此job并设置为其为reserved状态。worker占有此job并执行，当job执行完毕，worker可以发送一个delete指令删除此job。</p>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ready</code></td>
+<td>等待被取出并处理</td>
+</tr>
+<tr>
+<td><code>reserved</code></td>
+<td>如果job被worker取出，将被此worker预订，worker将执行此job</td>
+</tr>
+<tr>
+<td><code>delayed</code></td>
+<td>等待特定时间之后，状态再迁移为ready状态</td>
+</tr>
+<tr>
+<td><code>buried</code></td>
+<td>等待唤醒，通常在job处理失败时</td>
+</tr>
+</tbody>
+</table>
+<p>job典型的生命周期</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> put            reserve               <span class="keyword">delete</span></span><br><span class="line">---<span class="function">--&gt;</span> [READY] -------<span class="function">--&gt;</span> [RESERVED] ------<span class="function">--&gt;</span> *poof*</span><br></pre></td></tr></table></figure>
+<p>job可能的状态迁移<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> put with delay               release with delay</span><br><span class="line">----------------&gt; [DELAYED] &lt;------------.</span><br><span class="line">                      <span class="string">|                   |</span></span><br><span class="line">               kick   <span class="string">| (time passes)     |</span></span><br><span class="line">                      <span class="string">|                   |</span></span><br><span class="line"> put                  v     reserve       <span class="string">|       delete</span></span><br><span class="line">-----------------&gt; [READY] ---------&gt; [RESERVED] --------&gt; *poof*</span><br><span class="line">                     ^  ^                <span class="string">|  |</span></span><br><span class="line">                     <span class="string">|   \  release      |  |</span></span><br><span class="line">                     <span class="string">|    `-------------'   |</span></span><br><span class="line">                     <span class="string">|                      |</span></span><br><span class="line">                     <span class="string">| kick                 |</span></span><br><span class="line">                     <span class="string">|                      |</span></span><br><span class="line">                     <span class="string">|       bury           |</span></span><br><span class="line">                  [BURIED] &lt;---------------'</span><br><span class="line">                     <span class="string">|</span></span><br><span class="line">                     <span class="string">|  delete</span></span><br><span class="line">                      `--------&gt; *poof*</span><br></pre></td></tr></table></figure></p>
+<h2 id="Tubes">Tubes</h2><p>有名的任务队列，一个服务器有一个或者我个tubes，用来储存统一类型的job。每个tube由一个就绪队列与延迟队列组成。每个job所有的状态迁移在一个tube中完成。consumers消费者可以监控感兴趣的tube，通过发送watch指令。consumers消费者可以取消监控tube，通过发送ignore命令。通过watch list命令返回所有监控的tubes，当客户端预订一个job，此job可能来自任何一个它监控的tube。</p>
+<p>当一个客户端连接上服务器时，客户端监控的tube默认为defaut，如果客户端提交job时，没有使用use命令，那么这些job就存于名为default的tube中。</p>
+<p>tube按需求创建，无论他们在地方被引用到。如果一个tube变为空（即no ready jobs，no delayed jobs，no buried jobs）和没有任何客户端引用，它将会被自动删除。</p>
+<h3 id="指令说明（Commands）">指令说明（Commands）</h3><h4 id="生产者指令说明（Producer_Commands）">生产者指令说明（Producer Commands）</h4><h4 id="put"><code>put</code></h4><p>插入一个job到队列</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">put <span class="tag">&lt;<span class="title">pri</span>&gt;</span> <span class="tag">&lt;<span class="title">delay</span>&gt;</span> <span class="tag">&lt;<span class="title">ttr</span>&gt;</span> <span class="tag">&lt;<span class="title">bytes</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">data</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>&lt;pri&gt;</code> 整型值，为优先级，可以为0-2^32（4,294,967,295），值越小优先级越高，默认为1024。</li>
+<li><code>&lt;delay&gt;</code> 整型值，延迟ready的秒数，在这段时间job为delayed状态。</li>
+<li><code>&lt;ttr&gt;</code> — time to run —整型值，允许worker执行的最大秒数，如果worker在这段时间不能delete，release，bury job，那么job超时，服务器将release此job，此job的状态迁移为ready。最小为1秒，如果客户端指定为0将会被重置为1。</li>
+<li><code>&lt;bytes&gt;</code> 整型值，job body的长度，不包含，这个值必须小于max-job-size，默认为2^16。</li>
+<li><code>&lt;data&gt;</code>   job body</li>
+</ul>
+<p>响应<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">I<span class="built_in">NSERTED</span> &lt;<span class="keyword">id</span>&gt;</span><br><span class="line">表示插入job成功，<span class="keyword">id</span>为新job的任务标识，整型值</span><br><span class="line">BURIED &lt;<span class="keyword">id</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<p>如服务器为了增加队列的优先级而，内存不足时返回，id为新job的任务标识，整型值<br>EXPECTED_CRLF job body必须以结尾<br>JOB_TOO_BIG job body的长度超过max-job-size<br>DRAINING 表示服务器资源耗尽，表示服务器已经进入了“drain mode”，服务器再也不能接受连接，客户端应该使用另一个服务器或者断开稍后重试</p>
+<h4 id="use"><code>use</code></h4><p>说明<br>producer生产者使用，随后使用put命令，将job放置于对应的tube<br>格式<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> &lt;tube&gt;</span><br><span class="line">tube tube的名称，最大为<span class="number">200</span>字节，不存在时将自动创建</span><br></pre></td></tr></table></figure></p>
+<p>响应<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">USING <span class="tag">&lt;<span class="title">tube</span>&gt;</span> tube为正在使用的tube名称</span><br></pre></td></tr></table></figure></p>
+<p>消费者指令说明（Worker Commands）</p>
+<h4 id="reserve"><code>reserve</code></h4><p>说明<br>取出（预订）job，待处理。它将返回一个新预订的job，如果没有job，beanstalkd将直到有job时才发送响应。一旦job状态迁移为reserved,取出job的client被限制在指定的时间（如果设置了ttr）完成，否则超时，job状态重装迁移为ready。<br>格式<br><figure class="highlight mizar"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">reserve</span></span><br></pre></td></tr></table></figure></p>
+<p>可选的一个相似的命令<br><code>reserve-with-timeout</code> 设置取job的超时时间，timeout设置为0时，服务器立即响应或者TIMED_OUT，积极的设置超时，将会限制客户端阻塞在取job的请求的时间。<br>响应<br>DEADLINE_SOON During the TTR of a reserved job, the last second is kept by the server as a safety margin, during which the client will not be made to wait for another job. If the client issues a reserve command during the safety margin, or if the safety margin arrives while the client is waiting on a reserve command.<br>TIMED_OUT 超时<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RESERVED <span class="tag">&lt;<span class="title">id</span>&gt;</span> <span class="tag">&lt;<span class="title">bytes</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">data</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>成功取出job，id为job id,整型值，job body的长度，不包含，data为job body</p>
+<h4 id="delete"><code>delete</code></h4><p>说明<br>从队列中删除一个job<br>格式<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> &lt;id&gt;</span><br></pre></td></tr></table></figure></p>
+<p>id为job id<br>响应<br>DELETED 删除成功<br>NOT_FOUND job不存在时，或者job的状态不为ready和buried（这种情况是在job执行超时之前，client发送了delete指令）</p>
+<h4 id="release"><code>release</code></h4><p>说明<br>release指令将一个reserved的job放回ready queue。它通常在job执行失败时使用。<br>格式<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">release <span class="tag">&lt;<span class="title">id</span>&gt;</span> <span class="tag">&lt;<span class="title">pri</span>&gt;</span> <span class="tag">&lt;<span class="title">delay</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>id 为job id，pri为job的优先级，delay为延迟ready的秒数<br>响应<br>RELEASED 表明成功<br>BURIED 如服务器为了增加队列的优先级而，内存不足时返回<br>NOT_FOUND 如果job不存在或者client没有预订此job</p>
+<h4 id="bury"><code>bury</code></h4><p>说明<br>将一个job的状态迁移为buried，通过kick命令唤醒<br>格式<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bury <span class="tag">&lt;<span class="title">id</span>&gt;</span> <span class="tag">&lt;<span class="title">pri</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>id为job id，pri为优先级<br>响应<br>BURIED 表明成功<br>NOT_FOUND 如果job不存在或者client没有预订此job</p>
+<h4 id="touch"><code>touch</code></h4><p>说明<br>允许worker请求更多的时间执行job，这个很有用当job需要很长的时间来执行，worker可用周期的告诉服务器它仍然在执行job（可以被DEADLINE_SOON触发）<br>格式<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch &lt;<span class="property">id</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<p>id为job id<br>响应<br>TOUCHED 表明成功<br>NOT_FOUND 如果job不存在或者client没有预订此job</p>
+<h4 id="watch"><code>watch</code></h4><p>说明<br>添加监控的tube到watch list列表，reserve指令将会从监控的tube列表获取job，对于每个连接，监控的列表默认为default<br>格式<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch <span class="tag">&lt;<span class="title">tube</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>tube 为监控的tube名称，名称最大为200字节，如果tube不存在会自动创建<br>响应<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WATCHING &lt;<span class="command">count</span>&gt; 表明成功</span><br></pre></td></tr></table></figure></p>
+<p>count 整型值，已监控的tube数量</p>
+<h4 id="ignore"><code>ignore</code></h4><p>说明<br>从已监控的watch list列表中移出特定的tube<br>格式<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ignore <span class="tag">&lt;<span class="title">tube</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>tube 为移出的tube名称，名称最多为200字节，如果tube不存在会自动创建<br>响应<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WATCHING &lt;<span class="command">count</span>&gt; 表明成功</span><br></pre></td></tr></table></figure></p>
+<p>count 整型值，已监控的tube数量<br>NOT_IGNORED 如果client企图忽略其仅有的tube时的响应<br>其他指令说明（Other Command）</p>
+<h4 id="peek"><code>peek</code></h4><p>说明<br>让client在系统中检查job，有四种形式的命令，其中第一种形式的指令是针对当前使用的tube<br>格式<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">peek &lt;<span class="property">id</span>&gt;  返回<span class="property">id</span>对应的job</span><br><span class="line">peek-ready 返回下一个ready job</span><br><span class="line">peek-delayed 返回下一个延迟剩余时间最短的job</span><br><span class="line">peek-buried 返回下一个在buried列表中的job</span><br></pre></td></tr></table></figure></p>
+<p>响应<br>NOT_FOUND 如果job不存在，或者没有对应状态的job<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FOUND <span class="tag">&lt;<span class="title">id</span>&gt;</span> <span class="tag">&lt;<span class="title">bytes</span>&gt;</span> <span class="tag">&lt;<span class="title">data</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>id 为对应的job id<br>bytes job body的字节数<br>data 为job body</p>
+<h4 id="kick"><code>kick</code></h4><p>说明<br>此指令应用在当前使用的tube中，它将job的状态迁移为ready或者delayed<br>格式<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kick <span class="tag">&lt;<span class="title">bound</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>bound 整型值，唤醒的job上限</p>
+<p>响应<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">KICKED &lt;<span class="command">count</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<p>count 为真实唤醒的job数量<br>kick-job<br>说明<br>kick指令的一个变体，可以使单个job被唤醒，使一个状态为buried或者delayed的job迁移为ready，所有的状态迁移都在相同的tube中完成<br>格式<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kick-job &lt;<span class="property">id</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<p>id 为job id<br>响应<br>NOT_FOUND 如果job不存在，或者job是不可唤醒的状态<br>KICKED 表明成功</p>
+<h4 id="stats-job"><code>stats-job</code></h4><p>说明<br>统计job的相关信息<br>格式<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stats-job &lt;<span class="property">id</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<p>id 为job id<br>响应<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NOT_FOUND 如果job不存在</span><br><span class="line"></span><br><span class="line">OK <span class="tag">&lt;<span class="title">bytes</span>&gt;</span><span class="tag">&lt;<span class="title">data</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>bytes 为接下来的data区块的长度<br>data 为YAML file的统计信息<br>其中YAML file包括的key有：</p>
+<ul>
+<li><code>id</code> 表示job id</li>
+<li><code>tube</code> 表示tube的名称</li>
+<li><code>state</code> 表示job的当前状态</li>
+<li><code>pri</code> 表示job的优先级</li>
+<li><code>age</code> 表示job创建的时间单位秒</li>
+<li><code>time-left</code> 表示job的状态迁移为ready的时间，仅在job状态为reserved或者delayed时有意义，当job状态为reserved时表示剩余的超时时间。</li>
+<li><code>file</code> 表示包含此job的binlog序号，如果没有开启它将为0</li>
+<li><code>reserves</code> 表示job被reserved的次数</li>
+<li><code>timeouts</code> 表示job处理的超时时间</li>
+<li><code>releases</code> 表示job被released的次数</li>
+<li><code>buries</code> 表示job被buried的次数</li>
+<li><code>kicks</code> 表示job被kiced的次数</li>
+</ul>
+<h4 id="stats-tube"><code>stats-tube</code></h4><p><strong>说明</strong><br>统计tube的相关信息<br><strong>格式</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stats-tube <span class="tag">&lt;<span class="title">tube</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>tube 为对应的tube的名称，最多为200字节<br><strong>响应</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NOT_FOUND 如果tube不存在</span><br><span class="line">OK <span class="tag">&lt;<span class="title">bytes</span>&gt;</span><span class="tag">&lt;<span class="title">data</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>bytes 为接下来的data区块的长度<br>data 为YAML file的统计信息<br>其中YAML file包括的key有：</p>
+<ul>
+<li><code>name</code> 表示tube的名称</li>
+<li><code>current-jobs-urgent</code> 此tube中优先级小于1024状态为ready的job数量</li>
+<li><code>current-jobs-ready</code> 此tube中状态为ready的job数量</li>
+<li><code>current-jobs-reserved</code> 此tube中状态为reserved的job数量</li>
+<li><code>current-jobs-delayed</code> 此tube中状态为delayed的job数量</li>
+<li><code>current-jobs-bureid</code> 此tube中状态为buried的job数量</li>
+<li><code>total-jobs</code> 此tube中创建的所有job数量</li>
+<li><code>current-using</code> 使用此tube打开的连接数</li>
+<li><code>current-wating</code> 使用此tube打开连接并且等待响应的连接数</li>
+<li><code>current-watching</code> 打开的连接监控此tube的数量</li>
+<li><code>pause</code> 此tube暂停的秒数</li>
+<li><code>cmd-delete</code> 此tube中总共执行的delete指令的次数</li>
+<li><code>cmd-pause-tube</code> 此tube中总共执行pause-tube指令的次数</li>
+<li><code>pause-time-left</code> 此tube暂停剩余的秒数</li>
+</ul>
+<h4 id="stats"><code>stats</code></h4><p><strong>说明</strong><br>返回整个消息队列系统的整体信息<br><strong>格式</strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stats</span><br></pre></td></tr></table></figure></p>
+<p><strong>响应</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OK <span class="tag">&lt;<span class="title">bytes</span>&gt;</span><span class="tag">&lt;<span class="title">data</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>bytes 为接下来的data区块的长度<br>data 为YAML file的统计信息<br>其中YAML file包括的key有（所有的信息都累积的，自从beanstalkd进程启动以来，这些信息不储存在binlog中）：</p>
+<ul>
+<li><code>current-jobs-urgent</code> 优先级小于1024状态为ready的job数量</li>
+<li><code>current-jobs-ready</code> 状态为ready的job数量</li>
+<li><code>current-jobs-reserved</code> 状态为reserved的job数量</li>
+<li><code>current-jobs-delayed</code> 状态为delayed的job数量</li>
+<li><code>current-jobs-bureid</code> 状态为buried的job数量</li>
+<li><code>cmd-put</code> 总共执行put指令的次数</li>
+<li><code>cmd-peek</code> 总共执行peek指令的次数</li>
+<li><code>cmd-peek-ready</code> 总共执行peek-ready指令的次数</li>
+<li><code>cmd-peek-delayed</code> 总共执行peek-delayed指令的次数</li>
+<li><code>cmd-peek-buried</code> 总共执行peek-buried指令的次数</li>
+<li><code>cmd-reserve</code> 总共执行reserve指令的次数</li>
+<li><code>cmd-use</code> 总共执行use指令的次数</li>
+<li><code>cmd-watch</code> 总共执行watch指令的次数</li>
+<li><code>cmd-ignore</code> 总共执行ignore指令的次数</li>
+<li><code>cmd-release</code> 总共执行release指令的次数</li>
+<li><code>cmd-bury</code> 总共执行bury指令的次数</li>
+<li><code>cmd-kick</code> 总共执行kick指令的次数</li>
+<li><code>cmd-stats</code> 总共执行stats指令的次数</li>
+<li><code>cmd-stats-job</code> 总共执行stats-job指令的次数</li>
+<li><code>cmd-stats-tube</code> 总共执行stats-tube指令的次数</li>
+<li><code>cmd-list-tubes</code> 总共执行list-tubes指令的次数</li>
+<li><code>cmd-list-tube-used</code> 总共执行list-tube-used指令的次数</li>
+<li><code>cmd-list-butes-watched</code> 总共执行list-tubes-watched指令的次数</li>
+<li><code>cmd-pause-tube</code> 总共执行pause-tube指令的次数</li>
+<li><code>job-timeouts</code> 所有超时的job的总共数量</li>
+<li><code>total-jobs</code> 创建的所有job数量</li>
+<li><code>max-job-size</code> job的数据部分最大长度</li>
+<li><code>current-tubes</code> 当前存在的tube数量</li>
+<li><code>current-connections</code> 当前打开的连接数</li>
+<li><code>current-producers</code> 当前所有的打开的连接中至少执行一次put指令的连接数量</li>
+<li><code>current-workers</code> 当前所有的打开的连接中至少执行一次reserve指令的连接数量</li>
+<li><code>current-waiting</code> 当前所有的打开的连接中执行reserve指令但是未响应的连接数量</li>
+<li><code>total-connections</code> 总共处理的连接数</li>
+<li><code>pid</code> 服务器进程的id</li>
+<li><code>version</code> 服务器版本号</li>
+<li><code>rusage-utime</code> 进程总共占用的用户CPU时间</li>
+<li><code>rusage-stime</code> 进程总共占用的系统CPU时间</li>
+<li><code>uptime</code> 服务器进程运行的秒数</li>
+<li><code>binlog-oldest-index</code> 开始储存jobs的binlog索引号</li>
+<li><code>binlog-current-index</code> 当前储存jobs的binlog索引号</li>
+<li><code>binlog-max-size binlog</code>的最大容量</li>
+<li><code>binlog-records-written</code> binlog累积写入的记录数</li>
+<li><code>binlog-records-migrated</code> is the cumulative number of records written as part of compaction.</li>
+<li><code>id</code> 一个随机字符串，在beanstalkd进程启动时产生</li>
+<li><code>hostname</code> 主机名</li>
+</ul>
+<h4 id="list-tubes"><code>list-tubes</code></h4><p>说明<br>列表所有存在的tube<br>格式<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">list</span>-tubes</span><br></pre></td></tr></table></figure></p>
+<p>响应<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">OK <span class="tag">&lt;<span class="title">bytes</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">data</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>bytes 为接下来的data区块的长度<br>data 为YAML file，包含所有的tube名称</p>
+<h4 id="list-tube-used"><code>list-tube-used</code></h4><p>说明<br>列表当前client正在use的tube<br>格式<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">list</span>-tube-used</span><br></pre></td></tr></table></figure></p>
+<p>响应<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">USING <span class="tag">&lt;<span class="title">tube</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>tube 为tube名称</p>
+<h4 id="list-tubes-watched"><code>list-tubes-watched</code></h4><p>说明<br>列表当前client watch的tube<br>格式<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">list</span>-tubes-watched</span><br></pre></td></tr></table></figure></p>
+<p>响应<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">OK <span class="tag">&lt;<span class="title">bytes</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">data</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>bytes 为接下来的data区块的长度<br>data 为YAML file，包含所有的tube名称</p>
+<h4 id="quit"><code>quit</code></h4><p>说明<br>关闭连接<br>格式<br><figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">quit</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="pause-tube"><code>pause-tube</code></h4><h5 id="说明">说明</h5><p>此指令针对特定的tube内所有新的job延迟给定的秒数</p>
+<h5 id="格式">格式</h5><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pause-tube &lt;tube-<span class="property">name</span>&gt; &lt;<span class="command">delay</span>&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="响应">响应</h5><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">PAUSED</span> 表示成功</span><br><span class="line">NOT_FOUND tube不存在</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/beanstalkd/"> #beanstalkd </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-11/46-lnmp-concurrent-resource-distribution.html">LNMP的并发考虑与资源分配</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-09/44-mac-soft-tuxera-ntfs.html">MAC OS X Tuxera NTFS 2013.2版本下载及激活码</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2014-09/45-benstalkd-protocol.html"
+               data-title="beanstalkd协议中文翻译" data-url="http://www.phpboy.net/2014-09/45-benstalkd-protocol.html">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="徐典阳" />
+          <p class="site-author-name">徐典阳</p>
+        </div>
+        <p class="site-description motion-element">&nbsp;&nbsp;&nbsp;&nbsp;PHPBoy是一个PHP相关技术博客网站，在业余时间研究PHP内核与PHP扩展开发，关注WEB后端技术架构，LINUX服务器运维，系统安全，高性能与高可用大型网站技术架构。</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">47</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">71</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/xudianyang" target="_blank">GitHub</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://weibo.com/1586005914" target="_blank">Weibo</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.jinritemai.com/" target="_blank">目前工作</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Beanstalkd中文协议解读"><span class="nav-number">1.</span> <span class="nav-text">Beanstalkd中文协议解读</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#总括"><span class="nav-number">1.1.</span> <span class="nav-text">总括</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#名称约定"><span class="nav-number">1.2.</span> <span class="nav-text">名称约定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误说明"><span class="nav-number">1.3.</span> <span class="nav-text">错误说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#job的生命周期"><span class="nav-number">1.4.</span> <span class="nav-text">job的生命周期</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tubes"><span class="nav-number">2.</span> <span class="nav-text">Tubes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#指令说明（Commands）"><span class="nav-number">2.1.</span> <span class="nav-text">指令说明（Commands）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#生产者指令说明（Producer_Commands）"><span class="nav-number">2.1.1.</span> <span class="nav-text">生产者指令说明（Producer Commands）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#put"><span class="nav-number">2.1.2.</span> <span class="nav-text">put</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#use"><span class="nav-number">2.1.3.</span> <span class="nav-text">use</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#reserve"><span class="nav-number">2.1.4.</span> <span class="nav-text">reserve</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#delete"><span class="nav-number">2.1.5.</span> <span class="nav-text">delete</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#release"><span class="nav-number">2.1.6.</span> <span class="nav-text">release</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bury"><span class="nav-number">2.1.7.</span> <span class="nav-text">bury</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#touch"><span class="nav-number">2.1.8.</span> <span class="nav-text">touch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#watch"><span class="nav-number">2.1.9.</span> <span class="nav-text">watch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ignore"><span class="nav-number">2.1.10.</span> <span class="nav-text">ignore</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#peek"><span class="nav-number">2.1.11.</span> <span class="nav-text">peek</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#kick"><span class="nav-number">2.1.12.</span> <span class="nav-text">kick</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#stats-job"><span class="nav-number">2.1.13.</span> <span class="nav-text">stats-job</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#stats-tube"><span class="nav-number">2.1.14.</span> <span class="nav-text">stats-tube</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#stats"><span class="nav-number">2.1.15.</span> <span class="nav-text">stats</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#list-tubes"><span class="nav-number">2.1.16.</span> <span class="nav-text">list-tubes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#list-tube-used"><span class="nav-number">2.1.17.</span> <span class="nav-text">list-tube-used</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#list-tubes-watched"><span class="nav-number">2.1.18.</span> <span class="nav-text">list-tubes-watched</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#quit"><span class="nav-number">2.1.19.</span> <span class="nav-text">quit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pause-tube"><span class="nav-number">2.1.20.</span> <span class="nav-text">pause-tube</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#说明"><span class="nav-number">2.1.20.1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#格式"><span class="nav-number">2.1.20.2.</span> <span class="nav-text">格式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#响应"><span class="nav-number">2.1.20.3.</span> <span class="nav-text">响应</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp;  2009 - 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">徐典阳</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.content img').each(function () {
+        var $image = $(this);
+        var $imageWrapLink = $image.parent('a');
+
+        if ($imageWrapLink.size() < 1) {
+          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
+        }
+        $imageWrapLink.addClass('fancybox');
+      });
+    });
+    $('.fancybox').fancybox({
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    LogoAndMenuMotion();
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+    function LogoAndMenuMotion() {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        
+        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
+        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
+        
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    }
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
+      $('.post').velocity('transition.slideDownIn', postMotionOptions);
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"phpboy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+</body>
+</html>

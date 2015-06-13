@@ -127,6 +127,660 @@
           
           
             
+              <a class="post-title-link" href="/2014-12/47-php-session-concurent.html">
+                PHP session并发操作及session读写锁
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-12-24
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-12/47-php-session-concurent.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-12/47-php-session-concurent.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>今天我来谈谈所有的PHPer都熟悉的session。</p>
+<h3 id="Case">Case</h3><p>1.示例代码中分别以files，redis储存会话数据</p>
+<p>2./session/setUserFile和/session/setUserRedis设置user_name，user_id两个key，并sleep了3s</p>
+<p>3./session/setLoginFile和/session/setLoginRedis设置last_time一个key</p>
+<p>4./session/indexFile和/session/indexRedis模板中两个ajax请求，/session/setUserFile和/session/setUserRedis立即执行，/session/setLoginFile和/session/setLoginRedis延迟300ms，是为了模拟同一个用户，同时在两个页面（请求）修改会话数据</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014-12/47-php-session-concurent.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/session-lock/"> #session lock </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014-11/46-lnmp-concurrent-resource-distribution.html">
+                LNMP的并发考虑与资源分配
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-11-08
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-11/46-lnmp-concurrent-resource-distribution.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-11/46-lnmp-concurrent-resource-distribution.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>好久没有更新博客了，有些朋友感觉我消失了，哈哈。最近项目正在赶工，也是没有办法。</p>
+<h3 id="在招聘中常问的一个问题">在招聘中常问的一个问题</h3><p>PHPer当被问到你的程序性能如何？程序的并发可以达到多少？程序的瓶颈在哪儿？为了满足业务需求应该购买多少台服务器？负载均衡中php应用服务器需要多少台？</p>
+<p>可能这些问题在面试中会设置一个应用的场景及一些前提条件，让面试的人去设计，并提出看法建议，能够回答得很好的人还是比较少的。</p>
+<p>今天我们来谈谈LNMP的并发考虑和资源分配。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014-11/46-lnmp-concurrent-resource-distribution.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/LNMP/"> #LNMP </a>
+          
+            <a href="/tags/Linux/"> #Linux </a>
+          
+            <a href="/tags/Nginx/"> #Nginx </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014-09/45-benstalkd-protocol.html">
+                beanstalkd协议中文翻译
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-09-08
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/异步编程/">异步编程</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-09/45-benstalkd-protocol.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-09/45-benstalkd-protocol.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="Beanstalkd中文协议解读">Beanstalkd中文协议解读</h2><p>最近有需求做全平台的定时器，业务复杂，性能要求高，<code>linux crontab</code>的方式不适用，调研一些支持定时执行的内存队列系统，其中<code>beanstalkd</code>较适合。先将其协议研究一遍，使用就不是问题了。</p>
+<h3 id="总括">总括</h3><p><code>beanstalkd</code>协议基于ASCII编码运行在tcp上。客户端连接服务器并发送指令和数据，然后等待响应并关闭连接。对于每个连接，服务器按照接收命令的序列依次处理并响应。所有整型值都非负的十进制数，除非有特别声明。</p>
+<h3 id="名称约定">名称约定</h3><p>所有名称必须是ASCII码字符串，即包括：</p>
+<ul>
+<li><strong>字母</strong> (A-Z and a-z)</li>
+<li><strong>数字</strong> (0-9)</li>
+<li><strong>连字符</strong> (“-“)</li>
+<li><strong>加号</strong> (“+”)</li>
+<li><strong>斜线</strong> (“/“)</li>
+<li><strong>分号</strong> (“;”)</li>
+<li><strong>点</strong> (“.”)</li>
+<li><strong>美元符</strong> (“$”)</li>
+<li><strong>下划线</strong> (“_”)</li>
+<li><strong>括号</strong> (“<em>(</em>“ and “<em>)</em>“)</li>
+</ul>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014-09/45-benstalkd-protocol.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/beanstalkd/"> #beanstalkd </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014-09/44-mac-soft-tuxera-ntfs.html">
+                MAC OS X Tuxera NTFS 2013.2版本下载及激活码
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-09-06
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Tools/">Tools</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-09/44-mac-soft-tuxera-ntfs.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-09/44-mac-soft-tuxera-ntfs.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>以前的版本失效了，无法写NTFS文件系统。网上找了好久都没有找到2013.02新版的激活码，在淘宝买了一个和大家分享。</p>
+<p>另外，相当鄙视那些在论坛里面发附件要求登录，要求充值，要求积分下载！！！！</p>
+<p>下载地址（内附激活码）：<a href="http://a.phpboy.net/tuxerantfs_2013.2.zip" title="MAC OS X Tuxera 2013.2版本下载及激活码">MAC OS X Tuxera 2013.2版本下载及激活码</a></p>
+<p>备份下载（内附激活码）：<a href="http://pan.baidu.com/s/1gdEbILH" title="MAC OS X Tuxera 2013.2版本下载及激活码">MAC OS X Tuxera 2013.2版本下载及激活码</a></p>
+<p>粘一下说明，以便让新手了解：<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014-09/44-mac-soft-tuxera-ntfs.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Tuxera-NTFS/"> #Tuxera NTFS </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014-08/43-php-yaf-dispatch-segmentation-fault.html">
+                Yaf的Action中Dispatch导致Segmentation fault
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-08-24
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-08/43-php-yaf-dispatch-segmentation-fault.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-08/43-php-yaf-dispatch-segmentation-fault.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>首先，这个问题是在Yaf群偶然看到的，这些小伙儿不折腾不畅快，今天闲来，扫了一下代码，得出结论。</p>
+<p>其次，另外一个观点是，工具在运用时一定要清楚其原理，不然就是自己跳坑了没有人救的。</p>
+<p>先简单明了看一下，在基于Yaf的PHP代码示例：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="keyword">use</span> <span class="title">Yaf</span>\<span class="title">Dispatcher</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Yaf</span>\<span class="title">Controller_Abstract</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">IndexController</span> <span class="keyword">extends</span> <span class="title">Controller_Abstract</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">init</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="comment">// 无</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">indexAction</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">            <span class="variable">$request</span> = <span class="keyword">new</span> Yaf\Request\Simple(<span class="string">'API'</span>, <span class="string">'index'</span>, <span class="string">'index'</span>, <span class="string">'simple'</span>);</span><br><span class="line">            Dispatcher::getInstance()-&gt;dispatch(<span class="variable">$request</span>);</span><br><span class="line">            <span class="variable">$this</span>-&gt;_view-&gt;assign(<span class="string">'displayWelcome'</span>, <span class="number">1</span>);</span><br><span class="line">            <span class="variable">$this</span>-&gt;_view-&gt;assign(<span class="string">'hello'</span>, <span class="string">'hello world!'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">simpleAction</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">'xudianyang'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014-08/43-php-yaf-dispatch-segmentation-fault.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Yaf/"> #Yaf </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014-08/42-php-tclip.html">
+                PHP扩展tclip调用opencv从内存中读取及解析图片
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-08-10
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-08/42-php-tclip.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-08/42-php-tclip.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>前两天蛮说有一个PHP扩展，tclip图片裁剪程序。</p>
+<p>Tclip致力于人脸识别和图片显著性区域的识别，它与其他图片裁剪程序最大的不同之处在于，在裁剪后的图片中保留人脸和其他图片显著性区域，不过还是图片裁剪。</p>
+<p>tclip这个扩展依赖开源的opencv库，百科：OpenCV的全称是：Open Source Computer Vision Library。OpenCV是一个基于（开源）发行的跨平台计算机视觉库，可以运行在Linux、Windows和Mac OS操作系统上。它轻量级而且高效——由一系列 C 函数和少量 C++ 类构成，同时提供了Python、Ruby、MATLAB等语言的接口，实现了图像处理和计算机视觉方面的很多通用算法。</p>
+<p>回到正题，tclip这个小程序，只用到了opencv中一小部分功能，就是图片显著性区域的识别。</p>
+<p>具体的裁剪算法，不做多的研究。</p>
+<p>现在的问题是，想实现从内存中通过PHP读取图片的二进制数据（这部分数据是先准备好的）传递给opencv，通过查看opencv的API文档，看到了imdecode方法，可以从内存中载入图片。那么可以解决这个问题了。</p>
+<p>关于安装tclip扩展的介绍：<a href="https://github.com/exinnet/tclip" target="_blank" rel="external">https://github.com/exinnet/tclip</a></p>
+<p>但是要注意的是，opencv-2.4.9应该有bug，编译不成功，另外ubuntu-14.0.4的编译安装之后调用tclip函数报错，我测试的版本是：</p>
+<blockquote>
+<p>centos-6.4<br>PHP-5.4.31<br>opencv-2.4.4</p>
+</blockquote>
+<p>我简单的修改一下tclip扩展，支持直接从内存中载入图片数据：<a href="https://github.com/xudianyang/tclip" target="_blank" rel="external">https://github.com/xudianyang/tclip</a></p>
+<p>最后，虽然PHP中已经直接可以传递图片的二进制数据了，但是发现opencv源码中，也会先将二进制数据保存到一个临时文件，再读取的。并且在opencv-2.4.2版本中临时文件不会被删除，这就有点坑了。但是还是可以减少PHP的逻辑，所以支持二进制的图片数据还是有必要的。</p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP扩展开发/"> #PHP扩展开发 </a>
+          
+            <a href="/tags/tclip/"> #tclip </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014-08/41-vagrant-teambition.html">
+                vagrant介绍及搭建团队协作开发环境
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-08-02
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Team/">Team</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-08/41-vagrant-teambition.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-08/41-vagrant-teambition.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="vagrant解决的问题">vagrant解决的问题</h3><p>稍微有点团队协作开发经验的程序员都应该知道团队协作开发环境是多么的重要，起初的时候，大家的开发环境是windows,mac os x,ubuntu,centos等等，我们各个程序员都是那么坚信程序在“我”的机器上是真的正常的。但是就线上就是出了问题，或者A程序员开发环境跑不起来，而且常常提交文件时，由于目录结构的差异，会导致误提交。由于开发环境的异构会导致我们浪费大量的时间去解决这些开发环境的问题。</p>
+<p>所以vagrant可以解决上述的问题，可以实现开发环境的跨平台统一部署。它还可以做得：</p>
+<p>1.编辑代码环境和运行、测试环境分离，代码在一个环境中编辑，运行在另外一个系统。</p>
+<p>2.可以在程序多个版本自由切换，如线上、QA测试版本、当前正在开发</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014-08/41-vagrant-teambition.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vagrant/"> #vagrant </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014-05/40-gearman-instruction.html">
                 Gearman调研/测试/原理分析
               </a>
@@ -386,646 +1040,11 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014-04/36-php-gc.html">
-                PHP GC（Garbage Collection）垃圾回收机制
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-04-22
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014-04/36-php-gc.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014-04/36-php-gc.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>要了解PHP的GC垃圾回收机制，至少对PHP内核表示PHP空间的值或者变量要有所了解，不然无法理解。</p>
-<p>1.当任何关联到某个变量容器的变量离开它的作用域(比如：函数执行结束)，或者对变量调用了函数 unset()时，“refcount”就会减1</p>
-<p>2.php-5.3以前循环引用问题</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">array</span>( <span class="string">'one'</span> );</span><br><span class="line"><span class="variable">$a</span>[] =&amp;<span class="variable">$a</span>;</span><br><span class="line"><span class="keyword">unset</span>(<span class="variable">$a</span>);</span></span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014-04/36-php-gc.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/gc/"> #gc </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014-04/35-php-yaf-ide-auto-complete.html">
-                Yaf框架之PhpStrom代码自动补全-Yaf IDE Auto Complete
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-04-05
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014-04/35-php-yaf-ide-auto-complete.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014-04/35-php-yaf-ide-auto-complete.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>Yaf Develop Auto Compelete</p>
-<p>Yaf框架之PhpStrom代码自动补全（屏蔽IDE undefined，支持命名空间和下划线两种类命名，中文详细文档，比手册更详细），全手敲。</p>
-<p>下载：</p>
-<p><a href="https://github.com/xudianyang/yaf.auto.complete" title="Yaf IDE Auto Complete" target="_blank">Yaf IDE Auto Complete</a></p>
-<p>使用说明</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014-04/35-php-yaf-ide-auto-complete.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Phpstorm/"> #Phpstorm </a>
-          
-            <a href="/tags/Yaf/"> #Yaf </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014-03/34-php-yaf-response-output.html">
-                关于Yaf响应输出，不想看源码的同学请入
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-03-30
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014-03/34-php-yaf-response-output.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014-03/34-php-yaf-response-output.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="解惑">解惑</h3><p>估计这块疑团是不少的，尤其是不看源码的同学，能够控制Yaf响应输出响应相关类就有Yaf\Dispatcher，Yaf\Controller_Abstract，另外两个类又分别有相应的属性用来控制响应输出，而属性又对应的类方法来设置。</p>
-<h3 id="Yaf\Dispatcher类属性">Yaf\Dispatcher类属性</h3><h4 id="_auto_render">_auto_render</h4><p>自动渲染功能开关，默认1。自动渲染是指根据当前请求的控制器Controller和动作Action自动寻找模块文件，加载与渲染模块，之后返回结果或者输出。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014-03/34-php-yaf-response-output.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Yaf/"> #Yaf </a>
-          
-            <a href="/tags/Yaf-response/"> #Yaf response </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014-03/33-php-xhprof.html">
-                PHP性能分析工具xhprof介绍、安装、使用说明
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-03-08
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014-03/33-php-xhprof.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014-03/33-php-xhprof.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="为什么使用xhprof?">为什么使用xhprof?</h3><p>我们在开发中虽然微观上去控制每一个逻辑的最佳算法，可能了解数据结构之后会去分析一个小段脚本的时间复杂度和空间复杂度，但是我们很难从宏观上去分析一个系统的执行性能与执行流程，以及程序执行的瓶颈。当被问到“你如何去分析一个PHP应用的性能，以及程序的瓶颈是什么的时候”，会不会很尴尬呢？其实PHP性能分析工具有多种可以选择，下面我来说说我使用的xhprof。</p>
-<blockquote>
-<p>XHProf (A Hierarchical Profiler For PHP)是一个轻量级的分层性能测量分析器，是C实现的PHP Zend扩展，最初是facebook的大神们写的，是分层的函数调用级别的分析函数执行的时间、CPU计算时间、内存消耗的PHP性能分析工具。XHProf 除了用C实现的Zend扩展之外，还有一个PHP实现的界面，使得查看XHProf分析结果变得更加容易。</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014-03/33-php-xhprof.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/xhprof/"> #xhprof </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014-02/32-php-opcode.html">
-                PHP代码加密与PHP Opcode缓存总结
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-02-23
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014-02/32-php-opcode.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014-02/32-php-opcode.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="什么是opcode?">什么是opcode?</h3><p>通常情况PHP的程序运行Zend虚拟之上的，当然也可以选择FB出的HHVM。PHP的opcode就是Zend虚拟机执行的指令。我们的PHP代码在需要先通过Zend编译器编译为opcode，再通过Zend解析器执行opcode指令。</p>
-<h3 id="opcode缓存目的">opcode缓存目的</h3><p>通过将PHP脚本预编译的字节码存储到共享内存中来提升PHP的性能，存储预编译字节码的好处就是省去了每次加载和解析PHP脚本的开销。 </p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014-02/32-php-opcode.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/opcode/"> #opcode </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-12/31-php-yaf-src-read.html">
-                PHP C MVC Yaf源码笔记
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-12-26
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-12/31-php-yaf-src-read.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-12/31-php-yaf-src-read.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="C扩展的MVC">C扩展的MVC</h3><p>从了解PHP不久就想着用扩展的方式来实现PHP的程序框架，后来了解鸟哥已经实现了yaf简单的C实现PHP的MVC框架，故将其源代码研究了好几遍。yaf的优势是简单，高效，高性能，框架长驻内存，程序配置内存化，其实主要是运行速度比大部分PHP的框架都快。</p>
-<p>yaf-2.2.9版本的源码为例</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-12/31-php-yaf-src-read.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/MVC/"> #MVC </a>
-          
-            <a href="/tags/PHP扩展开发/"> #PHP扩展开发 </a>
-          
-            <a href="/tags/Yaf/"> #Yaf </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-12/30-php-cli-stdout-stdin.html">
-                PHP CLI接收终端的标准输入
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-12-13
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-12/30-php-cli-stdout-stdin.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-12/30-php-cli-stdout-stdin.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="Case">Case</h3><p>最近在工作中遇到一个问题，需要shell与php结合的方式完成一个与WEB服务器安全相关的功能。我通过shell完成一些服务器配置的扫描，扫描的最终结果要交给PHP进一步整理并分析，最终展现在产品的后台。</p>
-<p>这样就遇到一个问题，shell如何将最终的处理结果交给PHP呢？PHP cli命令行模式下有一些预定义的常量，其中STDIN就可以完美的解决上述的问题，当然也可以通过php://stdin达到同样的效果。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-12/30-php-cli-stdout-stdin.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/CLI/"> #CLI </a>
-          
-            <a href="/tags/STDIN/"> #STDIN </a>
-          
-            <a href="/tags/STDOUT/"> #STDOUT </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
   <div class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">&raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">&raquo;</a>
   </div>
 
 
@@ -1059,21 +1078,21 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-count">47</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">10</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">61</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

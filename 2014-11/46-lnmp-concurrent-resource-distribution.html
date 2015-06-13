@@ -1,0 +1,957 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+  <meta name="google-site-verification" content="google93ba54ee93760f07" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+    <meta name="description" content="&nbsp;&nbsp;&nbsp;&nbsp;PHPBoy是一个PHP相关技术博客网站，在业余时间研究PHP内核与PHP扩展开发，关注WEB后端技术架构，LINUX服务器运维，系统安全，高性能与高可用大型网站技术架构。" />
+
+
+
+  <meta name="keywords" content="LNMP,Linux,Nginx," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2d4c4b9cd9f303a04c4d9c24d32f6571";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  <title> LNMP的并发考虑与资源分配 // PHPBoy-专注WEB架构N年 </title>
+</head>
+
+<body>
+<!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">PHPBoy-专注WEB架构N年</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-categories">
+        <a href="/categories">
+          <i class="menu-item-icon icon-categories"></i> <br />
+          分类
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              LNMP的并发考虑与资源分配
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-11-08
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-11/46-lnmp-concurrent-resource-distribution.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-11/46-lnmp-concurrent-resource-distribution.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <p>好久没有更新博客了，有些朋友感觉我消失了，哈哈。最近项目正在赶工，也是没有办法。</p>
+<h3 id="在招聘中常问的一个问题">在招聘中常问的一个问题</h3><p>PHPer当被问到你的程序性能如何？程序的并发可以达到多少？程序的瓶颈在哪儿？为了满足业务需求应该购买多少台服务器？负载均衡中php应用服务器需要多少台？</p>
+<p>可能这些问题在面试中会设置一个应用的场景及一些前提条件，让面试的人去设计，并提出看法建议，能够回答得很好的人还是比较少的。</p>
+<p>今天我们来谈谈LNMP的并发考虑和资源分配。</p>
+<a id="more"></a>
+<h3 id="概念">概念</h3><h4 id="LNMP中的N是nginx充当Web_Server">LNMP中的N是nginx充当Web Server</h4><p>内容的分发者，会在文件系统找到相应的文件，就返回给浏览器，如：nginx。如果是静态的文件，就可以直接返回，但是如果是index.php需要解析并执行的脚本文件时，Web Server就无力了，需要将请求转发给相应的脚本语言的解析器来解释并执行，最终将程序的执行结果，返回给Web Server，再返回给浏览器。</p>
+<h4 id="LNMP中的P是php充当后端的逻辑处理程序">LNMP中的P是php充当后端的逻辑处理程序</h4><p>那么php与nginx的常规协作方式是如何的呢？需要我们明确几个概念</p>
+<h5 id="cgi">cgi</h5><p>通用网关接口，是HTTP协议中描述的，Web Server与后端处理程序进程间通信的协议</p>
+<h5 id="php-cgi">php-cgi</h5><p>php实现了cgi协议，使得web server与php共同完成一个动态网页的请求响应</p>
+<h5 id="fastcgi">fastcgi</h5><p>是为了解决cgi性能问题，而规范的另外一种协议，为什么说解决cgi性能问题，因为在面对各大中型网站的业务需求中，cgi程序表现得越来越无力，因为cgi程序在每次接收到请求时都需要启动新的进程，并初始化环境，然后执行程序，具体的协议内容，在此不引述。</p>
+<h5 id="php-fpm">php-fpm</h5><p>实现了fastcgi协议，是php-cgi的进程管理器，解决高并发网站的性能问题。</p>
+<p>在最终回答LNMP的并发考虑与资源分配还需要明确的几个概念</p>
+<h4 id="并发">并发</h4><p>一般由单位内完成的请求数来衡量，如，每秒事务数（TPS），每秒HTTP请求数（HPS），每秒查询数（QPS）。通常情况下，我们说PHP的并发，都是指一秒内PHP完成的动态请求的次数。如某网站高峰期的动态请求并发为5000每秒，这个数字不算太高，但也不低。一般日活跃用户数在1000万-5000万的网站应用才能达到这个级别。</p>
+<h4 id="性能">性能</h4><p>一般是指应用程序的处理速度，如果php的应用程序，打开一个页面（执行一个脚本程序）通常需要在50-100ms完成，这对程序的性能要求还是比较高的。但是这还仅仅只是程序处理，php处理完成之后，还要交给web server，web server再将数据返回浏览器，这中间会有一个网络延迟，通常网络正常的情况下，需要大约100ms，最终一个动态网页的请求大约200ms（理想的情况下）可以到达用户浏览器端（仅仅是一个html结构）。</p>
+<h3 id="资源分配">资源分配</h3><h4 id="php-fpm进程数">php-fpm进程数</h4><p>按照上面的描述，并发为5000每秒，每个请求完成大约200ms（具体页面要具体分析，这里只是一个理想值），如果只有5台PHP应用程序服务器，那么每台机器平均为并发1000每秒，如果是使用nginx+php-fpm的架构，php-fpm的php-cgi进程管理器的配置应该如何呢？我计算的结果为（具体的配置项说明在后文）：</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">pm=</span>static</span><br><span class="line">pm.<span class="variable">max_children=</span><span class="number">100</span></span><br></pre></td></tr></table></figure>
+<p>上面的100是如何得来的，由于机器平均并发为1000每秒，每个动态请求的处理时间为100ms，也就是说1个php-fpm的worker处理进程在1秒内可以处理10个请求，100个php-fpm的worker处理进程，就可以处理1000个请求。</p>
+<p>当然需要结合服务器硬件资源来进行配置，如果配置不当，很容易在请求高峰期或者流量猛增导致服务器宕机。</p>
+<h4 id="网络带宽">网络带宽</h4><p>网络带宽也会是一个重要的因素，如果你的服务处理很强，但是用户的请求和响应不能及时到达也是白忙活，这个参数如何计算呢？</p>
+<p>并发5000每秒，每个请求的输出为20K，则5000x20K=100000K=100M</p>
+<p>这就要求你的公网负载均衡器外网出口带宽至少要达到100M</p>
+<h4 id="内存">内存</h4><p>上述中100个php-fpm的worker处理进程，理论上如果服务器只运行php-fpm，那么我们可以将服务器内存的一半分配给php-fpm，通常情况下，我们可以认为一个php-fpm的worker处理进程占用内存20M，那么100x20M=2G，也就是说明服务器的内存大约为4G</p>
+<h4 id="CPU">CPU</h4><p>由于php-fpm是一个多进程的模型应用，CPU进程调度消耗也是很大的，并且PHP应用程序有问题也会导致CPU占用率高，这就没有量化的指标，需要具体情况具体分析了。但是有一个小建议，可以部署一个crontab每隔一分钟检测cpu占用率超过多少就kill掉相应的php-fpm的worker处理进程。</p>
+<h3 id="php-fpm_Unix_Socket">php-fpm Unix Socket</h3><p>如果nginx与php在同一台机器，nginx与php-fpm使用unix域套接字代替tcp socke进行通信，这个配置挺关键的，纯echo的ab测试，采用unix域套接字每秒请求数提升10%-20%</p>
+<p>即nginx中配置：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">fastcgi_pass</span> <span class="rule"><span class="attribute">unix</span>:<span class="value">/data/server/var/php/php-fpm.sock</span></span>;</span><br></pre></td></tr></table></figure>
+<p>php-fpm.conf中配置：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">listen = <span class="regexp">/data/server</span><span class="regexp">/var/php</span><span class="regexp">/php-fpm.sock</span></span><br></pre></td></tr></table></figure>
+<p>最后遇到很多同学对php-fpm的进程管理器的核心配置不太了解，下面是我翻译的配置说明：</p>
+<h4 id="php-fpm配置项">php-fpm配置项</h4><h4 id="pm">pm</h4><p>进程管理器以控制子进程的数量，可能的值有</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">static                        一个固定的值，由pm.max_children指定</span><br><span class="line">dynamic                       动态的（工作方式和Apache的prefork模式一致），但是保持至少一个，由</span><br><span class="line">                              pm<span class="class">.max_children</span>             在同一时间最大的进程数</span><br><span class="line">                              pm<span class="class">.start_servers</span>              php-fpm启动时开启的等待请求到来的进程数</span><br><span class="line">                              pm<span class="class">.min_spare_servers</span>    在空闲状态下，运行的最小进程数，如果小于此值，会创建新的进程</span><br><span class="line">                              pm<span class="class">.max_spare_servers</span>   在空闲状态下，运行的最大进程数，如果大于此值，会kill部分进程</span><br><span class="line">ondemand                      启动时不会创建进程，当请求达到时创建子进程处理请求</span><br><span class="line">                              pm<span class="class">.max_children</span> 在同一时间最大的进程数</span><br><span class="line">                              pm<span class="class">.process_idle_timeout</span>  空闲多少秒之后进程会被kill</span><br></pre></td></tr></table></figure>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm = <span class="keyword">static</span></span><br></pre></td></tr></table></figure>
+<h4 id="pm-max_children">pm.max_children</h4><p>在同一时间最大的进程数</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm<span class="class">.max_children</span> = <span class="number">120</span></span><br></pre></td></tr></table></figure>
+<h4 id="pm-start_servers">pm.start_servers</h4><p>php-fpm启动时开启的等待请求到来的进程数，默认值为：min_spare_servers + (max_spare_servers - min_spare_servers) / 2</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm<span class="class">.start_servers</span> = <span class="number">80</span></span><br></pre></td></tr></table></figure>
+<h4 id="pm-min_spare_servers">pm.min_spare_servers</h4><p>在空闲状态下，运行的最小进程数，如果小于此值，会创建新的进程</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm<span class="class">.min_spare_servers</span> = <span class="number">60</span></span><br></pre></td></tr></table></figure>
+<h4 id="pm-max_spare_servers">pm.max_spare_servers</h4><p>在空闲状态下，运行的最大进程数，如果大于此值，会kill部分进程</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm<span class="class">.max_spare_servers</span> = <span class="number">120</span></span><br></pre></td></tr></table></figure>
+<h3 id="pm-process_idle_timeout">pm.process_idle_timeout</h3><p>空闲多少秒之后进程会被kill，默认为10s</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm<span class="class">.process_idle_timeout</span> = <span class="number">10s</span></span><br></pre></td></tr></table></figure>
+<h4 id="pm-max_requests">pm.max_requests</h4><p>每个进程处理多少个请求之后自动终止，可以有效防止内存溢出，如果为0则不会自动终止，默认为0</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm<span class="class">.max_requests</span> = <span class="number">5000</span></span><br></pre></td></tr></table></figure>
+<h3 id="pm-status_path">pm.status_path</h3><p>注册的URI，以展示php-fpm状态的统计信息</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm<span class="class">.status_path</span> = /status</span><br></pre></td></tr></table></figure>
+<p>其中统计页面信息有：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pool                         进程池名称</span><br><span class="line"><span class="built_in">process</span> manager              进程管理器名称（static, dynamic <span class="operator">or</span> ondemand）</span><br><span class="line"><span class="built_in">start</span> <span class="built_in">time</span>                   php-fpm启动时间</span><br><span class="line"><span class="built_in">start</span> since                  php-fpm启动的总秒数</span><br><span class="line">accepted conn                当前进程池接收的请求数</span><br><span class="line">listen queue                 等待队列的请求数</span><br><span class="line"><span class="built_in">max</span> listen queue             自启动以来等待队列中最大的请求数</span><br><span class="line">listen queue <span class="built_in">len</span>             等待连接<span class="built_in">socket</span>队列大小</span><br><span class="line">idle processes               当前空闲的进程数</span><br><span class="line">active processes             活动的进程数</span><br><span class="line">total processes              总共的进程数（idle+active）</span><br><span class="line"><span class="built_in">max</span> active processes         自启动以来活动的进程数最大值</span><br><span class="line"><span class="built_in">max</span> children reached         达到最大进程数的次数</span><br></pre></td></tr></table></figure>
+<h3 id="ping-path">ping.path</h3><p>ping url，可以用来测试php-fpm是否存活并可以响应</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="winutils">ping</span>.<span class="built_in">path</span> = /<span class="winutils">ping</span></span><br></pre></td></tr></table></figure>
+<h3 id="ping-response">ping.response</h3><p>ping url的响应正文</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping<span class="class">.response</span> = pong</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/LNMP/"> #LNMP </a>
+          
+            <a href="/tags/Linux/"> #Linux </a>
+          
+            <a href="/tags/Nginx/"> #Nginx </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-12/47-php-session-concurent.html">PHP session并发操作及session读写锁</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-09/45-benstalkd-protocol.html">beanstalkd协议中文翻译</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2014-11/46-lnmp-concurrent-resource-distribution.html"
+               data-title="LNMP的并发考虑与资源分配" data-url="http://www.phpboy.net/2014-11/46-lnmp-concurrent-resource-distribution.html">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="徐典阳" />
+          <p class="site-author-name">徐典阳</p>
+        </div>
+        <p class="site-description motion-element">&nbsp;&nbsp;&nbsp;&nbsp;PHPBoy是一个PHP相关技术博客网站，在业余时间研究PHP内核与PHP扩展开发，关注WEB后端技术架构，LINUX服务器运维，系统安全，高性能与高可用大型网站技术架构。</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">47</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">71</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/xudianyang" target="_blank">GitHub</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://weibo.com/1586005914" target="_blank">Weibo</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.jinritemai.com/" target="_blank">目前工作</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#在招聘中常问的一个问题"><span class="nav-number">1.</span> <span class="nav-text">在招聘中常问的一个问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">2.</span> <span class="nav-text">概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#LNMP中的N是nginx充当Web_Server"><span class="nav-number">2.1.</span> <span class="nav-text">LNMP中的N是nginx充当Web Server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LNMP中的P是php充当后端的逻辑处理程序"><span class="nav-number">2.2.</span> <span class="nav-text">LNMP中的P是php充当后端的逻辑处理程序</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#cgi"><span class="nav-number">2.2.1.</span> <span class="nav-text">cgi</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#php-cgi"><span class="nav-number">2.2.2.</span> <span class="nav-text">php-cgi</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#fastcgi"><span class="nav-number">2.2.3.</span> <span class="nav-text">fastcgi</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#php-fpm"><span class="nav-number">2.2.4.</span> <span class="nav-text">php-fpm</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#并发"><span class="nav-number">2.3.</span> <span class="nav-text">并发</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#性能"><span class="nav-number">2.4.</span> <span class="nav-text">性能</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源分配"><span class="nav-number">3.</span> <span class="nav-text">资源分配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#php-fpm进程数"><span class="nav-number">3.1.</span> <span class="nav-text">php-fpm进程数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#网络带宽"><span class="nav-number">3.2.</span> <span class="nav-text">网络带宽</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内存"><span class="nav-number">3.3.</span> <span class="nav-text">内存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CPU"><span class="nav-number">3.4.</span> <span class="nav-text">CPU</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#php-fpm_Unix_Socket"><span class="nav-number">4.</span> <span class="nav-text">php-fpm Unix Socket</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#php-fpm配置项"><span class="nav-number">4.1.</span> <span class="nav-text">php-fpm配置项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pm"><span class="nav-number">4.2.</span> <span class="nav-text">pm</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pm-max_children"><span class="nav-number">4.3.</span> <span class="nav-text">pm.max_children</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pm-start_servers"><span class="nav-number">4.4.</span> <span class="nav-text">pm.start_servers</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pm-min_spare_servers"><span class="nav-number">4.5.</span> <span class="nav-text">pm.min_spare_servers</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pm-max_spare_servers"><span class="nav-number">4.6.</span> <span class="nav-text">pm.max_spare_servers</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pm-process_idle_timeout"><span class="nav-number">5.</span> <span class="nav-text">pm.process_idle_timeout</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pm-max_requests"><span class="nav-number">5.1.</span> <span class="nav-text">pm.max_requests</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pm-status_path"><span class="nav-number">6.</span> <span class="nav-text">pm.status_path</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ping-path"><span class="nav-number">7.</span> <span class="nav-text">ping.path</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ping-response"><span class="nav-number">8.</span> <span class="nav-text">ping.response</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp;  2009 - 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">徐典阳</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.content img').each(function () {
+        var $image = $(this);
+        var $imageWrapLink = $image.parent('a');
+
+        if ($imageWrapLink.size() < 1) {
+          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
+        }
+        $imageWrapLink.addClass('fancybox');
+      });
+    });
+    $('.fancybox').fancybox({
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    LogoAndMenuMotion();
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+    function LogoAndMenuMotion() {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        
+        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
+        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
+        
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    }
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
+      $('.post').velocity('transition.slideDownIn', postMotionOptions);
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"phpboy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+</body>
+</html>

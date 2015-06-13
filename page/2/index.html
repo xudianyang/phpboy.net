@@ -127,6 +127,641 @@
           
           
             
+              <a class="post-title-link" href="/2014-04/36-php-gc.html">
+                PHP GC（Garbage Collection）垃圾回收机制
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-04-22
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-04/36-php-gc.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-04/36-php-gc.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>要了解PHP的GC垃圾回收机制，至少对PHP内核表示PHP空间的值或者变量要有所了解，不然无法理解。</p>
+<p>1.当任何关联到某个变量容器的变量离开它的作用域(比如：函数执行结束)，或者对变量调用了函数 unset()时，“refcount”就会减1</p>
+<p>2.php-5.3以前循环引用问题</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">array</span>( <span class="string">'one'</span> );</span><br><span class="line"><span class="variable">$a</span>[] =&amp;<span class="variable">$a</span>;</span><br><span class="line"><span class="keyword">unset</span>(<span class="variable">$a</span>);</span></span><br></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014-04/36-php-gc.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/gc/"> #gc </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014-04/35-php-yaf-ide-auto-complete.html">
+                Yaf框架之PhpStrom代码自动补全-Yaf IDE Auto Complete
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-04-05
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-04/35-php-yaf-ide-auto-complete.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-04/35-php-yaf-ide-auto-complete.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>Yaf Develop Auto Compelete</p>
+<p>Yaf框架之PhpStrom代码自动补全（屏蔽IDE undefined，支持命名空间和下划线两种类命名，中文详细文档，比手册更详细），全手敲。</p>
+<p>下载：</p>
+<p><a href="https://github.com/xudianyang/yaf.auto.complete" title="Yaf IDE Auto Complete" target="_blank">Yaf IDE Auto Complete</a></p>
+<p>使用说明</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014-04/35-php-yaf-ide-auto-complete.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Phpstorm/"> #Phpstorm </a>
+          
+            <a href="/tags/Yaf/"> #Yaf </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014-03/34-php-yaf-response-output.html">
+                关于Yaf响应输出，不想看源码的同学请入
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-03-30
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-03/34-php-yaf-response-output.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-03/34-php-yaf-response-output.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="解惑">解惑</h3><p>估计这块疑团是不少的，尤其是不看源码的同学，能够控制Yaf响应输出响应相关类就有Yaf\Dispatcher，Yaf\Controller_Abstract，另外两个类又分别有相应的属性用来控制响应输出，而属性又对应的类方法来设置。</p>
+<h3 id="Yaf\Dispatcher类属性">Yaf\Dispatcher类属性</h3><h4 id="_auto_render">_auto_render</h4><p>自动渲染功能开关，默认1。自动渲染是指根据当前请求的控制器Controller和动作Action自动寻找模块文件，加载与渲染模块，之后返回结果或者输出。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014-03/34-php-yaf-response-output.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Yaf/"> #Yaf </a>
+          
+            <a href="/tags/Yaf-response/"> #Yaf response </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014-03/33-php-xhprof.html">
+                PHP性能分析工具xhprof介绍、安装、使用说明
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-03-08
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-03/33-php-xhprof.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-03/33-php-xhprof.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="为什么使用xhprof?">为什么使用xhprof?</h3><p>我们在开发中虽然微观上去控制每一个逻辑的最佳算法，可能了解数据结构之后会去分析一个小段脚本的时间复杂度和空间复杂度，但是我们很难从宏观上去分析一个系统的执行性能与执行流程，以及程序执行的瓶颈。当被问到“你如何去分析一个PHP应用的性能，以及程序的瓶颈是什么的时候”，会不会很尴尬呢？其实PHP性能分析工具有多种可以选择，下面我来说说我使用的xhprof。</p>
+<blockquote>
+<p>XHProf (A Hierarchical Profiler For PHP)是一个轻量级的分层性能测量分析器，是C实现的PHP Zend扩展，最初是facebook的大神们写的，是分层的函数调用级别的分析函数执行的时间、CPU计算时间、内存消耗的PHP性能分析工具。XHProf 除了用C实现的Zend扩展之外，还有一个PHP实现的界面，使得查看XHProf分析结果变得更加容易。</p>
+</blockquote>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014-03/33-php-xhprof.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/xhprof/"> #xhprof </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014-02/32-php-opcode.html">
+                PHP代码加密与PHP Opcode缓存总结
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-02-23
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-02/32-php-opcode.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-02/32-php-opcode.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="什么是opcode?">什么是opcode?</h3><p>通常情况PHP的程序运行Zend虚拟之上的，当然也可以选择FB出的HHVM。PHP的opcode就是Zend虚拟机执行的指令。我们的PHP代码在需要先通过Zend编译器编译为opcode，再通过Zend解析器执行opcode指令。</p>
+<h3 id="opcode缓存目的">opcode缓存目的</h3><p>通过将PHP脚本预编译的字节码存储到共享内存中来提升PHP的性能，存储预编译字节码的好处就是省去了每次加载和解析PHP脚本的开销。 </p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014-02/32-php-opcode.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/opcode/"> #opcode </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2013-12/31-php-yaf-src-read.html">
+                PHP C MVC Yaf源码笔记
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-12-26
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-12/31-php-yaf-src-read.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-12/31-php-yaf-src-read.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="C扩展的MVC">C扩展的MVC</h3><p>从了解PHP不久就想着用扩展的方式来实现PHP的程序框架，后来了解鸟哥已经实现了yaf简单的C实现PHP的MVC框架，故将其源代码研究了好几遍。yaf的优势是简单，高效，高性能，框架长驻内存，程序配置内存化，其实主要是运行速度比大部分PHP的框架都快。</p>
+<p>yaf-2.2.9版本的源码为例</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013-12/31-php-yaf-src-read.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MVC/"> #MVC </a>
+          
+            <a href="/tags/PHP扩展开发/"> #PHP扩展开发 </a>
+          
+            <a href="/tags/Yaf/"> #Yaf </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2013-12/30-php-cli-stdout-stdin.html">
+                PHP CLI接收终端的标准输入
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2013-12-13
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/PHP/">PHP</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013-12/30-php-cli-stdout-stdin.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013-12/30-php-cli-stdout-stdin.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="Case">Case</h3><p>最近在工作中遇到一个问题，需要shell与php结合的方式完成一个与WEB服务器安全相关的功能。我通过shell完成一些服务器配置的扫描，扫描的最终结果要交给PHP进一步整理并分析，最终展现在产品的后台。</p>
+<p>这样就遇到一个问题，shell如何将最终的处理结果交给PHP呢？PHP cli命令行模式下有一些预定义的常量，其中STDIN就可以完美的解决上述的问题，当然也可以通过php://stdin达到同样的效果。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013-12/30-php-cli-stdout-stdin.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CLI/"> #CLI </a>
+          
+            <a href="/tags/STDIN/"> #STDIN </a>
+          
+            <a href="/tags/STDOUT/"> #STDOUT </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2013-12/29-php-smart-str.html">
                 PHP内核之smart_str实现分析与在扩展开发中的应用
               </a>
@@ -396,641 +1031,11 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-11/26-linux-httpd-add-module.html">
-                linux下httpd增加模块
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-11-02
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Apache/">Apache</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-11/26-linux-httpd-add-module.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-11/26-linux-httpd-add-module.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="I_mean">I mean</h3><p>通常我们在部署LAMP时，安装完httpd服务，用我们整理的httpd.conf替换默认的httpd.conf重启httpd服务时可能会遇到某些模块未编译的情况，第一反应是要重新编译，但是apache是支持动态扩展模块的，也就是说不需要重新编译整个apache，就像的PHP phpize工具一样，能够单独编译某个扩展，并加入到已有的环境中。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-11/26-linux-httpd-add-module.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/httpd/"> #httpd </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-10/25-linux-lvm-instruction.html">
-                linux LVM 增加、扩容逻辑卷
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-10-30
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Linux/">Linux</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-10/25-linux-lvm-instruction.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-10/25-linux-lvm-instruction.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>LVM百度百科</p>
-<blockquote>
-<p>LVM是 Logical Volume Manager（逻辑卷管理）的简写，它是Linux环境下对磁盘分区进行管理的一种机制，它由Heinz Mauelshagen在Linux 2.4内核上实现，目前最新版本为：稳定版1.0.5，开发版 1.1.0-rc2，以及LVM2开发版。</p>
-</blockquote>
-<p>以下操作假设新增一个硬盘的设备文件名为/dev/sdb</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-10/25-linux-lvm-instruction.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/LVM/"> #LVM </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-09/37-php-firephp-console.html">
-                PHP扩展之firephp console
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-09-21
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-09/37-php-firephp-console.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-09/37-php-firephp-console.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>最近一直研究PHP的C扩展开发，在工作闲暇时，用C实现了一个PHP扩展——firephp，主要目的是为了学习PHP的扩展开发，所以只实现了firephp的INFO两种格式的console输出。</p>
-<p>相信做PHP项目开发的coder都了解firephp是什么，但还是说明一下。</p>
-<p>在大型项目或者线上生产环境中为了快速的解决问题，我们在调试代码时又往往不能var_dump,echo,print_r来输出信息，特别在调试ajax程序时，这时就需要一种特殊的输出方式，从而使得普通用户访问正常的程序与输出调试信息的程序无异；当然我们有时候也是为了格式化输出的调试信息。那么，firephp就是这样的一个服务端console与firefox浏览器插件配合的PHP调试代码的一个工具。</p>
-<p>目前firephp基于firebug插件基础上，并且这两个浏览器插件都是firefox浏览器的。我们在安装的时候也注意安装顺序先安装firebug，后安装firephp。我们浏览器虽然安装了console的客户端，还需要我们服务器端输出调试信息，而输出的信息是一个格式化的响应报头。一般情况下我们都会在github找到:<br><a href="https://github.com/firephp/firephp" target="_blank">https://github.com/firephp/firephp</a><br>firephp的格式化字符串header报头输出的PHP语言实现，但是我们在任何项目或者脚本中都需要引入此类文件。</p>
-<p>所以我用C实现了一个mini版本的firephp PHP的C扩展，另外，我在php-5.2.17,php-5.3.25,php-5.4.14,php-5.5.4等版本调试编译通过。此扩展依赖php的json扩展，如需console正常运行，请安装json扩展。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-09/37-php-firephp-console.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/PHP扩展开发/"> #PHP扩展开发 </a>
-          
-            <a href="/tags/console/"> #console </a>
-          
-            <a href="/tags/firephp/"> #firephp </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-09/24-php-extension-develop-not-head-file.html">
-                PHP扩展开发编译时找不到相应的头文件
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-09-10
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-09/24-php-extension-develop-not-head-file.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-09/24-php-extension-develop-not-head-file.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>在扩展开发中往往我们自己开发的扩展会使用到现有一些开源扩展提供的库函数，需要引入相应的头文件，编译扩展时有可能会提示找不到相应的头文件，如：</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">In</span> <span class="keyword">file</span> included from /Users/xudianyang/C/php-5.4.14/ext/firephp/firephp.c:1:</span><br><span class="line">./firephp.<span class="keyword">h</span>:18:10: fatal <span class="keyword">error</span>: 'ext/reflection/php_reflection.<span class="keyword">h</span>' <span class="keyword">file</span> not found</span><br><span class="line">#<span class="keyword">include</span> <span class="string">"ext/reflection/php_reflection.h"</span> <span class="comment">/* for php reflection*/</span></span><br></pre></td></tr></table></figure>
-<p>在开发PHP内建又称静态扩展、外部又称动态加载扩展时，要使用其他扩展中的库函数时，那就是依赖了其他的扩展，这时就要安装其他的扩展。</p>
-<p>如果明白phpize的机制就明了，我们只需要在PHP源码的目录找到php-x.x.x/ext/ext<em>name/[php</em>]ext_name.h，然后在PHP的安装目录下的./include/php/ext/建立与之对应的扩展名目录和头文件即可，如：<br>php根目录/include/php/ext/reflection/php_reflection.h</p>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/PHP扩展开发/"> #PHP扩展开发 </a>
-          
-            <a href="/tags/头文件/"> #头文件 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-07/23-apache-log-format.html">
-                Apache日志格式与配置（记录远端用户端口）
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-07-11
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Apache/">Apache</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-07/23-apache-log-format.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-07/23-apache-log-format.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>Apache强大的日志模块提供了详细的参数来配置个性化的日志记录。</p>
-<p>使用apache的日志，最基本的两个配置指令</p>
-<h3 id="LogFormat">LogFormat</h3><p>使用格式：</p>
-<p>LogFormat “格式串” 日志格式名称</p>
-<p>具体的格式串的说明，参考Apache手册。<br><a href="http://apache.jz123.cn/mod/mod_log_config.html">http://apache.jz123.cn/mod/mod_log_config.html</a></p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-07/23-apache-log-format.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/LogFormat/"> #LogFormat </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-05/22-php-coding-standards.html">
-                PHP代码及命名规范
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-05-16
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-05/22-php-coding-standards.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/22-php-coding-standards.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>一个优秀的团队代码规范是必须的，可以促进团队合作，降低维护成本，体现团队的凝聚力，直接有助于代码审查，对于个人来说，有助于自身的成长。整理了现有团队的代码规范，虽不是最标准，但是收集了很多优雅规范。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-05/22-php-coding-standards.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/coding-standards/"> #coding standards </a>
-          
-            <a href="/tags/代码规范/"> #代码规范 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2013-05/21-jquery-mobile-apply.html">
-                使用jquery mobile开发HTML5移动站的那点事儿
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2013-05-10
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Javascript/">Javascript</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2013-05/21-jquery-mobile-apply.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013-05/21-jquery-mobile-apply.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="事出原由">事出原由</h3><p>首先申明本人不是前端工程师纯属酱油男，只是在一个移动站点项目中采用了jquery mobile进行HTML5单网页站点的开发（这是一段伤心的历程）。那天我还沉浸在服务器集群部署实施的那种美好感觉中（虽然就那么几台机子），那天我还是认为我永远都不会使用jquery mobile开发站点，可是这一切的美好都被那个姓牛的主任所打断。对，就是姓牛，虽然他会看到这篇blog,事实上他是想看的。牛主任在拉我入伙的时候，他已经研究了很长时间的html5,css3,jqm(jquery mobile)，然后突然说：<br>“典阳，我们要做HTML5 ELLEMEN手机端的项目，给你两个文档，你看看吧。我准备用jqm来做，然后……”</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013-05/21-jquery-mobile-apply.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/jquery/"> #jquery </a>
-          
-            <a href="/tags/jquery-mobile/"> #jquery mobile </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
   <div class="pagination">
-    <a class="extend prev" rel="prev" href="/">&laquo;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">&raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">&raquo;</a>
   </div>
 
 
@@ -1064,21 +1069,21 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-count">47</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">10</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">61</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
