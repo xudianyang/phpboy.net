@@ -313,7 +313,7 @@
           
             
               <a class="post-title-link" href="/2014-09/45-benstalkd-protocol.html">
-                beanstalkd协议中文翻译
+                Beanstalkd协议中文翻译
               </a>
             
           
@@ -358,7 +358,7 @@
 
       
         
-          <h2 id="Beanstalkd中文协议解读">Beanstalkd中文协议解读</h2><p>最近有需求做全平台的定时器，业务复杂，性能要求高，<code>linux crontab</code>的方式不适用，调研一些支持定时执行的内存队列系统，其中<code>beanstalkd</code>较适合。先将其协议研究一遍，使用就不是问题了。</p>
+          <p>最近有需求做全平台的定时器，业务复杂，性能要求高，<code>linux crontab</code>的方式不适用，调研一些支持定时执行的内存队列系统，其中<code>beanstalkd</code>较适合。先将其协议研究一遍，使用就不是问题了。</p>
 <h3 id="总括">总括</h3><p><code>beanstalkd</code>协议基于ASCII编码运行在tcp上。客户端连接服务器并发送指令和数据，然后等待响应并关闭连接。对于每个连接，服务器按照接收命令的序列依次处理并响应。所有整型值都非负的十进制数，除非有特别声明。</p>
 <h3 id="名称约定">名称约定</h3><p>所有名称必须是ASCII码字符串，即包括：</p>
 <ul>
@@ -781,96 +781,6 @@
           
           
             
-              <a class="post-title-link" href="/2014-05/40-gearman-instruction.html">
-                Gearman调研/测试/原理分析
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-05-18
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/异步编程/">异步编程</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014-05/40-gearman-instruction.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014-05/40-gearman-instruction.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="Gearman是什么？">Gearman是什么？</h3><p>它是分布式的程序调用框架，可完成跨语言的相互调用，适合在后台运行工作任务。最初是2005年perl版本，2008年发布C/C++版本。目前大部分源码都是（Gearmand服务job Server）C++，各个API实现有各种语言的版本。PHP的Client API与Worker API实现为C扩展，在PHP官方网站有此扩展的中英文文档。</p>
-<h3 id="Gearman架构中的三个角色">Gearman架构中的三个角色</h3><p>client：请求的发起者，工作任务的需求方（可以是C、PHP、Java、Perl、Mysql udf等等）</p>
-<p>Job Server：请求的调度者，负责将client的请求转发给相应的worker（gearmand服务进程创建）</p>
-<p>worker：请求的处理者（可以是C、PHP、Java、Perl等等）<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014-05/40-gearman-instruction.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Gearman/"> #Gearman </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
               <a class="post-title-link" href="/2014-05/39-php-splclassloader-psr-0.html">
                 SplClassLoader 基于PSR-0规范的PHP C扩展的自动加载器
               </a>
@@ -936,6 +846,96 @@
             <a href="/tags/PHP扩展开发/"> #PHP扩展开发 </a>
           
             <a href="/tags/SplClassLoader/"> #SplClassLoader </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014-05/40-gearman-instruction.html">
+                Gearman调研/测试/原理分析
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-05-18
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/异步编程/">异步编程</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014-05/40-gearman-instruction.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014-05/40-gearman-instruction.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="Gearman是什么？">Gearman是什么？</h3><p>它是分布式的程序调用框架，可完成跨语言的相互调用，适合在后台运行工作任务。最初是2005年perl版本，2008年发布C/C++版本。目前大部分源码都是（Gearmand服务job Server）C++，各个API实现有各种语言的版本。PHP的Client API与Worker API实现为C扩展，在PHP官方网站有此扩展的中英文文档。</p>
+<h3 id="Gearman架构中的三个角色">Gearman架构中的三个角色</h3><p>client：请求的发起者，工作任务的需求方（可以是C、PHP、Java、Perl、Mysql udf等等）</p>
+<p>Job Server：请求的调度者，负责将client的请求转发给相应的worker（gearmand服务进程创建）</p>
+<p>worker：请求的处理者（可以是C、PHP、Java、Perl等等）<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014-05/40-gearman-instruction.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Gearman/"> #Gearman </a>
           
         </div>
       
@@ -1092,7 +1092,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">71</span>
+              <span class="site-state-item-count">69</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
