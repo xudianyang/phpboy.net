@@ -201,7 +201,7 @@
 <p>Yaf\Application::app()-&gt;bootstrap()-&gt;getDispatcher-&gt;dispatch();</p>
 <p>1.在yaf_dispatcher_route中，完成路由解析，得到module=demo，controller=aca_stat_job，action=write</p>
 <p>2.在yaf_dispatcher_fix_default中，通过其处理得到module=Demo，controller=Aca_Stat_Job，action=write</p>
-<p>3.在2中完成之后，通过hook机制，Request<em>Abstract::getControllerName()，然后将”</em>“替换为””，并setControllerName，其结果为module=Demo，controller=AcaStatJob，action=write</p>
+<p>3.在2中完成之后，通过hook机制，Request_Abstract::getControllerName()，然后将下划线替换为空字符，并setControllerName，其结果为module=Demo，controller=AcaStatJob，action=write</p>
 <p>4.在yaf_internal_autoload中完成自动加载类文件</p>
 <blockquote>
 <p>application/Modules/Demo/controllers/AcaStatJob.php</p>
@@ -210,7 +210,7 @@
 <p>然后假如我们不写plugin会怎样？</p>
 <p>1.在yaf_dispatcher_route中，完成路由解析，得到module=demo，controller=aca_stat_job，action=write</p>
 <p>2.在yaf_dispatcher_fix_default中，通过其处理得到module=Demo，controller=Aca_Stat_Job，action=write</p>
-<p>3.在yaf<em>internal_autoload中，将类名中的”</em>“替换为”/“</p>
+<p>3.在yaf_internal_autoload中，将类名中的下划线替换为”/“</p>
 <p>4.在yaf_internal_autoload中完成自动加载类文件</p>
 <blockquote>
 <p>application/Modules/Demo/controllers/Aca/Stat/Job.php</p>
