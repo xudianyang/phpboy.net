@@ -127,6 +127,97 @@
           
           
             
+              <a class="post-title-link" href="/2016-06/48-ec-snapping-system-app-scenarios.html">
+                电商抢购秒杀系统的设计_1_应用场景分析
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2016-06-22
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Architecture/">Architecture</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2016-06/48-ec-snapping-system-app-scenarios.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2016-06/48-ec-snapping-system-app-scenarios.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h1 id="概述">概述</h1><p>所谓知已知彼，百战不殆，在开始详细介绍实战中的抢购秒杀系统时，我们了解一些抢购秒杀系统系统面临的尴尬与难点。另外需要说明一点，下面的内容都是在工作中慢慢总结得来，我们团队也是慢慢摸着石头过河，甚至最初的的架构设计并非是抢购秒杀系统。</p>
+<h1 id="评估系统处理能力">评估系统处理能力</h1><p>理论基础：<a href="http://www.phpboy.net/2014-11/46-lnmp-concurrent-resource-distribution.html">LNMP的并发考虑与资源分配</a> </p>
+<p>虽然有基础去评估我们应用系统的处理能力，但是电商购买的业务流程挺复杂，从登录，商品详情，购物车，填写收货地址，选择支付方式，创建订单，完成支付，以及隐含的定时服务，限购策略，库存操作，排队机制等一系列的业务逻辑，每个请求的处理时间都不一样。那么根据木桶原理，一只水桶能将多少水取决于它最短的那块木板，分析整个业务流程中最耗系统资源的请求，以此为标准为评估系统处理能力。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016-06/48-ec-snapping-system-app-scenarios.html#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/抢购/"> #抢购 </a>
+          
+            <a href="/tags/秒杀/"> #秒杀 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014-12/47-php-session-concurent.html">
                 PHP session并发操作及session读写锁
               </a>
@@ -951,95 +1042,6 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014-05/38-php-yaf-loader.html">
-                Yaf Loader自动加载策略及Dispatcher路由分发策略
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-05-01
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/PHP/">PHP</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014-05/38-php-yaf-loader.html#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014-05/38-php-yaf-loader.html"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h3 id="I_mean">I mean</h3><p>虽然鸟哥的文档已经介绍了，但是在实际应用中，我们总是会有一些特殊，而且根据鸟哥的文档，无法推理得知，必须从源码得知，故下面的内容基本上从源码中取得。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014-05/38-php-yaf-loader.html#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Yaf-Dispatcher/"> #Yaf Dispatcher </a>
-          
-            <a href="/tags/Yaf-Loader/"> #Yaf Loader </a>
-          
-        </div>
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -1078,21 +1080,21 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">47</span>
+              <span class="site-state-item-count">48</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -1112,14 +1114,14 @@
               <a href="http://weibo.com/1586005914" target="_blank">Weibo</a>
             </span>
             
-              <span class="links-of-author-item">
-              <a href="http://www.jinritemai.com/" target="_blank">目前工作</a>
-            </span>
-            
           
         </div>
 
         
+        <div class="cc-license motion-element">
+            <img style="width: 180px;" src="/images/contribute.jpg" alt="支付宝" />
+            <p><span class="links-of-author-item">捐献</span></p>
+        </div>
         
           <div class="cc-license motion-element">
             <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">

@@ -1,0 +1,942 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+  <meta name="google-site-verification" content="google93ba54ee93760f07" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+    <meta name="description" content="&nbsp;&nbsp;&nbsp;&nbsp;PHPBoy是一个PHP相关技术博客网站，在业余时间研究PHP内核与PHP扩展开发，关注WEB后端技术架构，LINUX服务器运维，系统安全，高性能与高可用大型网站技术架构。" />
+
+
+
+  <meta name="keywords" content="抢购,秒杀," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2d4c4b9cd9f303a04c4d9c24d32f6571";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  <title> 电商抢购秒杀系统的设计_1_应用场景分析 // PHPBoy-专注WEB架构N年 </title>
+</head>
+
+<body>
+<!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">PHPBoy-专注WEB架构N年</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-categories">
+        <a href="/categories">
+          <i class="menu-item-icon icon-categories"></i> <br />
+          分类
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              电商抢购秒杀系统的设计_1_应用场景分析
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2016-06-22
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Architecture/">Architecture</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2016-06/48-ec-snapping-system-app-scenarios.html#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2016-06/48-ec-snapping-system-app-scenarios.html"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <h1 id="概述">概述</h1><p>所谓知已知彼，百战不殆，在开始详细介绍实战中的抢购秒杀系统时，我们了解一些抢购秒杀系统系统面临的尴尬与难点。另外需要说明一点，下面的内容都是在工作中慢慢总结得来，我们团队也是慢慢摸着石头过河，甚至最初的的架构设计并非是抢购秒杀系统。</p>
+<h1 id="评估系统处理能力">评估系统处理能力</h1><p>理论基础：<a href="http://www.phpboy.net/2014-11/46-lnmp-concurrent-resource-distribution.html" target="_blank" rel="external">LNMP的并发考虑与资源分配</a> </p>
+<p>虽然有基础去评估我们应用系统的处理能力，但是电商购买的业务流程挺复杂，从登录，商品详情，购物车，填写收货地址，选择支付方式，创建订单，完成支付，以及隐含的定时服务，限购策略，库存操作，排队机制等一系列的业务逻辑，每个请求的处理时间都不一样。那么根据木桶原理，一只水桶能将多少水取决于它最短的那块木板，分析整个业务流程中最耗系统资源的请求，以此为标准为评估系统处理能力。</p>
+<a id="more"></a>
+<h1 id="场景">场景</h1><p>我们是一个做特卖秒杀抢购的电商平台，我们的商品异常火爆且价格低廉价，这就给网络黄牛带了巨大的利润空间。为了让真正的平台用户受益，改善用户体验，提高用户留存率，我们在产品业务、技术实现上尝试了很多方法，都没有完美解决黄牛刷单的问题。</p>
+<h2 id="目标">目标</h2><p>话说回来，让黄牛买不到商品，不是单纯技术能够解决的问题。我们要解决的问题是，由于黄牛大规模的请求登录接口、商品详情页接口、下单接口导致在抢购开始前后的流量峰值直接翻了上千倍，最终导致服务不可用。在不增加硬件成本的情况下，解决短时间内大流量导致的服务不可用。</p>
+<h2 id="产品特征">产品特征</h2><p>以H5应用为主站主要流量入口，支持QQ、微信、微博等平台用户登录购买，嵌入到某流行的资讯客户端。另外，也有单独的特卖安卓客户端、IOS客户端。</p>
+<h2 id="刷单特征">刷单特征</h2><h3 id="账号">账号</h3><p>黄牛每次抢购活动注册新用户，由于平台流量大部分来自某新闻客户端，客户端的账号体系为弱账号体系，可以绑定手机号也可以解除绑定，每次重新绑定都会生成新的用户ID。同时平台也允许非手机号注册的用户下单购买商品，用户的收货地址的联系电话可以和注册账号的手机号不一致。另一方面，黄牛在淘宝花钱可以购买大量的平台新注册账号，真是术业有专攻。</p>
+<h3 id="IP库">IP库</h3><p>在云服务盛行的互联网时代，黄牛以很低的成本可以获得上万的IP及主机，IP分布在全球各地。</p>
+<h3 id="频次">频次</h3><p>黄牛刷单时访问频次不是很高，在拥有大量账号、IP的情况下，访问频次低也可以抢购到商品。</p>
+<h3 id="破解原生App">破解原生App</h3><p>黄牛的技术很强，将混淆加密后的原生客户端破解，将其中的加密算法重写，升级抢购软件。</p>
+<h3 id="CC攻击">CC攻击</h3><p>黄牛为了避免预约用户将商品提前抢光，联合全国的黄牛同时高频次的访问网站数据接口，导致网站由于大流量下不堪重负，从而服务不可用，在预约提前购买时间过去（黄牛的目的是堵住预约用户购买），全网用户均可购买时，慢慢的减少流量，任意下单购买商品。</p>
+<h2 id="产品与技术措施">产品与技术措施</h2><h3 id="产品业务角度">产品业务角度</h3><h4 id="预约购买">预约购买</h4><p>全网用户提前预约，具有预约购买资格的用户可享受提前入场下单购买。预约需要绑定手机号，输入验证码（短信和图片）。</p>
+<h4 id="抢购排队">抢购排队</h4><p>为了应对短时间内的大流量请求，采用排队购买机制，用户提交购买请求后立即返回，等待后端处理结果。</p>
+<h4 id="引流">引流</h4><p>在预知大流量不可控时，将H5主站流量引到原生的客户端APP内进行抢购。</p>
+<h3 id="技术防守角度">技术防守角度</h3><h4 id="验证码">验证码</h4><p>在抢购开始时，下单购买某商品必须输入验证码。在一定时间内，对于访问库存为0的用户请求，超过一定频次后要求输入验证码。打码云服务很多，理论上字符验证码均可识别，甚至人工打码，但是提高了刷单成本。</p>
+<h4 id="IP禁止策略">IP禁止策略</h4><p>通过nginx的lua扩展，在单位时间内同用户相同IP请求同一URL进行计数，在nginx层面进行限流。IP级别下，控制不好，误杀太多或者起不了作用。</p>
+<h4 id="fastcgi请求计数">fastcgi请求计数</h4><p>设定PHP可并发处理请求的最大值，nginx交给PHP的请求都进行计数+1，fastcgi完成后进行-1。由于nginx+php-fpm高并发情况下，做到原子的计数很难。</p>
+<h4 id="队列">队列</h4><p>引入消息队列和长连接服务，用户请求排队购买，后端进行流量控制，发放资格号，通过长连接通知用户的处理结果。</p>
+<h4 id="静态化">静态化</h4><p>将商品详情页静态化，静态页面的请求直接由CDN返回。</p>
+<h4 id="建立黄牛账号库">建立黄牛账号库</h4><p>经过几次大规模的抢购后，黄牛账号有限，将积累的黄牛账号入库，在下次抢购时，载入内存，降低购买优先级或者直接拒绝请求。</p>
+<h4 id="增加服务器">增加服务器</h4><p>从原有的几台服务器，扩容到几十台服务器，每个服务都部署负载均衡、高可用。如多级缓存、nginx与php-fpm分离、长连接服务器集群等等。</p>
+<h4 id="可伸缩架构">可伸缩架构</h4><p>抢购开始前准备上百倍的服务器数量，所有的服务均可横向扩展，提高处理能力。</p>
+<p>上面交待了挺多的做抢购平台的一些场景、特征、措施，涉及的产品和技术的面广，我认为最重要的是解决网站服务不可用或者宕机的问题，我们在nginx层面做了很多努力与尝试，另外nginx在防CC攻击方面有一些成熟的方案，下面详述，下一阶段研究nginx源码。</p>
+<h1 id="nginx请求限制模块">nginx请求限制模块</h1><h2 id="ngx_http_limit_conn_module">ngx_http_limit_conn_module</h2><p>限制连接数模块</p>
+<p>通常用来限制同一IP地址的可并发连接数</p>
+<p>指令说明：<a href="http://nginx.org/en/docs/http/ngx_http_limit_conn_module.html" target="_blank" rel="external">http://nginx.org/en/docs/http/ngx_http_limit_conn_module.html</a></p>
+<p>需要注意的是$binary_remote_addr而不是$remote_addr，$remote_addr的长度为7到15个字节，它的会话信息的长度为32或64 bytes，$binary_remote_addr的长度为4字节，会话信息的长度为32字节，这样设置1M的一个zone时，用$binary_remote_addr方式，该zone将会存放32000个会话。</p>
+<h2 id="ngx_http_limit_req_module">ngx_http_limit_req_module</h2><p>限制请求数模块</p>
+<p>通常用来限制同一IP地址单位时间可完成的请求数，限制的方法是采用漏桶算法(Leaky Bucket)，每秒处理固定请求数量，推迟过多请求，超过桶的阀值，请求直接终止返回503。</p>
+<p>指令说明：<a href="http://nginx.org/en/docs/http/ngx_http_limit_req_module.html" target="_blank" rel="external">http://nginx.org/en/docs/http/ngx_http_limit_req_module.html</a></p>
+<h2 id="基于nginx的Tengine分支ngx_http_limit_req_module">基于nginx的Tengine分支ngx_http_limit_req_module</h2><p>nginx类似，不过支持多个变量，并且支持多个limit_req_zone及forbid_action的设置。</p>
+<p>指令说明：<a href="http://tengine.taobao.org/document_cn/http_limit_req_cn.html" target="_blank" rel="external">http://tengine.taobao.org/document_cn/http_limit_req_cn.html</a></p>
+<h2 id="基于nginx的Senginx分支的ngx_http_limit_req_module">基于nginx的Senginx分支的ngx_http_limit_req_module</h2><p>指令说明：<a href="http://www.senginx.org/cn/index.php/%E5%9F%BA%E4%BA%8E%E6%9D%A1%E4%BB%B6%E7%9A%84%E9%99%90%E9%80%9F%E5%8A%9F%E8%83%BD" target="_blank" rel="external">http://www.senginx.org/cn/index.php/%E5%9F%BA%E4%BA%8E%E6%9D%A1%E4%BB%B6%E7%9A%84%E9%99%90%E9%80%9F%E5%8A%9F%E8%83%BD</a></p>
+<p>称之为基于条件的限速功能，在Tenginer的limit_req模块基础上，增加condition参数，在条件为真时执行限制动作。</p>
+<h2 id="基于nginx的Senginx分支的ngx_http_ip_behavior">基于nginx的Senginx分支的ngx_http_ip_behavior</h2><p>指令说明：<a href="http://www.senginx.org/cn/index.php/%E8%AE%BF%E9%97%AE%E8%A1%8C%E4%B8%BA%E8%AF%86%E5%88%AB%E6%A8%A1%E5%9D%97" target="_blank" rel="external">http://www.senginx.org/cn/index.php/%E8%AE%BF%E9%97%AE%E8%A1%8C%E4%B8%BA%E8%AF%86%E5%88%AB%E6%A8%A1%E5%9D%97</a></p>
+<p>称之为行为识别模块，访问行为识别模块的作用是对用户访问网站的行为进行监控</p>
+<h2 id="基于nginx的Senginx分支的ngx_http_robot_mitigation">基于nginx的Senginx分支的ngx_http_robot_mitigation</h2><p>指令说明：<a href="http://www.senginx.org/cn/index.php/Robot_Mitigation%E6%A8%A1%E5%9D%97" target="_blank" rel="external">http://www.senginx.org/cn/index.php/Robot_Mitigation%E6%A8%A1%E5%9D%97</a></p>
+<p>称之为HTTP机器人缓解，Robot Mitigation模块采用了一种基于“挑战”的验证方法，即向客户端发送特定的、浏览器能解析的应答，如果客户端是真实的浏览器，则会重新触发请求， 并带有一个特定的Cookie值，Robot Mitigation模块会依据此Cookie的信息来决定是否放行此请求。</p>
+<h1 id="最后">最后</h1><p>基于上述的场景、特征、nginx限制模块的调研和分析，我们完全可以通过灵活的nginx配置来解决CC攻击威胁。使用了Senginx，灵活运用基于条件的限速功能，行为识别模块，机器人缓解模块。今天先聊到这儿，后续会总结出本文提到的很多技术细节。</p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/抢购/"> #抢购 </a>
+          
+            <a href="/tags/秒杀/"> #秒杀 </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-12/47-php-session-concurent.html">PHP session并发操作及session读写锁</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2016-06/48-ec-snapping-system-app-scenarios.html"
+               data-title="电商抢购秒杀系统的设计_1_应用场景分析" data-url="http://www.phpboy.net/2016-06/48-ec-snapping-system-app-scenarios.html">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="徐典阳" />
+          <p class="site-author-name">徐典阳</p>
+        </div>
+        <p class="site-description motion-element">&nbsp;&nbsp;&nbsp;&nbsp;PHPBoy是一个PHP相关技术博客网站，在业余时间研究PHP内核与PHP扩展开发，关注WEB后端技术架构，LINUX服务器运维，系统安全，高性能与高可用大型网站技术架构。</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">48</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">71</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/xudianyang" target="_blank">GitHub</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://weibo.com/1586005914" target="_blank">Weibo</a>
+            </span>
+            
+          
+        </div>
+
+        
+        <div class="cc-license motion-element">
+            <img style="width: 180px;" src="/images/contribute.jpg" alt="支付宝" />
+            <p><span class="links-of-author-item">捐献</span></p>
+        </div>
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#评估系统处理能力"><span class="nav-number">2.</span> <span class="nav-text">评估系统处理能力</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#场景"><span class="nav-number">3.</span> <span class="nav-text">场景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#目标"><span class="nav-number">3.1.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#产品特征"><span class="nav-number">3.2.</span> <span class="nav-text">产品特征</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#刷单特征"><span class="nav-number">3.3.</span> <span class="nav-text">刷单特征</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#账号"><span class="nav-number">3.3.1.</span> <span class="nav-text">账号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IP库"><span class="nav-number">3.3.2.</span> <span class="nav-text">IP库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#频次"><span class="nav-number">3.3.3.</span> <span class="nav-text">频次</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#破解原生App"><span class="nav-number">3.3.4.</span> <span class="nav-text">破解原生App</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CC攻击"><span class="nav-number">3.3.5.</span> <span class="nav-text">CC攻击</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#产品与技术措施"><span class="nav-number">3.4.</span> <span class="nav-text">产品与技术措施</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#产品业务角度"><span class="nav-number">3.4.1.</span> <span class="nav-text">产品业务角度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#预约购买"><span class="nav-number">3.4.1.1.</span> <span class="nav-text">预约购买</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#抢购排队"><span class="nav-number">3.4.1.2.</span> <span class="nav-text">抢购排队</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#引流"><span class="nav-number">3.4.1.3.</span> <span class="nav-text">引流</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#技术防守角度"><span class="nav-number">3.4.2.</span> <span class="nav-text">技术防守角度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#验证码"><span class="nav-number">3.4.2.1.</span> <span class="nav-text">验证码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IP禁止策略"><span class="nav-number">3.4.2.2.</span> <span class="nav-text">IP禁止策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fastcgi请求计数"><span class="nav-number">3.4.2.3.</span> <span class="nav-text">fastcgi请求计数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#队列"><span class="nav-number">3.4.2.4.</span> <span class="nav-text">队列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#静态化"><span class="nav-number">3.4.2.5.</span> <span class="nav-text">静态化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立黄牛账号库"><span class="nav-number">3.4.2.6.</span> <span class="nav-text">建立黄牛账号库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#增加服务器"><span class="nav-number">3.4.2.7.</span> <span class="nav-text">增加服务器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可伸缩架构"><span class="nav-number">3.4.2.8.</span> <span class="nav-text">可伸缩架构</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#nginx请求限制模块"><span class="nav-number">4.</span> <span class="nav-text">nginx请求限制模块</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ngx_http_limit_conn_module"><span class="nav-number">4.1.</span> <span class="nav-text">ngx_http_limit_conn_module</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ngx_http_limit_req_module"><span class="nav-number">4.2.</span> <span class="nav-text">ngx_http_limit_req_module</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于nginx的Tengine分支ngx_http_limit_req_module"><span class="nav-number">4.3.</span> <span class="nav-text">基于nginx的Tengine分支ngx_http_limit_req_module</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于nginx的Senginx分支的ngx_http_limit_req_module"><span class="nav-number">4.4.</span> <span class="nav-text">基于nginx的Senginx分支的ngx_http_limit_req_module</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于nginx的Senginx分支的ngx_http_ip_behavior"><span class="nav-number">4.5.</span> <span class="nav-text">基于nginx的Senginx分支的ngx_http_ip_behavior</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于nginx的Senginx分支的ngx_http_robot_mitigation"><span class="nav-number">4.6.</span> <span class="nav-text">基于nginx的Senginx分支的ngx_http_robot_mitigation</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最后"><span class="nav-number">5.</span> <span class="nav-text">最后</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp;  2009 - 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">徐典阳</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.content img').each(function () {
+        var $image = $(this);
+        var $imageWrapLink = $image.parent('a');
+
+        if ($imageWrapLink.size() < 1) {
+          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
+        }
+        $imageWrapLink.addClass('fancybox');
+      });
+    });
+    $('.fancybox').fancybox({
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    LogoAndMenuMotion();
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+    function LogoAndMenuMotion() {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        
+        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
+        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
+        
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    }
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
+      $('.post').velocity('transition.slideDownIn', postMotionOptions);
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"phpboy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+</body>
+</html>
